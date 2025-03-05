@@ -1,0 +1,15 @@
+name: Assign PR Reviewers
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  assign-reviewers:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Assign reviewers
+        uses: kentaro-m/auto-assign-action@v1.1.2
+        with:
+          config: .github/auto_assign.yml
