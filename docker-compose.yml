@@ -19,28 +19,6 @@ services:
       timeout: 5s
       retries: 5
 
-  main:
-    hostname: main
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      DATABASE_URL: postgres://planify:planify@postgres:5432/planify
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - default
-    stdin_open: true
-    tty: true
-    ports:
-      - 3000:3000
-    expose:
-      - 3000
-    volumes:
-      - .:/app
-    command: bash
-
 volumes:
   postgres_data:
     driver: local
