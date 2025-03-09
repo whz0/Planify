@@ -1,0 +1,7 @@
+com\planify\planifyfront\controller\CalendarController.class
+com\planify\planifyfront\view\ViewFactory.class
+com\planify\planifyfront\view\FullCalendarView.class
+com\planify\planifyfront\view\AnchorPaneNode.class
+com\planify\planifyfront\App.class
+com\planify\planifyfront\view\ViewFactoryImp.class
+com\planify\planifyfront\controller\DashboardController.class
