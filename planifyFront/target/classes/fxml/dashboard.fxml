@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="506.0" prefWidth="1094.0" stylesheets="@../styling/calendarStyle.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.planify.demo.controllers.DashboardController">
+<BorderPane prefHeight="506.0" prefWidth="1094.0" stylesheets="@../styling/calendarStyle.css" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.planify.planifyfront.controller.DashboardController">
 
     <!-- Left section for sidebar menu -->
     <left>
@@ -15,11 +15,7 @@
             <Label styleClass="sidebar-label" text="Planify" />
 
             <!-- Sidebar Buttons -->
-            <Button minHeight="26.0" onAction="#handleInicio" prefHeight="30.0" prefWidth="150.0" styleClass="sidebar-button" text="Inicio" />
-            <Button onAction="#handleCalendario" prefHeight="30.0" styleClass="sidebar-button" text="Calendario" />
-            <Button onAction="#handleTareas" prefHeight="30.0" styleClass="sidebar-button" text="Tareas" />
-            <Button onAction="#handleConfiguracion" prefHeight="30.0" styleClass="sidebar-button" text="Configuración" />
-            <Button onAction="#handleCerrarSesion" prefHeight="30.0" styleClass="sidebar-button" text="Cerrar Sesión" />
+            <Button onAction="#crearEvento" prefHeight="30.0" styleClass="sidebar-button" text="Crear Evento" />
         </VBox>
     </left>
 
