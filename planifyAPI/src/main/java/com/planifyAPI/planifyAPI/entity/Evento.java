@@ -5,12 +5,14 @@ import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @NoArgsConstructor
 public class Evento {
     private String nombre;
-    private String fecha;
+    private LocalDate fecha;
     private String hora;
     private String ubicacion;
     @Id
