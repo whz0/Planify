@@ -20,7 +20,7 @@ public class SAEvento {
     }
 
     @Transactional
-    public Evento crearEvento(Evento evento){
+    public String crearEvento(Evento evento){
 
         if(evento.getFecha() == null || evento.getHora() == null || evento.getNombre() == null || evento.getUbicacion() == null){
             throw new IllegalArgumentException("Rellene todos los campos vacíos");
@@ -36,7 +36,9 @@ public class SAEvento {
             throw new IllegalArgumentException("Los campos nombre y ubicación deben ser caracteres ASCII");
         }
 
-        return eventoRepository.save(evento);
+        eventoRepository.save(evento);
+
+        return "Evento creado correctamente :)";
     }
 
     private boolean esASCII(String cadena){
