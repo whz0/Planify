@@ -20,8 +20,9 @@ public class SAEvento {
     }
 
     @Transactional
-    public int crearEvento(Evento evento){
-        if()
+    public Evento crearEvento(Evento evento){
+
+        return eventoRepository.save(evento);
     }
 
     //public int eliminarEvento();
