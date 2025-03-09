@@ -12,11 +12,6 @@ public class EventController {
     @Autowired
     private SAEvento eventoService;
 
-    @GetMapping("/message")
-    public String message() {
-        return "";
-    }
-
     @PostMapping("/create-event")
     public String createEvent(@RequestBody Evento evento) {
         return eventoService.crearEvento(evento);
