@@ -4,19 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7d348c32-9970-4789-88ae-ed3afa520de3" name="Changes" comment="">
+    <list default="true" id="2a9199eb-3c58-44e2-9779-28fb92ba574d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_03_2025_19_02__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/controller/EventController.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/controller/EventController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/target/classes/com/planify/planifyfront/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/target/classes/com/planify/planifyfront/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/target/classes/com/planify/planifyfront/controller/DashboardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/target/classes/com/planify/planifyfront/controller/DashboardController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/target/classes/fxml/dashboard.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/target/classes/fxml/dashboard.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/entity/Evento.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/entity/Evento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/service/SAEvento.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/service/SAEvento.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -29,19 +33,26 @@
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;adrizz8&quot;
+    &quot;assignee&quot;: &quot;whz0&quot;
   }
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/whz0/Planify.git&quot;,
-    &quot;accountId&quot;: &quot;da09305c-84fc-4200-a2c7-ac5ca8aeb5c4&quot;
+    &quot;accountId&quot;: &quot;532faf27-2cac-4796-84a8-0acb75d63119&quot;
   }
 }</component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 6
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/ViewFactory.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
 }</component>
-  <component name="ProjectId" id="2u5WTpmXKzYLnC8MN8fH24HINgN" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2u5WiaXW0HsOihAoJONiuOv9Hwp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -49,12 +60,14 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;JUnit.All in planifyFront.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;DEV-P04&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.PlanifyApiApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Merging DEV-P04&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/adria/Desktop/Planifyfinal/planifyFront&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Usuario/IdeaProjects/Planify/planifyFront&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -67,7 +80,15 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.All in planifyFront">
+    <configuration name="All in planifyFront" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="planifyFront" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="PlanifyApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="planifyAPI" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.planifyAPI.planifyAPI.PlanifyApiApplication" />
@@ -75,29 +96,57 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.All in planifyFront" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.25659.39" />
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.25659.39" />
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.25659.59" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.25659.59" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="7d348c32-9970-4789-88ae-ed3afa520de3" name="Changes" comment="" />
-      <created>1741538925885</created>
+      <changelist id="2a9199eb-3c58-44e2-9779-28fb92ba574d" name="Changes" comment="" />
+      <created>1741539043661</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1741538925885</updated>
-      <workItem from="1741538927136" duration="3863000" />
-      <workItem from="1741542818805" duration="673000" />
+      <updated>1741539043661</updated>
+      <workItem from="1741539044821" duration="3362000" />
+      <workItem from="1741542442566" duration="23000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/DEV-P04" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
