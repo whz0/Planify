@@ -22,7 +22,30 @@ public class SAEvento {
     @Transactional
     public Evento crearEvento(Evento evento){
 
+        if(evento.getFecha() == null || evento.getHora() == null || evento.getNombre() == null || evento.getUbicacion() == null){
+            throw new IllegalArgumentException("Rellene todos los campos vacíos");
+        }
+
+        if(evento.getFecha().isBefore(new Date().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate()) ||
+                (evento.getFecha().isEqual(new Date().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate()) &&
+                        evento.getHora().isBefore(new Date().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalTime()))){
+            throw new IllegalArgumentException("La fecha no puede ser anterior a la fecha actual");
+        }
+
+        if(!esASCII(evento.getNombre()) || !esASCII(evento.getUbicacion())){
+            throw new IllegalArgumentException("Los campos nombre y ubicación deben ser caracteres ASCII");
+        }
+
         return eventoRepository.save(evento);
+    }
+
+    private boolean esASCII(String cadena){
+        for (char c : cadena.toCharArray()) {
+            if (c > 127) {
+                return false;
+            }
+        }
+        return true;
     }
 
     //public int eliminarEvento();
