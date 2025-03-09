@@ -4,11 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2a9199eb-3c58-44e2-9779-28fb92ba574d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_03_2025_19_02__Changes_.xml" afterDir="false" />
+    <list default="true" id="2a9199eb-3c58-44e2-9779-28fb92ba574d" name="Changes" comment="Eli">
+      <change afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/model/service/ApiSA.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/model/transfer/TEvento.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/entity/Evento.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/entity/Evento.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/service/SAEvento.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/service/SAEvento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/target/classes/com/planify/planifyfront/App.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/target/classes/com/planify/planifyfront/controller/CalendarController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/target/classes/com/planify/planifyfront/controller/DashboardController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/target/classes/com/planify/planifyfront/view/AnchorPaneNode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/target/classes/com/planify/planifyfront/view/FullCalendarView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/target/classes/com/planify/planifyfront/view/ViewFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/target/classes/com/planify/planifyfront/view/ViewFactoryImp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/target/classes/fxml/calendar.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/target/classes/fxml/dashboard.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/target/classes/styling/calendarStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +33,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -58,28 +73,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;JUnit.All in planifyFront.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.PlanifyApiApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Merging DEV-P04&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Usuario/IdeaProjects/Planify/planifyFront&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.All in planifyFront.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.PlanifyApiApplication.executor": "Run",
+    "git-widget-placeholder": "DEV-P04",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Usuario/IdeaProjects/Planify/planifyFront",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\guill\Desktop\Universidad\Tercero\GPS\Planify\Planify\planifyFront\src\main\java\com\planify\planifyfront\model\" />
+    </key>
+  </component>
   <component name="RunManager" selected="JUnit.All in planifyFront">
     <configuration name="All in planifyFront" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="planifyFront" />
@@ -148,5 +168,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Eli" />
+    <option name="LAST_COMMIT_MESSAGE" value="Eli" />
   </component>
 </project>
