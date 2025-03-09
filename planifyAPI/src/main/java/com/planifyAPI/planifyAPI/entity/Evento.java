@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Data
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 public class Evento {
     private String nombre;
     private LocalDate fecha;
-    private String hora;
+    private LocalTime hora;
     private String ubicacion;
     @Id
     private Long id_evento;
