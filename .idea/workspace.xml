@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2a9199eb-3c58-44e2-9779-28fb92ba574d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyAPI/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/service/SAEvento.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/service/SAEvento.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -20,8 +20,8 @@ public class SAEvento {
     }
 
     @Transactional
-    public Evento crearEvento(Date date, String name, String description,){
-
+    public int crearEvento(Evento evento){
+        if()
     }
 
     //public int eliminarEvento();
