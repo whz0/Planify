@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bf91d1c3-b434-4d77-947c-a95bc091c721" name="Changes" comment="Arreglo .idea" />
+    <list default="true" id="bf91d1c3-b434-4d77-947c-a95bc091c721" name="Changes" comment="Arreglo workspace.xml y modulos">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,7 +40,6 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "DEV-P04",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/guill/Desktop/Universidad/Tercero/GPS/Planify/Planify/planifyFront",
@@ -64,11 +65,20 @@
       <option name="project" value="LOCAL" />
       <updated>1741565547632</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Arreglo workspace.xml y modulos">
+      <option name="closed" value="true" />
+      <created>1741565652812</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1741565652812</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Arreglo .idea" />
-    <option name="LAST_COMMIT_MESSAGE" value="Arreglo .idea" />
+    <MESSAGE value="Arreglo workspace.xml y modulos" />
+    <option name="LAST_COMMIT_MESSAGE" value="Arreglo workspace.xml y modulos" />
   </component>
 </project>
