@@ -5,32 +5,63 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bf91d1c3-b434-4d77-947c-a95bc091c721" name="Changes" comment="Arreglo workspace.xml y modulos">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/controller/DashboardControllerSingleton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyAPI/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/entity/Evento.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/entity/Evento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/service/SAEvento.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/service/SAEvento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyAPI/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyAPI/src/test/java/com/planifyAPI/planifyAPI/PlanifyApiApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/src/test/java/com/planifyAPI/planifyAPI/PlanifyApiApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/controller/CalendarController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/controller/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/controller/DashboardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/controller/EventFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/controller/EventFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/model/transfer/TEvento.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/model/transfer/TEvento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/AnchorPaneNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/AnchorPaneNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/FullCalendarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/FullCalendarView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/ViewFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/ViewFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/ViewFactoryImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/ViewFactoryImp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/resources/fxml/calendar.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/resources/fxml/calendar.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/resources/fxml/dashboard.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/resources/fxml/dashboard.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/resources/styling/calendarStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/resources/styling/calendarStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/resources/styling/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/resources/styling/styles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="s" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "guillesanper"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;guillesanper&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/whz0/Planify.git",
-    "accountId": "bee500f1-1756-48c1-9176-40e6efd2cf92"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/whz0/Planify.git&quot;,
+    &quot;accountId&quot;: &quot;bee500f1-1756-48c1-9176-40e6efd2cf92&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 1
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2u6OIYxTDKwAxgBQhNmYwnwLW9t" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -38,6 +69,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.App.executor": "Run",
+    "Application.PlanifyApiApplication.executor": "Run",
+    "Maven.planifyAPI [compile].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "DEV-P04",
@@ -45,9 +79,44 @@
     "last_opened_file_path": "C:/Users/guill/Desktop/Universidad/Tercero/GPS/Planify/Planify/planifyFront",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "Shelf.Project.Settings"
   }
 }]]></component>
+  <component name="RunManager" selected="Application.PlanifyApiApplication">
+    <configuration name="App" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.planify.planifyfront.App" />
+      <module name="planifyFront" />
+      <option name="PROGRAM_PARAMETERS" value="mvn clean javafx:debug" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.planify.planifyfront.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlanifyApiApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.planifyAPI.planifyAPI.PlanifyApiApplication" />
+      <module name="planifyAPI" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.planifyAPI.planifyAPI.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.PlanifyApiApplication" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -75,6 +144,29 @@
     </task>
     <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="DEV-P04" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Arreglo .idea" />

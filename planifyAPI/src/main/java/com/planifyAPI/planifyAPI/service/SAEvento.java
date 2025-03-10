@@ -12,9 +12,9 @@ import java.util.Date;
 @Service
 public class SAEvento {
 
+    @Autowired
     private final EventoRepository eventoRepository;
 
-    @Autowired
     public SAEvento(EventoRepository eventoRepository) {
         this.eventoRepository = eventoRepository;
     }

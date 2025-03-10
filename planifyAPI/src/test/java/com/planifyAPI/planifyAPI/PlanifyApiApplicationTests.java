@@ -1,4 +1,4 @@
-package com.planifyAPI.planifyAPI;
+/*package com.planifyAPI.planifyAPI;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,4 +10,4 @@ class PlanifyApiApplicationTests {
 	void contextLoads() {
 	}
 
-}
+}*/

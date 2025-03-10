@@ -1,6 +1,8 @@
 package com.planifyAPI.planifyAPI.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,11 +14,12 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 public class Evento {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id_evento;
     private String nombre;
     private LocalDate fecha;
     private LocalTime hora;
     private String ubicacion;
-    @Id
-    private Long id_evento;
 
 }
