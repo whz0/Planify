@@ -1,5 +1,8 @@
 package com.planify.planifyfront.controller;
 
+import com.planify.planifyfront.model.service.ApiSA;
+import com.planify.planifyfront.model.transfer.TEvento;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -8,6 +11,7 @@ import javafx.scene.control.TextField;
 
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -44,24 +48,20 @@ public class EventFormController {
 
     @FXML
     private void handleCreate() {
-
         if (nombreField.getText().isEmpty()) {
-            showErrorDialog("Error de validación", "El campo 'Nombre del Evento' no puede estar vacío.");
+            showErrorDialog("Validation Error", "The event name field cannot be empty.");
             return;
         }
-
         if (fechaPicker.getValue() == null) {
-            showErrorDialog("Error de validación", "Debe seleccionar una fecha para el evento.");
+            showErrorDialog("Validation Error", "You must select a date for the event.");
             return;
         }
-
         if (horaComboBox.getValue() == null) {
-            showErrorDialog("Error de validación", "Debe seleccionar una hora para el evento.");
+            showErrorDialog("Validation Error", "You must select a time for the event.");
             return;
         }
-
         if (ubicacionField.getText().isEmpty()) {
-            showErrorDialog("Error de validación", "El campo 'Ubicación del Evento' no puede estar vacío.");
+            showErrorDialog("Validation Error", "The event location field cannot be empty.");
             return;
         }
 
@@ -70,19 +70,49 @@ public class EventFormController {
         LocalTime hora = horaComboBox.getValue();
         String ubicacion = ubicacionField.getText();
 
-        try {
-
-            saveEvent(nombre, fecha, hora, ubicacion);
-
-            // Show success message (optional)
-            showSuccessDialog("Evento creado", "El evento se ha creado correctamente.");
-
-            // Close the form window
-            closeWindow();
-        } catch (Exception e) {
-            // Handle any errors that occur during event creation
-            showErrorDialog("Error al crear el evento", "Ocurrió un error al crear el evento: " + e.getMessage());
+        // Validate that the event date is in the future
+        if (!fecha.isAfter(LocalDate.now())) {
+            showErrorDialog("Validation Error", "The event date must be in the future.");
+            return;
         }
+
+        // Create TEvento with temporary id 0 (to be set upon successful API creation)
+        TEvento evento = new TEvento(0, fecha, ubicacion, hora, nombre);
+
+        // Call the Spring API using ApiSA (which points to http://localhost:1010/event/create-event)
+        Task<String> apiTask = new ApiSA().createEvent(evento);
+        apiTask.setOnSucceeded(e -> {
+            try {
+                int idResponse = Integer.parseInt(apiTask.getValue());
+                if (idResponse > 0) {
+                    evento.setId(idResponse);
+                    // Update the calendar via DashboardController
+                    DashboardController dashboardCtrl = DashboardControllerSingleton.getInstance();
+                    if (dashboardCtrl != null) {
+                        dashboardCtrl.addEvent(evento);
+                    }
+                    showSuccessDialog("Event created", "The event has been created successfully.");
+                    closeWindow();
+                } else {
+                    showErrorDialog("API Error", "Error creating the event in the API.");
+                }
+            } catch (NumberFormatException | IOException ex) {
+                showErrorDialog("API Response Error", "Invalid response from API: " + ex.getMessage());
+            }
+        });
+
+        DashboardController dc =null;
+        try {
+            dc = DashboardControllerSingleton.getInstance();
+        }catch (Exception e){
+            showErrorDialog("No se pudo obtener controller", "Could not connect to the API.");
+        }
+        if (dc != null) {
+            System.out.println("EFC");
+            dc.addEvent(evento);
+        }
+        apiTask.setOnFailed(e -> showErrorDialog("Connection Error", "Could not connect to the API."));
+        new Thread(apiTask).start();
     }
 
     private void saveEvent(String nombre, LocalDate fecha, LocalTime hora, String ubicacion) {

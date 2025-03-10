@@ -1,5 +1,7 @@
 package com.planify.planifyfront.view;
 
+import com.planify.planifyfront.model.transfer.TEvento;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -11,8 +13,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FullCalendarView {
@@ -21,12 +25,14 @@ public class FullCalendarView {
     private VBox view;
     private Text calendarTitle;
     private YearMonth currentYearMonth;
+    private HashMap<LocalDate, List<TEvento>> events;
 
     /**
      * Crea la vista del calendario para el mes indicado.
      * @param yearMonth año y mes a mostrar.
      */
     public FullCalendarView(YearMonth yearMonth) {
+        events = new HashMap<>();
         currentYearMonth = yearMonth;
         // Crear el grid del calendario
         GridPane calendar = new GridPane();
@@ -37,19 +43,21 @@ public class FullCalendarView {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 7; j++) {
                 AnchorPaneNode ap = new AnchorPaneNode();
+                ap.getStyleClass().add("cell");
                 ap.setPrefSize(200,200);
                 calendar.add(ap, j, i);
                 allCalendarDays.add(ap);
             }
         }
         // Etiquetas con los nombres de los días de la semana
-        Text[] dayNames = new Text[]{ new Text("Sunday"), new Text("Monday"), new Text("Tuesday"),
+        Text[] dayNames = new Text[]{ new Text("    Sunday"), new Text("Monday"), new Text("Tuesday"),
                 new Text("Wednesday"), new Text("Thursday"), new Text("Friday"),
                 new Text("Saturday") };
         GridPane dayLabels = new GridPane();
         dayLabels.setPrefWidth(600);
         int col = 0;
         for (Text txt : dayNames) {
+            txt.getStyleClass().add("day-name");
             AnchorPane ap = new AnchorPane();
             ap.setPrefSize(200, 10);
             AnchorPane.setBottomAnchor(txt, 5.0);
@@ -58,17 +66,32 @@ public class FullCalendarView {
         }
         // Botones para cambiar de mes y título del calendario
         calendarTitle = new Text();
+        calendarTitle.getStyleClass().add("calendar-title");
+
         Button previousMonth = new Button("<<");
-        previousMonth.getStyleClass().add("button2");
+        previousMonth.getStyleClass().add("button-calendar");
         previousMonth.setOnAction(e -> previousMonth());
+
         Button nextMonth = new Button(">>");
-        nextMonth.getStyleClass().add("button2");
+        nextMonth.getStyleClass().add("button-calendar");
         nextMonth.setOnAction(e -> nextMonth());
+
         HBox titleBar = new HBox(10, previousMonth, calendarTitle, nextMonth);
+        titleBar.getStyleClass().add("calendar-title-bar");
         titleBar.setAlignment(Pos.BASELINE_CENTER);
+
         // Inicializa el calendario con el mes actual
         populateCalendar(currentYearMonth);
         view = new VBox(titleBar, dayLabels, calendar);
+    }
+
+    public void addEvent(TEvento evento) {
+        LocalDate eventDate = evento.getFecha();
+        events.putIfAbsent(eventDate, new ArrayList<>());
+        events.get(eventDate).add(evento);
+        Platform.runLater(() -> {
+            populateCalendar(currentYearMonth);
+        });// Repinta el calendario después de agregar el evento
     }
 
     /**
@@ -78,37 +101,43 @@ public class FullCalendarView {
      * @param yearMonth mes y año a renderizar.
      */
     public void populateCalendar(YearMonth yearMonth) {
-        // Se obtiene la fecha de inicio: se retrocede hasta el domingo anterior (o el mismo si es domingo)
         LocalDate calendarDate = LocalDate.of(yearMonth.getYear(), yearMonth.getMonthValue(), 1);
         while (!calendarDate.getDayOfWeek().toString().equals("SUNDAY")) {
             calendarDate = calendarDate.minusDays(1);
         }
+
         for (AnchorPaneNode ap : allCalendarDays) {
-            // Limpiar la celda
+            // Clear existing events
             ap.getChildren().clear();
-            // Crear y posicionar el número del día
+            ap.clearEvents();
+
+            // Set date and day number
             Text dayNumber = new Text(String.valueOf(calendarDate.getDayOfMonth()));
-            dayNumber.getStyleClass().add("day-number"); // clase opcional para estilo extra
-            AnchorPaneNode.setTopAnchor(dayNumber, 5.0);
-            AnchorPaneNode.setLeftAnchor(dayNumber, 5.0);
+            dayNumber.getStyleClass().add("day-number");
+            AnchorPane.setTopAnchor(dayNumber, 5.0);
+            AnchorPane.setLeftAnchor(dayNumber, 5.0);
             ap.getChildren().add(dayNumber);
-            // Crear un contenedor para los eventos
-            VBox eventsContainer = new VBox();
-            eventsContainer.setSpacing(2);
-            eventsContainer.getStyleClass().add("events-container");
-            // Posicionar el contenedor (por ejemplo, debajo del número del día)
-            AnchorPaneNode.setTopAnchor(eventsContainer, 20.0);
-            AnchorPaneNode.setLeftAnchor(eventsContainer, 5.0);
-            AnchorPaneNode.setRightAnchor(eventsContainer, 5.0);
-            ap.getChildren().add(eventsContainer);
-            // Guardar la fecha en la celda
+
+            // Add style for current month
+            if (calendarDate.getMonth() == currentYearMonth.getMonth()) {
+                ap.getStyleClass().remove("outside-month");
+            } else {
+                ap.getStyleClass().add("outside-month");
+            }
+
+            // Set date and add event markers
             ap.setDate(calendarDate);
+            if (events.containsKey(calendarDate)) {
+                List<TEvento> dayEvents = events.get(calendarDate);
+                for (int i = 0; i < dayEvents.size(); i++) {
+                    ap.addEventMarker();
+                }
+            }
+
             calendarDate = calendarDate.plusDays(1);
         }
-        // Actualiza el título del calendario
+
         calendarTitle.setText(yearMonth.getMonth().toString() + " " + yearMonth.getYear());
-        // Tras repoblar las celdas, se vuelven a mostrar los eventos correspondientes
-        updateEvents();
     }
 
 
@@ -149,6 +178,10 @@ public class FullCalendarView {
     private void nextMonth() {
         currentYearMonth = currentYearMonth.plusMonths(1);
         populateCalendar(currentYearMonth);
+    }
+
+    public List<TEvento> getEventsForDate(LocalDate date) {
+        return events.getOrDefault(date, new ArrayList<>());
     }
 
     public VBox getView() {

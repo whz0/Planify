@@ -1,35 +1,47 @@
 /* styles.css */
 .form-container {
     -fx-padding: 20px;
-    -fx-spacing: 10px;
+    -fx-spacing: 15px;
     -fx-alignment: center;
+    -fx-background-color: #2C2F33; /* Fondo oscuro */
+    -fx-border-color: #7289da; /* Color del borde */
+    -fx-border-radius: 0; /* Sin esquinas redondas */
+    -fx-border-width: 2px;
 }
 
 .form-label {
-    -fx-font-size: 14px;
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
+    -fx-text-fill: #FFF; /* Texto blanco */
 }
 
 .form-textfield, .form-datepicker {
-    -fx-pref-width: 200px;
+    -fx-pref-width: 250px;
+    -fx-padding: 5px; /* Menos alto */
+    -fx-background-color: #36393f; /* Fondo oscuro */
+    -fx-text-fill: #FFF; /* Texto blanco */
+    -fx-border-color: #7289da; /* Color del borde */
+    -fx-border-radius: 0; /* Sin esquinas redondas */
 }
 
 .form-buttons {
-    -fx-spacing: 10px;
+    -fx-spacing: 15px;
     -fx-alignment: center;
 }
 
 .form-button {
-    -fx-background-color: #0C3988;
-    -fx-text-fill: #FFF;
-    -fx-padding: 10px 20px;
-    -fx-background-radius: 5px;
+    -fx-background-color: #7289da; /* Fondo azul */
+    -fx-text-fill: #FFF; /* Texto blanco */
+    -fx-padding: 5px 10px; /* Menos alto */
+    -fx-background-radius: 0; /* Sin esquinas redondas */
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
 }
 
 .form-button:hover {
-    -fx-background-color: #355ECE;
+    -fx-background-color: #0056b3; /* Fondo azul oscuro al pasar el ratón */
 }
 
 .form-button:pressed {
-    -fx-background-color: #0C3400;
+    -fx-background-color: #004085; /* Fondo azul más oscuro al presionar */
 }

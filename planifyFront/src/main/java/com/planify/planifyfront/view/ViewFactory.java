@@ -10,5 +10,5 @@ public abstract class ViewFactory {
         }
         return instance;
     }
-    public abstract Scene getView(String viewName);
+    public abstract Scene getView(String fxmlFile, String title);
 }
