@@ -8,7 +8,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -42,51 +41,60 @@ public class EventFormController {
     @FXML
     private void handleCancel() {
         // Close the form window
-        Stage stage = (Stage) nombreField.getScene().getWindow();
-        stage.close();
+        closeWindow();
     }
 
     @FXML
     private void handleCreate() {
+        // Validar campos obligatorios
         if (nombreField.getText().isEmpty()) {
-            showErrorDialog("Validation Error", "The event name field cannot be empty.");
-            return;
-        }
-        if (fechaPicker.getValue() == null) {
-            showErrorDialog("Validation Error", "You must select a date for the event.");
-            return;
-        }
-        if (horaComboBox.getValue() == null) {
-            showErrorDialog("Validation Error", "You must select a time for the event.");
-            return;
-        }
-        if (ubicacionField.getText().isEmpty()) {
-            showErrorDialog("Validation Error", "The event location field cannot be empty.");
+            showErrorDialog("Error de validación", "El campo 'Nombre del Evento' no puede estar vacío.");
             return;
         }
 
+        if (fechaPicker.getValue() == null) {
+            showErrorDialog("Error de validación", "Debe seleccionar una fecha para el evento.");
+            return;
+        }
+
+        if (horaComboBox.getValue() == null) {
+            showErrorDialog("Error de validación", "Debe seleccionar una hora para el evento.");
+            return;
+        }
+
+        if (ubicacionField.getText().isEmpty()) {
+            showErrorDialog("Error de validación", "El campo 'Ubicación del Evento' no puede estar vacío.");
+            return;
+        }
+
+        // Validar longitud del nombre
         String nombre = nombreField.getText();
+        if (nombre.length() > 20) {
+            showErrorDialog("Error de validación", "El campo 'Nombre del Evento' no puede tener más de 20 caracteres. ");
+            return;
+        }
+
+        // Validar fecha futura
         LocalDate fecha = fechaPicker.getValue();
+        if (!fecha.isAfter(LocalDate.now())) {
+            showErrorDialog("Error de validación", "La fecha del evento debe ser futura.");
+            return;
+        }
+
         LocalTime hora = horaComboBox.getValue();
         String ubicacion = ubicacionField.getText();
 
-        // Validate that the event date is in the future
-        if (!fecha.isAfter(LocalDate.now())) {
-            showErrorDialog("Validation Error", "The event date must be in the future.");
-            return;
-        }
-
-        // Create TEvento with temporary id 0 (to be set upon successful API creation)
+        // Crear TEvento con ID temporal 0 (se actualizará con la respuesta de la API)
         TEvento evento = new TEvento(0, fecha, ubicacion, hora, nombre);
 
-        // Call the Spring API using ApiSA (which points to http://localhost:1010/event/create-event)
+        // Llamar a la API para crear el evento
         Task<String> apiTask = new ApiSA().createEvent(evento);
         apiTask.setOnSucceeded(e -> {
             try {
                 int idResponse = Integer.parseInt(apiTask.getValue());
                 if (idResponse > 0) {
                     evento.setId(idResponse);
-                    // Update the calendar via DashboardController
+                    // Actualizar el calendario a través de DashboardController
                     DashboardController dashboardCtrl = DashboardControllerSingleton.getInstance();
                     if (dashboardCtrl != null) {
                         dashboardCtrl.addEvent(evento);
@@ -94,37 +102,24 @@ public class EventFormController {
                     showSuccessDialog("Evento creado", "El evento se ha creado correctamente.");
                     closeWindow();
                 } else {
-                    showErrorDialog("API Error", "Error crando el evento en la API.");
+                    showErrorDialog("Error de la API", "Error al crear el evento en la API. ");
                 }
             } catch (NumberFormatException | IOException ex) {
-                showErrorDialog("API Response Error", "Respuesta invalida de la API: " + ex.getMessage());
+                showErrorDialog("Error de respuesta de la API", "Respuesta inválida de la API: " + ex.getMessage());
             }
         });
 
-        DashboardController dc =null;
-        try {
-            dc = DashboardControllerSingleton.getInstance();
-        }catch (Exception e){
-            showErrorDialog("No se pudo obtener controller", "Could not connect to the API.");
-        }
-        if (dc != null) {
-            System.out.println("EFC");
-            dc.addEvent(evento);
-        }
-        apiTask.setOnFailed(e -> showErrorDialog("Connection Error", "Could not connect to the API."));
+        // Manejar errores de conexión con la API
+        apiTask.setOnFailed(e -> showErrorDialog("Error de conexión", "No se pudo conectar a la API."));
+
+        // Ejecutar la tarea en un hilo separado
         new Thread(apiTask).start();
     }
-
-    private void saveEvent(String nombre, LocalDate fecha, LocalTime hora, String ubicacion) {
-
-        System.out.println("Evento guardado: " + nombre + ", " + fecha + ", " + hora + ", " + ubicacion);
-    }
-
 
     private void showErrorDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
-        alert.setHeaderText(null); // No header text
+        alert.setHeaderText(null); // Sin texto de cabecera
         alert.setContentText(message);
         alert.showAndWait();
     }
@@ -132,15 +127,14 @@ public class EventFormController {
     private void showSuccessDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
-        alert.setHeaderText(null); // No header text
+        alert.setHeaderText(null); // Sin texto de cabecera
         alert.setContentText(message);
         alert.showAndWait();
     }
 
     private void closeWindow() {
-        // Close the form window
+        // Cerrar la ventana del formulario
         Stage stage = (Stage) nombreField.getScene().getWindow();
         stage.close();
     }
-
 }
