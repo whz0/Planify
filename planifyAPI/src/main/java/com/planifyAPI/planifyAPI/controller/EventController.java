@@ -13,7 +13,7 @@ public class EventController {
     private SAEvento eventoService;
 
     @PostMapping("/create-event")
-    public String createEvent(@RequestBody Evento evento) {
+    public Evento createEvent(@RequestBody Evento evento) {
         return eventoService.crearEvento(evento);
     }
 }

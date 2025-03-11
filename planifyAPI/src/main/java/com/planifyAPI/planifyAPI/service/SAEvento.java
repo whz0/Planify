@@ -36,9 +36,7 @@ public class SAEvento {
             throw new IllegalArgumentException("Los campos nombre y ubicación deben ser caracteres ASCII");
         }
 
-        eventoRepository.save(evento);
-
-        return "Evento creado correctamente :)";
+        return eventoRepository.save(evento);
     }
 
     private boolean esASCII(String cadena){
