@@ -20,7 +20,7 @@ public class SAEvento {
     }
 
     @Transactional
-    public String crearEvento(Evento evento){
+    public Evento crearEvento(Evento evento){
 
         if(evento.getFecha() == null || evento.getHora() == null || evento.getNombre() == null || evento.getUbicacion() == null){
             throw new IllegalArgumentException("Rellene todos los campos vacíos");
