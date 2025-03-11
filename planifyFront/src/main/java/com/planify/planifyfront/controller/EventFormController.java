@@ -91,13 +91,13 @@ public class EventFormController {
                     if (dashboardCtrl != null) {
                         dashboardCtrl.addEvent(evento);
                     }
-                    showSuccessDialog("Event created", "The event has been created successfully.");
+                    showSuccessDialog("Evento creado", "El evento se ha creado correctamente.");
                     closeWindow();
                 } else {
-                    showErrorDialog("API Error", "Error creating the event in the API.");
+                    showErrorDialog("API Error", "Error crando el evento en la API.");
                 }
             } catch (NumberFormatException | IOException ex) {
-                showErrorDialog("API Response Error", "Invalid response from API: " + ex.getMessage());
+                showErrorDialog("API Response Error", "Respuesta invalida de la API: " + ex.getMessage());
             }
         });
 
