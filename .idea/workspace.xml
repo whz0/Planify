@@ -5,26 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bf91d1c3-b434-4d77-947c-a95bc091c721" name="Changes" comment="Arreglo workspace.xml y modulos">
-      <change afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/controller/DashboardControllerSingleton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/planifyAPI/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/planifyAPI/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyAPI/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/entity/Evento.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/entity/Evento.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/service/SAEvento.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/src/main/java/com/planifyAPI/planifyAPI/service/SAEvento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/planifyAPI/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyAPI/src/test/java/com/planifyAPI/planifyAPI/PlanifyApiApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyAPI/src/test/java/com/planifyAPI/planifyAPI/PlanifyApiApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/controller/CalendarController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/controller/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/controller/DashboardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/controller/EventFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/controller/EventFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/model/transfer/TEvento.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/model/transfer/TEvento.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/AnchorPaneNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/AnchorPaneNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/FullCalendarView.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/FullCalendarView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/ViewFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/ViewFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/ViewFactoryImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/java/com/planify/planifyfront/view/ViewFactoryImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/resources/fxml/calendar.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/resources/fxml/calendar.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/resources/fxml/dashboard.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/resources/fxml/dashboard.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/resources/styling/calendarStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/resources/styling/calendarStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/planifyFront/src/main/resources/styling/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/planifyFront/src/main/resources/styling/styles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,13 +20,14 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Dockerfile" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="s" />
+        <entry key="$PROJECT_DIR$" value="DEV-P04" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -74,7 +60,7 @@
     "Maven.planifyAPI [compile].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "DEV-P04",
+    "git-widget-placeholder": "Prueba-docker",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/guill/Desktop/Universidad/Tercero/GPS/Planify/Planify/planifyFront",
     "project.structure.last.edited": "Modules",
@@ -83,6 +69,12 @@
     "settings.editor.selected.configurable": "Shelf.Project.Settings"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\guill\Desktop\Universidad\Tercero\GPS\Planify\Planify\planifyAPI" />
+      <recent name="C:\Users\guill\Desktop\Universidad\Tercero\GPS\Planify\Planify" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.PlanifyApiApplication">
     <configuration name="App" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.planify.planifyfront.App" />
@@ -111,6 +103,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.App" />
+      <item itemvalue="Application.PlanifyApiApplication" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.PlanifyApiApplication" />

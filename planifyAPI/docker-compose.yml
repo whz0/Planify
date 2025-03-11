@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+  db:
+    container_name: postgresql_container
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: planify
+      POSTGRES_PASSWORD: planify
+      POSTGRES_DB: planify
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U planify"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    container_name: planifyapi_container
+    ports:
+      - "1010:1010"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/planify
+      SPRING_DATASOURCE_USERNAME: planify
+      SPRING_DATASOURCE_PASSWORD: planify
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+
+volumes:
+  pgdata:
