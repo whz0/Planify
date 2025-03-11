@@ -5,22 +5,22 @@ import java.time.LocalTime;
 
 public class TEvento {
 
-    private int id;
+    public int id;
 
-    private LocalDate fecha;
+    public String nombre;
 
-    private String ubicacion;
+    public LocalDate fecha;
 
-    private LocalTime hora;
+    public LocalTime hora;
 
-    private String nombre;
+    public String ubicacion;
 
-    public TEvento(int id, LocalDate fecha, String ubicacion, LocalTime hora, String nombre) {
+    public TEvento(int id, String nombre, LocalDate fecha, LocalTime hora, String ubicacion) {
         this.id = id;
-        this.fecha = fecha;
-        this.ubicacion = ubicacion;
-        this.hora = hora;
         this.nombre = nombre;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.ubicacion = ubicacion;
     }
 
     public int getId() {
@@ -31,20 +31,20 @@ public class TEvento {
         this.id = id;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public LocalDate getFecha() {
         return fecha;
     }
 
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
-    }
-
-    public String getUbicacion() {
-        return ubicacion;
-    }
-
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
     }
 
     public LocalTime getHora() {
@@ -55,12 +55,12 @@ public class TEvento {
         this.hora = hora;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getUbicacion() {
+        return ubicacion;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
     }
 
     @Override

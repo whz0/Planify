@@ -2,6 +2,8 @@ package com.planify.planifyfront.controller;
 
 import com.planify.planifyfront.model.service.ApiSA;
 import com.planify.planifyfront.model.transfer.TEvento;
+import com.planify.planifyfront.utils.LocalDateAdapter;
+import com.planify.planifyfront.utils.LocalTimeAdapter;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -9,12 +11,20 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class EventFormController {
+
+    private Gson gson = new GsonBuilder()
+            .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+            .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
+            .create();
 
     @FXML
     private TextField nombreField;
@@ -84,27 +94,23 @@ public class EventFormController {
         LocalTime hora = horaComboBox.getValue();
         String ubicacion = ubicacionField.getText();
 
-        // Crear TEvento con ID temporal 0 (se actualizará con la respuesta de la API)
-        TEvento evento = new TEvento(0, fecha, ubicacion, hora, nombre);
+        TEvento evento = new TEvento(0, nombre, fecha, hora, ubicacion);
 
         // Llamar a la API para crear el evento
         Task<String> apiTask = new ApiSA().createEvent(evento);
         apiTask.setOnSucceeded(e -> {
             try {
-                int idResponse = Integer.parseInt(apiTask.getValue());
-                if (idResponse > 0) {
-                    evento.setId(idResponse);
-                    // Actualizar el calendario a través de DashboardController
-                    DashboardController dashboardCtrl = DashboardControllerSingleton.getInstance();
-                    if (dashboardCtrl != null) {
-                        dashboardCtrl.addEvent(evento);
-                    }
-                    showSuccessDialog("Evento creado", "El evento se ha creado correctamente.");
-                    closeWindow();
-                } else {
-                    showErrorDialog("Error de la API", "Error al crear el evento en la API. ");
+                TEvento eventoReturned = gson.fromJson(apiTask.getValue(), TEvento.class);
+
+                evento.setId(eventoReturned.getId());
+                // Actualizar el calendario a través de DashboardController
+                DashboardController dashboardCtrl = DashboardControllerSingleton.getInstance();
+                if (dashboardCtrl != null) {
+                    dashboardCtrl.addEvent(evento);
                 }
-            } catch (NumberFormatException | IOException ex) {
+                showSuccessDialog("Evento creado", "El evento se ha creado correctamente.");
+                closeWindow();
+            } catch (JsonSyntaxException | IOException ex) {
                 showErrorDialog("Error de respuesta de la API", "Respuesta inválida de la API: " + ex.getMessage());
             }
         });
