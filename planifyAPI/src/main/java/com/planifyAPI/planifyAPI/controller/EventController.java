@@ -14,7 +14,7 @@ public class EventController {
 
     @PostMapping("/create-event")
     public Evento createEvent(@RequestBody Evento evento) {
-        //evento.setId(null); // Por si me llega un ID desde el fron (no deberia)
+        // TODO: Catch exception y retornar un código HTTP que no sea 200
         return eventoService.crearEvento(evento);
     }
 }

@@ -104,12 +104,17 @@ public class EventFormController {
 
         // Validar fecha futura
         LocalDate fecha = fechaPicker.getValue();
-        if (!fecha.isAfter(LocalDate.now())) {
+        LocalTime hora = horaComboBox.getValue();
+
+        System.out.println(hora);
+        System.out.println(LocalTime.now());
+        System.out.println(hora.isBefore(LocalTime.now()));
+
+        if (fecha.isBefore(LocalDate.now()) || fecha.isEqual(LocalDate.now()) && hora.isBefore(LocalTime.now())) {
             showErrorDialog("Error de validación", "La fecha del evento debe ser futura.");
             return;
         }
 
-        LocalTime hora = horaComboBox.getValue();
         String ubicacion = ubicacionField.getText();
 
         TEvento evento = new TEvento(null, nombre, fecha, hora, ubicacion);
