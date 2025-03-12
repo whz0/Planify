@@ -62,6 +62,9 @@ public class EventFormController {
             return;
         }
 
+
+
+
         if (fechaPicker.getValue() == null) {
             showErrorDialog("Error de validación", "Debe seleccionar una fecha para el evento.");
             return;
@@ -77,11 +80,26 @@ public class EventFormController {
             return;
         }
 
+        for(char c: ubicacionField.getText().toCharArray()) {
+            if (c > 127) {
+                showErrorDialog("Error de validación", "El campo 'Ubicacion del Evento' tiene que ser ASCII.");
+            return;
+            }
+        }
+
         // Validar longitud del nombre
         String nombre = nombreField.getText();
         if (nombre.length() > 20) {
             showErrorDialog("Error de validación", "El campo 'Nombre del Evento' no puede tener más de 20 caracteres. ");
             return;
+        }
+
+        for(char c: nombreField.getText().toCharArray()) {
+            if (c > 127) {
+                showErrorDialog("Error de validación", "El campo 'Nombre del Evento' tiene que ser ASCII.");
+                return;
+            }
+
         }
 
         // Validar fecha futura
