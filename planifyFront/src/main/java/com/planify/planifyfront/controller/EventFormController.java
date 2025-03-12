@@ -94,7 +94,7 @@ public class EventFormController {
         LocalTime hora = horaComboBox.getValue();
         String ubicacion = ubicacionField.getText();
 
-        TEvento evento = new TEvento(0, nombre, fecha, hora, ubicacion);
+        TEvento evento = new TEvento(null, nombre, fecha, hora, ubicacion);
 
         // Llamar a la API para crear el evento
         Task<String> apiTask = new ApiSA().createEvent(evento);

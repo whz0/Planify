@@ -29,6 +29,7 @@ public class ApiSA {
             @Override
             protected String call() throws Exception {
                 try {
+
                     String requestBody = objectMapper.writeValueAsString(evento);
                     HttpRequest request = HttpRequest.newBuilder()
                             .uri(new URI(BASE_URL + "/create-event"))

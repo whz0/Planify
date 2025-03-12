@@ -5,7 +5,7 @@ import java.time.LocalTime;
 
 public class TEvento {
 
-    public int id;
+    public Long id;
 
     public String nombre;
 
@@ -15,7 +15,7 @@ public class TEvento {
 
     public String ubicacion;
 
-    public TEvento(int id, String nombre, LocalDate fecha, LocalTime hora, String ubicacion) {
+    public TEvento(Long id, String nombre, LocalDate fecha, LocalTime hora, String ubicacion) {
         this.id = id;
         this.nombre = nombre;
         this.fecha = fecha;
@@ -23,11 +23,11 @@ public class TEvento {
         this.ubicacion = ubicacion;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

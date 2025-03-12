@@ -14,6 +14,7 @@ public class EventController {
 
     @PostMapping("/create-event")
     public Evento createEvent(@RequestBody Evento evento) {
+        //evento.setId(null); // Por si me llega un ID desde el fron (no deberia)
         return eventoService.crearEvento(evento);
     }
 }
