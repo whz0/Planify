@@ -33,7 +33,8 @@ jobs:
 
       # Paso 4: Instalar dependencias y ejecutar pruebas
       - name: Install dependencies
-        run: mvn -f planifyAPI/pom.xml --batch-mode --update-snapshots verify
+        run: mvn -f planifyAPI/pom.xml --batch-mode --update-snapshots
+        run: mvn verify
 
       # Paso 5: Subir artefactos o generar reportes si es necesario
       - name: Upload test results (optional)
