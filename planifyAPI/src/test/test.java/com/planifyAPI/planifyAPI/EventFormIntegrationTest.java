@@ -1,4 +1,4 @@
-package com.planifyAPI.planifyAPI;
+package test.java.com.planifyAPI.planifyAPI;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -49,18 +49,18 @@ public class EventFormIntegrationTest extends ApplicationTest {
     }
 
     @Test
-    public void testFullEventCreationFlow(FxRobot robot) {
+    public void testFullEventCreationFlow() {
         // Simular clic en el botón de crear evento
-        robot.clickOn("#createEventButton");
+        clickOn("#createEventButton");
 
         // Rellenar los campos del formulario
-        robot.clickOn("#nombreField").write("Evento de prueba");
-        robot.clickOn("#fechaPicker").write("2023-12-31");
-        robot.clickOn("#horaComboBox").clickOn("10:00");
-        robot.clickOn("#ubicacionField").write("Ubicación de prueba");
+        clickOn("#nombreField").write("Evento de prueba");
+        clickOn("#fechaPicker").write("2023-12-31");
+        clickOn("#horaComboBox").clickOn("10:00");
+        clickOn("#ubicacionField").write("Ubicación de prueba");
 
         // Simular clic en el botón de OK
-        robot.clickOn("#okButton");
+        clickOn("#okButton");
 
 
         // Verificar que se muestra un mensaje de éxito
