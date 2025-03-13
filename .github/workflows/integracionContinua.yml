@@ -1,0 +1,52 @@
+name: Java CI with Maven
+
+# Disparadores (triggers) para el workflow
+on:
+  push:
+    branches:
+      - main # Ejecuta en la rama main
+      - 'DEV_*'
+      - 'RELEASE_*'
+  pull_request:
+    branches:
+      - main # Ejecuta cuando se cree un pull request hacia la rama main
+      - 'DEV_*'
+      - 'RELEASE_*'
+
+# Configuración de los jobs
+jobs:
+  build:
+    runs-on: ubuntu-latest # Usa la última versión de Ubuntu para ejecutar los tests
+
+    # Pasos para el job
+    steps:
+      # Paso 1: Verificar el código
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Paso 2: Configurar Java
+      - name: Set up JDK 21 # O la versión que necesites
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21.0.2'  # Asegúrate de que sea la versión que necesitas
+          distribution: 'adoptopenjdk'  # Usar AdoptOpenJDK o tu distribución preferida
+
+      # Paso 3: Configurar Maven (si es necesario)
+      - name: Cache Maven dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      # Paso 4: Instalar dependencias y ejecutar pruebas
+      - name: Build with Maven
+        run: mvn clean test -DskipTests=false # Esto ejecuta las pruebas
+
+      # Paso 5: Subir artefactos o generar reportes si es necesario
+      - name: Upload test results (optional)
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: target/surefire-reports/  # O la ubicación de los reportes de tus pruebas
