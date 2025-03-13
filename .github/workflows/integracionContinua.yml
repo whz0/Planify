@@ -45,7 +45,7 @@ jobs:
         run: mvn install -f planifyAPI/pom.xml
         
       - name: Build with Maven
-        run: mvn test -Dtest=SAEventoUnitario -f planifyAPI/pom.xml # Esto ejecuta las pruebas
+        run: mvn -f planifyAPI/pom.xml -Dtest=EventControllerIntegracionTest test # Esto ejecuta las pruebas
 
       # Paso 5: Subir artefactos o generar reportes si es necesario
       - name: Upload test results (optional)
