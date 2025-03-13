@@ -40,4 +40,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: planifyAPI/test/TestRes # O la ubicación de los reportes de tus pruebas
+          path: planifyAPI/test/TestRes/Res/ # O la ubicación de los reportes de tus pruebas
