@@ -41,6 +41,9 @@ jobs:
             ${{ runner.os }}-maven-
 
       # Paso 4: Instalar dependencias y ejecutar pruebas
+      - name: Clean 
+        run: mvn clean install
+      
       - name: Install dependencies
         run: mvn install -f planifyAPI/pom.xml
         
