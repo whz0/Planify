@@ -46,7 +46,7 @@ jobs:
 
       # Paso 5: Subir artefactos o generar reportes si es necesario
       - name: Upload test results (optional)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: test-results
           path: target/surefire-reports/  # O la ubicación de los reportes de tus pruebas
