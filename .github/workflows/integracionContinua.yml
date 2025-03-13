@@ -28,7 +28,7 @@ jobs:
       - name: Set up JDK 21 # O la versión que necesites
         uses: actions/setup-java@v4
         with:
-          java-version: '21.0.2'  # Asegúrate de que sea la versión que necesitas
+          java-version: '21'  # Asegúrate de que sea la versión que necesitas
           distribution: 'temurin'
 
       # Paso 4: Instalar dependencias y ejecutar pruebas
