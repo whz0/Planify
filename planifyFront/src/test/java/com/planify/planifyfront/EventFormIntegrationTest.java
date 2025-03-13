@@ -1,4 +1,4 @@
-package test.java.com.planifyAPI.planifyAPI;
+package com.planify.planifyfront;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import java.time.LocalTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.testfx.api.FxAssert;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.ComboBoxMatchers;
@@ -64,7 +64,7 @@ public class EventFormIntegrationTest extends ApplicationTest {
 
 
         // Verificar que se muestra un mensaje de éxito
-        verifyThat(".alert", LabeledMatchers.hasText("El evento se ha creado correctamente."));
+        FxAssert.verifyThat(".alert", LabeledMatchers.hasText("El evento se ha creado correctamente."));
     }
 }
 
