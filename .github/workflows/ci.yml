@@ -5,13 +5,13 @@ on:
   push:
     branches:
       - main # Ejecuta en la rama main
-      - 'DEV_*'
-      - 'RELEASE_*'
+      - 'DEV-*'
+      - 'RELEASE-*'
   pull_request:
     branches:
       - main # Ejecuta cuando se cree un pull request hacia la rama main
-      - 'DEV_*'
-      - 'RELEASE_*'
+      - 'DEV-*'
+      - 'RELEASE-*'
 
 # Configuración de los jobs
 jobs:
