@@ -32,7 +32,11 @@ public class SAEvento {
             throw new IllegalArgumentException("La fecha no puede ser anterior a la fecha actual");
         }
 
-        if((!esASCII(evento.getNombre()) && evento.getNombre().length() <= 20) || !esASCII(evento.getUbicacion())){
+        if(evento.getNombre().length() >= 20){
+            throw new IllegalArgumentException("El campo nombre no puede tener menos de 20 caracteres");
+        }
+
+        if(!esASCII(evento.getNombre()) || !esASCII(evento.getUbicacion())){
             throw new IllegalArgumentException("Los campos nombre y ubicación deben ser caracteres ASCII");
         }
 
