@@ -47,4 +47,6 @@ public class EventControllerTest {
         // Check that the event was created successfully
         result.andExpect(status().is(200));
     }
+
+    // TODO Add more tests for the EventController
 }
