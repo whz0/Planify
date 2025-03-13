@@ -29,7 +29,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '21.0.2'  # Asegúrate de que sea la versión que necesitas
-          distribution: 'adoptopenjdk'  # Usar AdoptOpenJDK o tu distribución preferida
+          distribution: 'temurin'
 
       # Paso 3: Configurar Maven (si es necesario)
       - name: Cache Maven dependencies
