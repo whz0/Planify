@@ -21,6 +21,7 @@ public class ViewFactoryImp extends ViewFactory {
     public ViewFactoryImp() {
         views = new HashMap<>();
         // Por ejemplo, precargamos la vista del calendario
+
         views.put("calendar", new Scene(new FullCalendarView(YearMonth.now()).getView()));
     }
 
