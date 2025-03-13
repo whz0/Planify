@@ -41,14 +41,8 @@ jobs:
             ${{ runner.os }}-maven-
 
       # Paso 4: Instalar dependencias y ejecutar pruebas
-      - name: Clean 
-        run: mvn clean install
-      
       - name: Install dependencies
         run: mvn install -f planifyAPI/pom.xml
-        
-      - name: Build with Maven
-        run: mvn -f planifyAPI/pom.xml -Dtest=EventControllerIntegracionTest test # Esto ejecuta las pruebas
 
       # Paso 5: Subir artefactos o generar reportes si es necesario
       - name: Upload test results (optional)
