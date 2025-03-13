@@ -31,15 +31,6 @@ jobs:
           java-version: '21.0.2'  # Asegúrate de que sea la versión que necesitas
           distribution: 'temurin'
 
-      # Paso 3: Configurar Maven (si es necesario)
-      - name: Cache Maven dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
       # Paso 4: Instalar dependencias y ejecutar pruebas
       - name: Install dependencies
         run: mvn install -f planifyAPI/pom.xml
