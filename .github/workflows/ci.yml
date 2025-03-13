@@ -20,23 +20,26 @@ jobs:
 
     # Pasos para el job
     steps:
-      # Paso 1: Verificar el código
+      # Verificar el código
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Paso 2: Configurar Java
+      # Configurar Java
       - name: Set up JDK 21 # O la versión que necesites
         uses: actions/setup-java@v4
         with:
           java-version: '21'  # Asegúrate de que sea la versión que necesitas
           distribution: 'temurin'
 
-      # Paso 4: Instalar dependencias y ejecutar pruebas
+      # Instalar dependencias y ejecutar pruebas
       - name: Install dependencies
         run: mvn -f planifyAPI/pom.xml --batch-mode --update-snapshots
+
+      # Verificar test
+      - name: Verify Test
         run: mvn verify
 
-      # Paso 5: Subir artefactos o generar reportes si es necesario
+      # Subir artefactos o generar reportes si es necesario
       - name: Upload test results (optional)
         uses: actions/upload-artifact@v4
         with:
