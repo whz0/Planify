@@ -1,15 +1,15 @@
 name: CI
-on:
-  push:
-    branches:
-      - main
-      - 'Release-*'
-      - 'DEV-*'
-  pull_request:
-    branches:
-      - main
-      - 'Release-*'
-      - 'DEV-*'
+  on:
+    push:
+      branches:
+        - main
+        - 'Release-*'
+        - 'DEV-*'
+    pull_request:
+      branches:
+        - main
+        - 'Release-*'
+        - 'DEV-*'
 
 jobs:
   test:
