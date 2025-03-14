@@ -4,12 +4,12 @@ name: CI
     push:
       branches:
         - release
-        - DEV
+        - 'DEV-*'
         - main
     pull_request:
       branches:
         - release
-        - DEV
+        - 'DEV-*'
         - main
 
   jobs:
