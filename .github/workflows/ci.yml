@@ -1,43 +1,39 @@
-name: Java CI with Maven
+name: CI
 
-# Disparadores (triggers) para el workflow
-on:
-  push:
-    branches:
-      - main # Ejecuta en la rama main
-      - 'DEV-*'
-      - 'RELEASE-*'
-  pull_request:
-    branches:
-      - main # Ejecuta cuando se cree un pull request hacia la rama main
-      - 'DEV-*'
-      - 'RELEASE-*'
+  on:
+    push:
+      branches:
+        - release
+        - 'DEV-*'
+        - main
+    pull_request:
+      branches:
+        - release
+        - 'DEV-*'
+        - main
 
-# Configuración de los jobs
-jobs:
-  build:
-    runs-on: ubuntu-latest # Usa la última versión de Ubuntu para ejecutar los tests
+  jobs:
+    test:
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          dir:
+            - planifyFront
+            - planifyAPI
+      steps:
+        - uses: actions/checkout@v4
+        - name: Set up JDK 21 for x64
+          uses: actions/setup-java@v4
+          with:
+            java-version: '21'
+            distribution: 'temurin'
+            architecture: x64
+            cache: maven
+        - name: Compile ./${{ matrix.dir }} package
+          working-directory: ./${{ matrix.dir }}
+          run: mvn -B package --file pom.xml
+        - name: Test ./${{ matrix.dir }} package
+          working-directory: ./${{ matrix.dir }}
+          run: mvn test
 
-    # Pasos para el job
-    steps:
-      # Verificar el código
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # Configurar Java
-      - name: Set up JDK 21 # O la versión que necesites
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'  # Asegúrate de que sea la versión que necesitas
-          distribution: 'temurin'
-
-      # Instalar dependencias y ejecutar pruebas
-      - name: Install dependencies
-        run: mvn -f planifyAPI/pom.xml --batch-mode --update-snapshots verify
-
-      # Subir artefactos o generar reportes si es necesario
-      - name: Upload test results (optional)
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: Staging # O la ubicación de los reportes de tus pruebas
+    frontend:
