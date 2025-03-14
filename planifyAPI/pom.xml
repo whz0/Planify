@@ -141,7 +141,7 @@
 				<version>3.0.0-M5</version>
 				<configuration>
 					<!-- Especifica la ubicación de los tests -->
-					<testSourceDirectory>src/test/com.planifyAPI.planifyAPI</testSourceDirectory>
+					<testSourceDirectory>src/test.java/com.planifyAPI.planifyAPI</testSourceDirectory>
 				</configuration>
 			</plugin>
 
