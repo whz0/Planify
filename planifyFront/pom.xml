@@ -98,7 +98,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.planify.planifyfront.App</mainClass>
+                            <mainClass>com.chilltime.planifyfront.App</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

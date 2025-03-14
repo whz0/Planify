@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="506.0" prefWidth="1094.0" stylesheets="@../styling/calendarStyle.css" xmlns="http://javafx.com/javafx/21.0.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.planify.planifyfront.controller.DashboardController">
+<BorderPane prefHeight="506.0" prefWidth="1094.0" stylesheets="@../styling/calendarStyle.css" xmlns="http://javafx.com/javafx/21.0.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.chilltime.planifyfront.controller.DashboardController">
     <!-- Sidebar with dark interface and blue contrasts -->
     <left>
         <VBox alignment="TOP_LEFT" prefWidth="200.0" spacing="10" styleClass="sidebar">
