@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ApiSA {
 
-    private static final String BASE_URL = "http://localhost:1010/event";
+    private static final String BASE_URL = "http://34.175.115.84:1010/event";
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
 
