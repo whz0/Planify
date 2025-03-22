@@ -24,6 +24,9 @@ public class Usuario implements UserDetails {
 
     private String role;
 
+    @OneToMany(mappedBy = "usuario")
+    private List<Calendario> calendarios;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role));
