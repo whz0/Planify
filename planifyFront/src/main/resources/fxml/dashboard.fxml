@@ -14,8 +14,8 @@
     <left>
         <VBox alignment="TOP_LEFT" prefWidth="200.0" spacing="10" styleClass="sidebar">
             <Label styleClass="sidebar-label" text="Planify" />
-            <Button alignment="CENTER" onAction="#crearEvento" prefHeight="26.0" prefWidth="168.0" styleClass="button-sidebar" text="Crear Evento" textAlignment="CENTER" />
-            <Button alignment="CENTER" onAction="#crearCalendar" prefHeight="26.0" prefWidth="168.0" styleClass="button-sidebar" text="Crear Fuente de Calendario" textAlignment="CENTER" />
+            <Button alignment="CENTER" onAction="#crearEventoForm" prefHeight="26.0" prefWidth="168.0" styleClass="button-sidebar" text="Crear Evento" textAlignment="CENTER" />
+            <Button alignment="CENTER" onAction="#crearCalendarioForm" prefHeight="26.0" prefWidth="168.0" styleClass="button-sidebar" text="Crear Fuente de Calendario" textAlignment="CENTER" />
         </VBox>
     </left>
 

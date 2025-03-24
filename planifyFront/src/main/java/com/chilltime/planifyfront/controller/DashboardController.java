@@ -6,7 +6,6 @@ import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
 import com.calendarfx.view.CalendarView;
 import com.chilltime.planifyfront.model.transfer.TEvento;
-import com.chilltime.planifyfront.view.CalendarCreateView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +18,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -64,7 +62,7 @@ public class DashboardController {
         calendarView.setEntryDetailsCallback(param -> {
             // Obtener la fecha donde se hizo doble clic
             LocalDate clickedDate = param.getDateControl().getDate();
-            crearEventoConFecha(clickedDate);
+            crearEventoForm();
             return null;
         });
 
@@ -110,22 +108,6 @@ public class DashboardController {
         calendarView.setShowPrintButton(false);
     }
 
-    @FXML
-    public void crearCalendar() {
-        // Supón que tienes un CalendarSource "miSource" ya creado
-        CalendarCreateView.CalendarSourceHolder holder = () -> userCalendarSource;  // Lambda que retorna el CalendarSource
-        CalendarCreateView view = new CalendarCreateView(holder, newCalendar -> {
-            // Aquí se puede hacer algo con el nuevo Calendar
-
-            calendar = newCalendar;
-        });
-
-        // Se muestra el diálogo. Se obtiene la ventana (stage) actual desde el AnchorPane.
-        Window owner = calendarPane.getScene().getWindow();
-        view.show(owner);
-    }
-
-
     /**
      * Agrega el evento creado al calendario y lo persiste.
      * Este metodo es llamado desde el EventFormController tras la creación exitosa.
@@ -164,15 +146,14 @@ public class DashboardController {
      *
      * @param date La fecha donde se hizo doble clic en el calendario.
      */
-    public void crearEventoConFecha(LocalDate date) {
+    public void crearFormulario(LocalDate date) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/eventForm.fxml"));
             Parent root = loader.load();
-            // Obtener el controlador y establecer la fecha predeterminada
-            EventFormController controller = loader.getController();
-            controller.setDefaultDate(date);
+            EventFormController eventFormController = loader.getController();
+            eventFormController.setDefaultDate(date);
             Stage stage = new Stage();
-            stage.setTitle("Crear Evento");
+            stage.setTitle("CrearEvento");
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
@@ -183,8 +164,23 @@ public class DashboardController {
 
     // Si se requiere mantener el metodo crearEvento() sin parámetro, se puede mantener para otras acciones.
     @FXML
-    public void crearEvento() {
-        crearEventoConFecha(LocalDate.now());
+    public void crearEventoForm() {
+        crearFormulario(LocalDate.now());
+    }
+
+    @FXML
+    public void crearCalendarioForm() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/calendarForm.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Crear Calendario");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void mostrarAlerta(String titulo, String contenido) {
