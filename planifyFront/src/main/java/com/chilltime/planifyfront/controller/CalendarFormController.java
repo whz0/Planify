@@ -51,6 +51,7 @@ public class CalendarFormController {
         styleComboBox.getItems().setAll(Calendar.Style.values());
         styleComboBox.setButtonCell(new StyleCell());
         styleComboBox.setCellFactory(listView -> new StyleCell());
+        styleComboBox.getStylesheets().clear();
     }
 
     /**
