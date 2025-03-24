@@ -2,6 +2,14 @@ package com.chilltime.planifyfront.controller;
 
 import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarSource;
+import com.chilltime.planifyfront.model.service.ServiceFactory;
+import com.chilltime.planifyfront.model.transfer.TCalendario;
+import com.chilltime.planifyfront.utils.LocalDateAdapter;
+import com.chilltime.planifyfront.utils.LocalTimeAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -11,9 +19,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.function.Consumer;
 
 public class CalendarFormController {
+
+    private Gson gson = new GsonBuilder()
+            .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+            .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
+            .create();
 
     @FXML
     private TextField nameField;
@@ -71,7 +87,37 @@ public class CalendarFormController {
             onAccept.accept(newCalendar);
         }
 
+        // Llamar a la API para crear nuevo calendario privado
+        TCalendario calendar = toCalendario(newCalendar);
+        Task<String> apiTask = ServiceFactory.getInstance().crearCalendarioSA().crearCalendario(calendar);
+        apiTask.setOnSucceeded(e->{
+            try {
+                TCalendario calendarioReturned = gson.fromJson(apiTask.getValue(), TCalendario.class);
+                // Asumimos que la API devuelve el ID y lo asignamos
+                calendar.setId(calendarioReturned.getId());
+
+                DashboardController dashboardController = DashboardControllerSingleton.getInstance();
+                if (dashboardController != null) {
+                    //dashboardController.addCalendar(calendar); TODO no se que meter aqui
+                }
+                //showSuccessDialog("Calendario creado", "El calendario se ha creado correctamente."); TODO deberiamos de hacer estas funciones en un utils
+            } catch (JsonSyntaxException | IOException ex) {
+                showError("Error al crear el calendario"); //TODO hacerlo mas bonito
+            }
+        });
+        apiTask.setOnFailed(e -> showError("Error de conexión"));
+        new Thread(apiTask).start();
+
         closeWindow();
+    }
+
+    private TCalendario toCalendario(Calendar calendar) {
+        TCalendario calendario = new TCalendario();
+        calendario.setNombre(calendar.getName());
+        calendario.setDescripcion((String) calendar.getUserObject());
+        calendario.setActivo(true);
+        calendario.setTipo("Privado");
+        return calendario;
     }
 
     /**
