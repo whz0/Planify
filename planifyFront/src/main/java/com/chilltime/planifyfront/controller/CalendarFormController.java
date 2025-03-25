@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.function.Consumer;
 
+import static com.chilltime.planifyfront.utils.CalendarUtils.toTCalendario;
 import static com.chilltime.planifyfront.utils.DialogWindows.showErrorDialog;
 import static com.chilltime.planifyfront.utils.DialogWindows.showSuccessDialog;
 
@@ -92,7 +93,7 @@ public class CalendarFormController {
         }
 
         // Llamar a la API para crear nuevo calendario privado
-        TCalendario calendar = toCalendario(newCalendar);
+        TCalendario calendar = toTCalendario(newCalendar);
         Task<String> apiTask = ServiceFactory.getInstance().crearCalendarioSA().crearCalendario(calendar);
         apiTask.setOnSucceeded(e->{
             try {
@@ -113,15 +114,6 @@ public class CalendarFormController {
         new Thread(apiTask).start();
 
         closeWindow();
-    }
-
-    private TCalendario toCalendario(Calendar calendar) {
-        TCalendario calendario = new TCalendario();
-        calendario.setNombre(calendar.getName());
-        calendario.setDescripcion((String) calendar.getUserObject());
-        calendario.setActivo(true);
-        calendario.setTipo("Privado");
-        return calendario;
     }
 
     /**
