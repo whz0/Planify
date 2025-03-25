@@ -13,11 +13,7 @@ import java.util.Date;
 public class SAEvento {
 
     @Autowired
-    private final EventoRepository eventoRepository;
-
-    public SAEvento(EventoRepository eventoRepository) {
-        this.eventoRepository = eventoRepository;
-    }
+    private EventoRepository eventoRepository;
 
     @Transactional
     public Evento crearEvento(Evento evento){

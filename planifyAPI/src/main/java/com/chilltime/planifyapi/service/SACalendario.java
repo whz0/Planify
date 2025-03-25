@@ -12,11 +12,7 @@ import org.springframework.stereotype.Service;
 public class SACalendario {
 
     @Autowired
-    private final CalendarioRepository calendarioRepository;
-
-    public SACalendario(CalendarioRepository calendarioRepository) {
-        this.calendarioRepository = calendarioRepository;
-    }
+    private CalendarioRepository calendarioRepository;
 
     @Transactional
     public Calendario crearCalendarioPrivado(String nombre, String descripcion, Usuario usuario) {
