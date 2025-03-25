@@ -21,7 +21,7 @@ public class SACalendario {
     private UsuarioRepository usuarioRepository;
 
     @Transactional
-    public Calendario crearCalendarioPrivado(Calendario calendario) { // TODO explicar a Javi
+    public Calendario crearCalendarioPrivado(Calendario calendario) {
         Usuario usuario = usuarioRepository.findById(calendario.getId_usuario()).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         calendario.setUsuario(usuario);
 
