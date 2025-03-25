@@ -2,6 +2,7 @@ package com.chilltime.planifyfront.controller;
 
 import com.chilltime.planifyfront.model.service.ServiceFactory;
 import com.chilltime.planifyfront.model.transfer.TEvento;
+import com.chilltime.planifyfront.utils.DialogWindows;
 import com.chilltime.planifyfront.utils.LocalDateAdapter;
 import com.chilltime.planifyfront.utils.LocalTimeAdapter;
 import com.google.gson.Gson;
@@ -18,6 +19,9 @@ import com.calendarfx.model.Entry;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+
+import static com.chilltime.planifyfront.utils.DialogWindows.showErrorDialog;
+import static com.chilltime.planifyfront.utils.DialogWindows.showSuccessDialog;
 
 public class EventFormController {
 
@@ -146,22 +150,6 @@ public class EventFormController {
         } catch (Exception e) {
             showErrorDialog("Error inesperado", "Ocurrió un error inesperado: " + e.getMessage());
         }
-    }
-
-    private void showErrorDialog(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private void showSuccessDialog(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     private void closeWindow() {

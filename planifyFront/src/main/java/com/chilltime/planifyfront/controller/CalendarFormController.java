@@ -24,6 +24,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.function.Consumer;
 
+import static com.chilltime.planifyfront.utils.DialogWindows.showErrorDialog;
+import static com.chilltime.planifyfront.utils.DialogWindows.showSuccessDialog;
+
 public class CalendarFormController {
 
     private Gson gson = new GsonBuilder()
@@ -101,9 +104,9 @@ public class CalendarFormController {
                 if (dashboardController != null) {
                     //dashboardController.addCalendar(calendar); TODO no se que meter aqui
                 }
-                //showSuccessDialog("Calendario creado", "El calendario se ha creado correctamente."); TODO deberiamos de hacer estas funciones en un utils
+                showSuccessDialog("Calendario creado", "El calendario se ha creado correctamente.");
             } catch (JsonSyntaxException | IOException ex) {
-                showError("Error al crear el calendario"); //TODO hacerlo mas bonito
+                showErrorDialog("Error", ex.getMessage()); //TODO hacerlo mas concreto
             }
         });
         apiTask.setOnFailed(e -> showError("Error de conexión"));
