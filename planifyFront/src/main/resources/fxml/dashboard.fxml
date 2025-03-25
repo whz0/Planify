@@ -7,9 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="700.0" prefWidth="1400.0" stylesheets="@../styling/calendarStyle.css"
-            xmlns="http://javafx.com/javafx/21.0.0" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.chilltime.planifyfront.controller.DashboardController">
+<BorderPane prefHeight="700.0" prefWidth="1400.0" stylesheets="@../styling/calendarStyle.css" xmlns="http://javafx.com/javafx/21.0.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.chilltime.planifyfront.controller.DashboardController">
     <!-- Sidebar -->
     <left>
         <VBox alignment="TOP_LEFT" prefWidth="200.0" spacing="10" styleClass="sidebar">
@@ -23,22 +21,13 @@
     <center>
         <AnchorPane>
             <!-- Calendario anclado en todos los lados excepto el fondo -->
-            <AnchorPane fx:id="calendarPane"
-                        AnchorPane.topAnchor="0.0"
-                        AnchorPane.leftAnchor="0.0"
-                        AnchorPane.rightAnchor="0.0"
-                        AnchorPane.bottomAnchor="150.0" />
+            <AnchorPane fx:id="calendarPane" prefHeight="520.0" prefWidth="1200.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 
-            <!-- Panel de eventos anclado abajo con altura fija -->
-            <VBox spacing="5" styleClass="events-container"
-                  AnchorPane.bottomAnchor="0.0"
-                  AnchorPane.leftAnchor="0.0"
-                  AnchorPane.rightAnchor="0.0"
-                  prefHeight="150.0">
+            <VBox prefHeight="180.0" prefWidth="1200.0" spacing="5" styleClass="events-container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                 <!-- Título para el panel -->
-                <Label text="Eventos" styleClass="events-header"/>
+                <Label styleClass="events-header" text="Eventos" />
                 <!-- ListView de eventos -->
-                <ListView fx:id="eventsListView" prefHeight="120.0" styleClass="events-list-view"/>
+                <ListView fx:id="eventsListView" prefHeight="120.0" styleClass="events-list-view" />
             </VBox>
         </AnchorPane>
     </center>

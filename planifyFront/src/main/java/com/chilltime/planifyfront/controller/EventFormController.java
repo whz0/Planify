@@ -6,6 +6,7 @@ import com.chilltime.planifyfront.utils.LocalDateAdapter;
 import com.chilltime.planifyfront.utils.LocalTimeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -47,6 +48,15 @@ public class EventFormController {
                 horaComboBox.getItems().add(LocalTime.of(hour, minute));
             }
         }
+
+        // Add window close handler
+        Platform.runLater(() -> {
+            Stage stage = (Stage) nombreField.getScene().getWindow();
+            stage.setOnCloseRequest(event -> {
+                event.consume(); // Prevent default close
+                handleCancel();
+            });
+        });
     }
 
     /**
@@ -78,6 +88,8 @@ public class EventFormController {
         }catch (Exception e){
         }
     }
+
+
 
     /**
      * Si se crea el evento correctamente, se actualiza el Entry y se deja en el calendario.

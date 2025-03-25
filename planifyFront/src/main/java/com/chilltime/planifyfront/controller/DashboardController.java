@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
@@ -40,62 +41,74 @@ public class DashboardController {
         // Registrar instancia para usar en EventFormController
         DashboardControllerSingleton.setInstance(this);
 
-        // Crear la vista principal del calendario
+        // Crear y configurar el calendario
         calendarView = new CalendarView();
-
-        // Crear un calendario de CalendarFX
         calendar = new Calendar("Eventos");
 
-        // Agregar event handler para cambios en el Entry (ejemplo de persistencia)
+        // Event handler y entry factory setup
+        configureCalendarHandlers();
+
+        // Configurar el calendario
+        userCalendarSource = new CalendarSource("Calendarios Privados");
+        userCalendarSource.getCalendars().add(calendar);
+        calendarView.getCalendarSources().add(userCalendarSource);
+        calendarView.setShowAddCalendarButton(false);
+        calendarView.setShowPrintButton(false);
+        calendarView.setShowDeveloperConsole(true);
+        calendarView.showMonthPage();
+
+        // Configurar layout
+        calendarPane.getChildren().clear();
+        calendarPane.getChildren().add(calendarView);
+
+        // Anclar el calendario
+        calendarView.setPrefHeight(Double.MAX_VALUE);
+        AnchorPane.setTopAnchor(calendarView, 0.0);
+        AnchorPane.setRightAnchor(calendarView, 0.0);
+        AnchorPane.setBottomAnchor(calendarView, 0.0);
+        AnchorPane.setLeftAnchor(calendarView, 0.0);
+
+        // Anclar el ListView
+        AnchorPane.setBottomAnchor(eventsListView, 0.0);
+        AnchorPane.setLeftAnchor(eventsListView, 0.0);
+        AnchorPane.setRightAnchor(eventsListView, 0.0);
+        eventsListView.setPrefHeight(180.0);
+
+        // Configurar cell factory para la ListView
+        configureCellFactory();
+
+        // Iniciar thread de actualización de tiempo
+        updateTimeThread();
+    }
+
+    private void configureCalendarHandlers() {
         calendar.addEventHandler(event -> {
             if (CalendarEvent.ENTRY_USER_OBJECT_CHANGED.equals(event.getEventType())) {
                 CalendarEvent calendarEvent = (CalendarEvent) event;
                 Entry<?> entry = calendarEvent.getEntry();
-            };
+            }
         });
 
         calendarView.setEntryFactory(param -> {
             Entry<TEvento> newEntry = new Entry<>("Nuevo Evento");
             LocalDate clickedDate = param.getDateControl().getDate();
-
-            // Set a specific time for the entry instead of an all-day event
-            LocalTime defaultTime = LocalTime.of(12, 0); // Default to noon
+            LocalTime defaultTime = LocalTime.of(12, 0);
             newEntry.setInterval(clickedDate.atTime(defaultTime), clickedDate.atTime(defaultTime).plusHours(1));
-
-            // Add the entry to the calendar
             calendar.addEntry(newEntry);
-
-            // Open the event form
             crearEventoForm(clickedDate, newEntry);
-
             return newEntry;
         });
 
-
         calendarView.setEntryDetailsPopOverContentCallback(param -> null);
+    }
 
-        updateTimeThread();
-
-        // Crear CalendarSource y agregar el calendario
-        userCalendarSource = new CalendarSource("Calendarios Privados");
-        userCalendarSource.getCalendars().add(calendar);
-        calendarView.getCalendarSources().add(userCalendarSource);
-
-        // Configurar la vista del calendario en el AnchorPane
-        VBox paddedCalendarContainer = new VBox(calendarView);
-        AnchorPane.setTopAnchor(paddedCalendarContainer, 0.0);
-        AnchorPane.setRightAnchor(paddedCalendarContainer, 0.0);
-        AnchorPane.setBottomAnchor(paddedCalendarContainer, 0.0);
-        AnchorPane.setLeftAnchor(paddedCalendarContainer, 0.0);
-        calendarPane.getChildren().add(paddedCalendarContainer);
-
-        // Configurar la ListView para mostrar los eventos
+    private void configureCellFactory() {
         eventsListView.setCellFactory(param -> new ListCell<TEvento>() {
             @Override
             protected void updateItem(TEvento evento, boolean empty) {
                 super.updateItem(evento, empty);
                 if (empty || evento == null) {
-                    setText("Empty");
+                    setText(null);
                 } else {
                     setText(String.format("Nombre: %s - Día: %s - Hora: %s - Ubicación: %s",
                             evento.getNombre(),
@@ -105,9 +118,6 @@ public class DashboardController {
                 }
             }
         });
-
-        calendarView.setShowAddCalendarButton(false);
-        calendarView.setShowPrintButton(false);
     }
 
     /**
