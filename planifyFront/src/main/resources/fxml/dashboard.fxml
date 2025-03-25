@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="506.0" prefWidth="1094.0" stylesheets="@../styling/calendarStyle.css"
+<BorderPane prefHeight="700.0" prefWidth="1400.0" stylesheets="@../styling/calendarStyle.css"
             xmlns="http://javafx.com/javafx/21.0.0" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.chilltime.planifyfront.controller.DashboardController">
     <!-- Sidebar -->

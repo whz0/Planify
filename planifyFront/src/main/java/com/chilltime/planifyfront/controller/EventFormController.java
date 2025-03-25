@@ -70,8 +70,10 @@ public class EventFormController {
     private void handleCancel() {
         // Eliminar el Entry provisional
         try {
+            if(entry!= null){
             DashboardControllerSingleton.getInstance().removeEntry(entry);
             entry.setCalendar(null);
+            }
             closeWindow();
         }catch (Exception e){
         }

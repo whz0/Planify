@@ -51,8 +51,7 @@ public class DashboardController {
             if (CalendarEvent.ENTRY_USER_OBJECT_CHANGED.equals(event.getEventType())) {
                 CalendarEvent calendarEvent = (CalendarEvent) event;
                 Entry<?> entry = calendarEvent.getEntry();
-                guardarEntryEnBackend(entry);
-            }
+            };
         });
 
         calendarView.setEntryFactory(param -> {
@@ -168,19 +167,9 @@ public class DashboardController {
         entry.changeStartDate(evento.getFecha());
         entry.changeEndDate(evento.getFecha());
         calendar.addEntry(entry);
-        guardarEntryEnBackend(entry);
         eventsListView.getItems().add(evento);
     }
 
-    /**
-     * Guarda el Entry en la base de datos (simulado con un log).
-     */
-    private void guardarEntryEnBackend(Entry<?> entry) {
-        String title = entry.getTitle();
-        LocalDate start = entry.getStartDate();
-        LocalDate end = entry.getEndDate();
-        System.out.println("Guardando entry en la BD: " + title + " | Inicio: " + start + " | Fin: " + end);
-    }
 
     @FXML
     public void crearCalendarioForm() {

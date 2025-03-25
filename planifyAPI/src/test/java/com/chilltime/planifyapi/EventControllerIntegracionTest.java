@@ -1,12 +1,13 @@
 package com.chilltime.planifyapi;
 
-import com.chilltime.planifyapi.PlanifyApiApplication;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Testcontainers
 @SpringBootTest(classes = PlanifyApiApplication.class)
 @AutoConfigureMockMvc
+@WithMockUser
 public class EventControllerIntegracionTest {
 
     @Container
@@ -42,6 +44,7 @@ public class EventControllerIntegracionTest {
         // Create an event with ASCII characters
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .content("{\"nombre\": \"Evento\", \"fecha\": \"2025-12-31\", \"hora\": \"10:00\", \"ubicacion\": \"Ubicacion\"}"));
 
         // Check that the event was created successfully
@@ -53,6 +56,7 @@ public class EventControllerIntegracionTest {
         // Create an event with ASCII characters
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .content("{\"nombre\": \"Evento\", \"fecha\": \"2025-03-9\", \"hora\": \"10:00\", \"ubicacion\": \"Ubicacion\"}"));
 
         // Check that the event was created successfully
@@ -65,6 +69,7 @@ public class EventControllerIntegracionTest {
         // Create an event with ASCII characters
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .content("{\"nombre\": \"Evento\", \"fecha\": \"\", \"hora\": \"10:00\", \"ubicacion\": \"Ubicacion\"}"));
 
         // Check that the event was created successfully
@@ -77,6 +82,7 @@ public class EventControllerIntegracionTest {
         // Create an event with ASCII characters
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .content("{\"nombre\": \"España\", \"fecha\": \"2025-12-31\", \"hora\": \"10:00\", \"ubicacion\": \"Ubicacion\"}"));
 
         // Check that the event was created successfully
@@ -89,6 +95,7 @@ public class EventControllerIntegracionTest {
         // Create an event with ASCII characters
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .content("{\"nombre\": \"Evento\", \"fecha\": \"2025-12-31\", \"hora\": \"10:00\", \"ubicacion\": \"España\"}"));
 
         // Check that the event was created successfully
