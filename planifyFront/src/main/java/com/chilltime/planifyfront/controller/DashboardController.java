@@ -5,7 +5,9 @@ import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
 import com.calendarfx.view.CalendarView;
+import com.chilltime.planifyfront.model.transfer.TCalendario;
 import com.chilltime.planifyfront.model.transfer.TEvento;
+import com.chilltime.planifyfront.utils.CalendarUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -100,6 +102,7 @@ public class DashboardController {
         });
 
         calendarView.setEntryDetailsPopOverContentCallback(param -> null);
+        calendarView.setEntryDetailsCallback(param -> null);
     }
 
     private void configureCellFactory() {
@@ -224,6 +227,11 @@ public class DashboardController {
         updateTimeThread.setPriority(Thread.MIN_PRIORITY);
         updateTimeThread.setDaemon(true);
         updateTimeThread.start();
+    }
+
+    public void addCalendar(TCalendario calendario) {
+        Calendar<TEvento> calendar = CalendarUtils.toCalendar(calendario);
+        userCalendarSource.getCalendars().add(calendar);
     }
 }
 

@@ -4,6 +4,7 @@ import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarSource;
 import com.chilltime.planifyfront.model.service.ServiceFactory;
 import com.chilltime.planifyfront.model.transfer.TCalendario;
+import com.chilltime.planifyfront.model.transfer.TEvento;
 import com.chilltime.planifyfront.utils.LocalDateAdapter;
 import com.chilltime.planifyfront.utils.LocalTimeAdapter;
 import com.google.gson.Gson;
@@ -44,7 +45,7 @@ public class CalendarFormController {
     @FXML
     private ComboBox<Calendar.Style> styleComboBox;
 
-    private Consumer<Calendar> onAccept;
+    private Consumer<Calendar<TEvento>> onAccept;
     private CalendarSourceHolder calendarSourceHolder;
 
     /**
@@ -77,10 +78,8 @@ public class CalendarFormController {
         }
 
         // Crear el Calendar y asignar el estilo
-        Calendar newCalendar = new Calendar(name);
+        Calendar<TEvento> newCalendar = new Calendar<>(name);
         newCalendar.setStyle(style);
-        // Se almacena la descripción en el objeto de usuario
-        newCalendar.setUserObject(description);
 
         // Se añade el Calendar al CalendarSource proporcionado
         if (calendarSourceHolder != null) {
@@ -103,7 +102,7 @@ public class CalendarFormController {
 
                 DashboardController dashboardController = DashboardControllerSingleton.getInstance();
                 if (dashboardController != null) {
-                    //dashboardController.addCalendar(calendar); TODO no se que meter aqui
+                    dashboardController.addCalendar(calendar);
                 }
                 showSuccessDialog("Calendario creado", "El calendario se ha creado correctamente.");
             } catch (JsonSyntaxException | IOException ex) {
@@ -166,7 +165,7 @@ public class CalendarFormController {
      *
      * @param onAccept callback que recibe el Calendar creado.
      */
-    public void setOnAccept(Consumer<Calendar> onAccept) {
+    public void setOnAccept(Consumer<Calendar<TEvento>> onAccept) {
         this.onAccept = onAccept;
     }
 
