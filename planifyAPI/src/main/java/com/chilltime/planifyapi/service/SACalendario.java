@@ -3,9 +3,12 @@ package com.chilltime.planifyapi.service;
 import com.chilltime.planifyapi.entity.Calendario;
 import com.chilltime.planifyapi.entity.Usuario;
 import com.chilltime.planifyapi.repository.CalendarioRepository;
+import com.chilltime.planifyapi.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -14,16 +17,15 @@ public class SACalendario {
     @Autowired
     private CalendarioRepository calendarioRepository;
 
-    @Transactional
-    public Calendario crearCalendarioPrivado(String nombre, String descripcion, Usuario usuario) {
-        validarCalendario(nombre, descripcion, usuario);
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-        Calendario calendario = new Calendario();
-        calendario.setNombre(nombre);
-        calendario.setDescripcion(descripcion);
-        calendario.setActivo(true);
-        calendario.setTipo("PRIVADO");
+    @Transactional
+    public Calendario crearCalendarioPrivado(Calendario calendario) { // TODO explicar a Javi
+        Usuario usuario = usuarioRepository.findById(calendario.getId_usuario()).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         calendario.setUsuario(usuario);
+
+        validarCalendario(calendario.getNombre(), calendario.getDescripcion(), calendario.getUsuario());
 
         return calendarioRepository.save(calendario);
 
@@ -38,8 +40,8 @@ public class SACalendario {
             throw new IllegalArgumentException("El nombre debe contener solo caracteres alfanuméricos y espacios.");
         }
 
-        if(nombre.length() < 20){
-            throw new IllegalArgumentException("El campo nombre no puede tener menos de 20 caracteres");
+        if(nombre.length() > 20){
+            throw new IllegalArgumentException("El campo nombre no puede tener más de 20 caracteres");
         }
         if (descripcion != null && descripcion.length() > 255) {
             throw new IllegalArgumentException("La descripción debe tener un máximo de 255 caracteres.");

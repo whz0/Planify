@@ -16,15 +16,15 @@ public class CalendarController {
 
     @PostMapping("/create-private")
     public Calendario crearCalendarioPrivado(@RequestBody Calendario cal) {
-        Calendario calendario;
+        System.out.println(cal.toString());
         try {
-            calendario = calendarioService.crearCalendarioPrivado(cal.getNombre(), cal.getDescripcion(), cal.getUsuario());
+            cal = calendarioService.crearCalendarioPrivado(cal);
         }
-
-        catch (IllegalArgumentException e) {
+        catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-        return calendario;
+
+        return cal;
     }
 
 }

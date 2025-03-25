@@ -1,5 +1,6 @@
 package com.chilltime.planifyapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,6 +26,7 @@ public class Usuario implements UserDetails {
     private String role;
 
     @OneToMany(mappedBy = "usuario")
+    @JsonManagedReference
     private List<Calendario> calendarios;
 
     @Override
