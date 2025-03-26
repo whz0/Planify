@@ -13,13 +13,13 @@ import java.time.LocalTime;
 @Entity
 @Data
 @NoArgsConstructor
-public class Evento {
+public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
-    private LocalDate fecha;
-    private LocalTime hora;
-    private String ubicacion;
-
+    private String name;
+    private LocalDate date;
+    private LocalTime time;
+    private String location;
+    private boolean active;
 }

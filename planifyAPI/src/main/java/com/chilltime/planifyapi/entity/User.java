@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Usuario implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class Usuario implements UserDetails {
 
     @OneToMany(mappedBy = "usuario")
     @JsonManagedReference
-    private List<Calendario> calendarios;
+    private List<Calendar> calendars;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

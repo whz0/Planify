@@ -11,7 +11,7 @@ public abstract class ServiceFactory {
         return instance;
     }
 
-    public abstract EventoSA crearEventoSA();
+    public abstract EventSA crearEventoSA();
 
-    public abstract CalendarioSA crearCalendarioSA();
+    public abstract CalendarSA crearCalendarioSA();
 }

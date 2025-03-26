@@ -1,8 +1,7 @@
 package com.chilltime.planifyfront.controller;
 
 import com.chilltime.planifyfront.model.service.ServiceFactory;
-import com.chilltime.planifyfront.model.transfer.TEvento;
-import com.chilltime.planifyfront.utils.DialogWindows;
+import com.chilltime.planifyfront.model.transfer.TEvent;
 import com.chilltime.planifyfront.utils.LocalDateAdapter;
 import com.chilltime.planifyfront.utils.LocalTimeAdapter;
 import com.google.gson.Gson;
@@ -10,7 +9,6 @@ import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -25,7 +23,7 @@ import static com.chilltime.planifyfront.utils.DialogWindows.showSuccessDialog;
 
 public class EventFormController {
 
-    private Entry<TEvento> entry; // Variable para almacenar el Entry provisional
+    private Entry<TEvent> entry; // Variable para almacenar el Entry provisional
 
     @FXML
     private TextField nombreField;
@@ -73,7 +71,7 @@ public class EventFormController {
     /**
      * Setter para recibir el Entry provisional.
      */
-    public void setEntry(Entry<TEvento> entry) {
+    public void setEntry(Entry<TEvent> entry) {
         this.entry = entry;
     }
 
@@ -126,16 +124,16 @@ public class EventFormController {
             LocalTime hora = horaComboBox.getValue();
             String nombre = nombreField.getText();
             String ubicacion = ubicacionField.getText();
-            TEvento evento = new TEvento(null, nombre, fecha, hora, ubicacion);
+            TEvent evento = new TEvent(null, nombre, fecha, hora, ubicacion);
 
             // Llamar a la API para crear el evento
             Task<String> apiTask = ServiceFactory.getInstance().crearEventoSA().createEvent(evento);
             apiTask.setOnSucceeded(e -> {
-                TEvento eventoReturned = gson.fromJson(apiTask.getValue(), TEvento.class);
+                TEvent eventoReturned = gson.fromJson(apiTask.getValue(), TEvent.class);
                 // Asumir que la API devuelve el ID del evento
                 evento.setId(eventoReturned.getId());
                 // Actualizar el Entry provisional con los datos finales
-                entry.setTitle(evento.getNombre());
+                entry.setTitle(evento.getName());
                 entry.setUserObject(evento);
                 // Mostrar mensaje de éxito
                 showSuccessDialog("Evento creado", "El evento se ha creado correctamente.");

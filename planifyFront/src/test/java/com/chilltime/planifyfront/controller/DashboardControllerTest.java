@@ -2,7 +2,7 @@ package com.chilltime.planifyfront.controller;
 
 import com.calendarfx.model.Calendar;
 import com.calendarfx.model.Entry;
-import com.chilltime.planifyfront.model.transfer.TEvento;
+import com.chilltime.planifyfront.model.transfer.TEvent;
 import com.chilltime.planifyfront.test.BaseJavaFxTest;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DashboardControllerTest extends BaseJavaFxTest {
 
     private DashboardController controller;
-    private ListView<TEvento> listView;
+    private ListView<TEvent> listView;
     private Calendar calendar;
 
     @Override
@@ -60,11 +60,11 @@ public class DashboardControllerTest extends BaseJavaFxTest {
     @Test
     public void testAddEvent() throws Exception {
         // Arrange
-        TEvento evento = new TEvento();
-        evento.setNombre("Test Event");
-        evento.setFecha(LocalDate.now());
-        evento.setHora(LocalTime.now());
-        evento.setUbicacion("Test Location");
+        TEvent evento = new TEvent();
+        evento.setName("Test Event");
+        evento.setDate(LocalDate.now());
+        evento.setTime(LocalTime.now());
+        evento.setLocation("Test Location");
 
         // Act
         Platform.runLater(() -> controller.addEvent(evento));
@@ -73,15 +73,15 @@ public class DashboardControllerTest extends BaseJavaFxTest {
         sleep(100);
 
         // Assert
-        ListView<TEvento> eventsListView = (ListView<TEvento>) getPrivateField("eventsListView");
+        ListView<TEvent> eventsListView = (ListView<TEvent>) getPrivateField("eventsListView");
         assertEquals(1, eventsListView.getItems().size());
-        assertEquals("Test Event", eventsListView.getItems().get(0).getNombre());
+        assertEquals("Test Event", eventsListView.getItems().get(0).getName());
     }
 
     @Test
     public void testRemoveEntry() throws Exception {
         // Arrange
-        Entry<TEvento> entry = new Entry<>("Test Entry");
+        Entry<TEvent> entry = new Entry<>("Test Entry");
 
         // Act
         Platform.runLater(() -> {

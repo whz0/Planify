@@ -1,8 +1,8 @@
 package com.chilltime.planifyapi;
 
 import com.chilltime.planifyapi.controller.EventController;
-import com.chilltime.planifyapi.entity.Evento;
-import com.chilltime.planifyapi.service.SAEvento;
+import com.chilltime.planifyapi.entity.Event;
+import com.chilltime.planifyapi.service.SAEvent;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -20,106 +20,106 @@ import static org.mockito.Mockito.*;
 public class EventControllerUnitTest {
 
     @Mock
-    private SAEvento eventoService;
+    private SAEvent eventService;
 
     @InjectMocks
     private EventController eventController;
 
     @Test
     public void testCreateEvent() {
-        Evento evento = new Evento();
-        evento.setNombre("Evento Test");
-        evento.setFecha(LocalDate.now().plusDays(1));
-        evento.setHora(LocalTime.now().plusHours(1));
-        evento.setUbicacion("Ubicacion Test");
+        Event event = new Event();
+        event.setName("event Test");
+        event.setDate(LocalDate.now().plusDays(1));
+        event.setTime(LocalTime.now().plusHours(1));
+        event.setLocation("Ubicacion Test");
 
-        when(eventoService.crearEvento(any(Evento.class))).thenReturn(evento);
+        when(eventService.createEvent(any(Event.class))).thenReturn(event);
 
-        Evento result = eventController.createEvent(evento);
+        Event result = eventController.createEvent(event);
 
         assertNotNull(result);
-        assertEquals("Evento Test", result.getNombre());
+        assertEquals("evento Test", result.getName());
     }
 
     @Test
     public void testCreateEventInvalid() {
-        Evento evento = new Evento();
-        evento.setNombre(""); // Nombre vacío
+        Event event = new Event();
+        event.setName(""); // Nombre vacío
 
-        when(eventoService.crearEvento(any(Evento.class))).thenThrow(new IllegalArgumentException("Rellene todos los campos vacíos"));
+        when(eventService.createEvent(any(Event.class))).thenThrow(new IllegalArgumentException("Rellene todos los campos vacíos"));
 
         assertThrows(ResponseStatusException.class, () -> {
-            eventController.createEvent(evento);
+            eventController.createEvent(event);
         });
     }
     @Test
     public void testCreateEventWithPastDate() {
-        Evento evento = new Evento();
-        evento.setNombre("Evento Test");
-        evento.setFecha(LocalDate.now().minusDays(1));
-        evento.setHora(LocalTime.now().plusHours(1));
-        evento.setUbicacion("Ubicacion Test");
+        Event event = new Event();
+        event.setName("evento Test");
+        event.setDate(LocalDate.now().minusDays(1));
+        event.setTime(LocalTime.now().plusHours(1));
+        event.setLocation("Ubicacion Test");
 
-        when(eventoService.crearEvento(any(Evento.class))).thenThrow(new IllegalArgumentException("La fecha no puede ser anterior a la fecha actual"));
+        when(eventService.createEvent(any(Event.class))).thenThrow(new IllegalArgumentException("La fecha no puede ser anterior a la fecha actual"));
 
         assertThrows(ResponseStatusException.class, () -> {
-            eventController.createEvent(evento);
+            eventController.createEvent(event);
         });
     }
     @Test
     public void testCreateEventWithLongName() {
-        Evento evento = new Evento();
-        evento.setNombre("Evento Test con un nombre muy largo que no debería ser permitido");
-        evento.setFecha(LocalDate.now().plusDays(1));
-        evento.setHora(LocalTime.now().plusHours(1));
-        evento.setUbicacion("Ubicacion Test");
+        Event event = new Event();
+        event.setName("evento Test con un nombre muy largo que no debería ser permitido");
+        event.setDate(LocalDate.now().plusDays(1));
+        event.setTime(LocalTime.now().plusHours(1));
+        event.setLocation("Ubicacion Test");
 
-        when(eventoService.crearEvento(any(Evento.class))).thenThrow(new IllegalArgumentException("El campo nombre no puede tener menos de 20 caracteres"));
+        when(eventService.createEvent(any(Event.class))).thenThrow(new IllegalArgumentException("El campo nombre no puede tener menos de 20 caracteres"));
 
         assertThrows(ResponseStatusException.class, () -> {
-            eventController.createEvent(evento);
+            eventController.createEvent(event);
         });
     }
     @Test
     public void testCreateEventWithNoASCIIName() {
-        Evento evento = new Evento();
-        evento.setNombre("España");
-        evento.setFecha(LocalDate.now().plusDays(1));
-        evento.setHora(LocalTime.now().plusHours(1));
-        evento.setUbicacion("Ubicacion Test");
+        Event event = new Event();
+        event.setName("España");
+        event.setDate(LocalDate.now().plusDays(1));
+        event.setTime(LocalTime.now().plusHours(1));
+        event.setLocation("Ubicacion Test");
 
-        when(eventoService.crearEvento(any(Evento.class))).thenThrow(new IllegalArgumentException("Los campos nombre y ubicación deben ser caracteres ASCII"));
+        when(eventService.createEvent(any(Event.class))).thenThrow(new IllegalArgumentException("Los campos nombre y ubicación deben ser caracteres ASCII"));
 
         assertThrows(ResponseStatusException.class, () -> {
-            eventController.createEvent(evento);
+            eventController.createEvent(event);
         });
     }
     @Test
     public void testCreateEventWithNoASCIILocation() {
-        Evento evento = new Evento();
-        evento.setNombre("Evento Test");
-        evento.setFecha(LocalDate.now().plusDays(1));
-        evento.setHora(LocalTime.now().plusHours(1));
-        evento.setUbicacion("España");
+        Event event = new Event();
+        event.setName("evento Test");
+        event.setDate(LocalDate.now().plusDays(1));
+        event.setTime(LocalTime.now().plusHours(1));
+        event.setLocation("España");
 
-        when(eventoService.crearEvento(any(Evento.class))).thenThrow(new IllegalArgumentException("Los campos nombre y ubicación deben ser caracteres ASCII"));
+        when(eventService.createEvent(any(Event.class))).thenThrow(new IllegalArgumentException("Los campos nombre y ubicación deben ser caracteres ASCII"));
 
         assertThrows(ResponseStatusException.class, () -> {
-            eventController.createEvent(evento);
+            eventController.createEvent(event);
         });
     }
     @Test
     public void testCreateEventWithEmptyFields() {
-        Evento evento = new Evento();
-        evento.setNombre("Evento Test");
-        evento.setFecha(LocalDate.now().plusDays(1));
-        evento.setHora(LocalTime.now().plusHours(1));
-        evento.setUbicacion("");
+        Event event = new Event();
+        event.setName("evento Test");
+        event.setDate(LocalDate.now().plusDays(1));
+        event.setTime(LocalTime.now().plusHours(1));
+        event.setLocation("");
 
-        when(eventoService.crearEvento(any(Evento.class))).thenThrow(new IllegalArgumentException("Rellene todos los campos vacíos"));
+        when(eventService.createEvent(any(Event.class))).thenThrow(new IllegalArgumentException("Rellene todos los campos vacíos"));
 
         assertThrows(ResponseStatusException.class, () -> {
-            eventController.createEvent(evento);
+            eventController.createEvent(event);
         });
     }
 }
