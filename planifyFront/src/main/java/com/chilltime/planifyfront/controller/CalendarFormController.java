@@ -89,7 +89,6 @@ public class CalendarFormController {
         if (onAccept != null) {
             onAccept.accept(newCalendar);
         }
-
         // Llamar a la API para crear nuevo calendario privado
         TCalendario calendar = toTCalendario(newCalendar);
         Task<String> apiTask = ServiceFactory.getInstance().crearCalendarioSA().crearCalendario(calendar);
