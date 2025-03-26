@@ -52,7 +52,7 @@ public class CalendarFormController {
      * Inicializa el ComboBox con los estilos disponibles y asigna una celda personalizada.
      */
     @FXML
-    private void initialize() {
+    void initialize() {
         styleComboBox.getItems().setAll(Calendar.Style.values());
         styleComboBox.setButtonCell(new StyleCell());
         styleComboBox.setCellFactory(listView -> new StyleCell());
@@ -63,7 +63,7 @@ public class CalendarFormController {
      * Se invoca al pulsar el botón "Aceptar". Valida los datos, crea el Calendar y ejecuta el callback.
      */
     @FXML
-    private void handleAccept() {
+    void handleAccept() {
         String name = nameField.getText();
         String description = descriptionField.getText();
         Calendar.Style style = styleComboBox.getValue();
@@ -119,7 +119,7 @@ public class CalendarFormController {
      * Se invoca al pulsar el botón "Cancelar".
      */
     @FXML
-    private void handleCancel() {
+    void handleCancel() {
         closeWindow();
     }
 
