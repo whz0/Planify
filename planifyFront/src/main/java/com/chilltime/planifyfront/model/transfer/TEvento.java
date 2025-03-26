@@ -23,6 +23,8 @@ public class TEvento {
         this.ubicacion = ubicacion;
     }
 
+    public TEvento(){}
+
     public Long getId() {
         return id;
     }
