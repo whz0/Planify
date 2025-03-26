@@ -4,12 +4,11 @@ import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarSource;
 import com.chilltime.planifyfront.model.service.ServiceFactory;
 import com.chilltime.planifyfront.model.transfer.TCalendario;
+import com.chilltime.planifyfront.model.transfer.TContext;
 import com.chilltime.planifyfront.model.transfer.TEvento;
 import com.chilltime.planifyfront.utils.LocalDateAdapter;
 import com.chilltime.planifyfront.utils.LocalTimeAdapter;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -109,7 +108,9 @@ public class CalendarFormController {
                 showErrorDialog("Error", ex.getMessage()); //TODO hacerlo mas concreto
             }
         });
-        apiTask.setOnFailed(e -> showError("Error de conexión"));
+        apiTask.setOnFailed(e -> {
+            showErrorDialog("Error de conexión", "Error inesperado");
+        });
         new Thread(apiTask).start();
 
         closeWindow();

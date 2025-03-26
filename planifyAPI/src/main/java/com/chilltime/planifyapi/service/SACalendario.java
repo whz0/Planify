@@ -1,5 +1,6 @@
 package com.chilltime.planifyapi.service;
 
+import com.chilltime.planifyapi.TContext;
 import com.chilltime.planifyapi.entity.Calendario;
 import com.chilltime.planifyapi.entity.Usuario;
 import com.chilltime.planifyapi.repository.CalendarioRepository;
@@ -8,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 
@@ -21,13 +23,13 @@ public class SACalendario {
     private UsuarioRepository usuarioRepository;
 
     @Transactional
-    public Calendario crearCalendarioPrivado(Calendario calendario) {
+    public TContext crearCalendarioPrivado(Calendario calendario) {
         Usuario usuario = usuarioRepository.findById(calendario.getId_usuario()).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         calendario.setUsuario(usuario);
 
         validarCalendario(calendario.getNombre(), calendario.getDescripcion(), calendario.getUsuario());
 
-        return calendarioRepository.save(calendario);
+        return new TContext(200, "Creado correctamente", calendarioRepository.save(calendario));
 
     }
 
