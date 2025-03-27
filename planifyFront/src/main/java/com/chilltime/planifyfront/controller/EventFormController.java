@@ -124,17 +124,17 @@ public class EventFormController {
             LocalTime hora = horaComboBox.getValue();
             String nombre = nombreField.getText();
             String ubicacion = ubicacionField.getText();
-            TEvent evento = new TEvent(null, nombre, fecha, hora, ubicacion);
+            TEvent event = new TEvent(null, nombre, fecha, hora, ubicacion, true);
 
             // Llamar a la API para crear el evento
-            Task<String> apiTask = ServiceFactory.getInstance().crearEventoSA().createEvent(evento);
+            Task<String> apiTask = ServiceFactory.getInstance().createEventSA().createEvent(event);
             apiTask.setOnSucceeded(e -> {
-                TEvent eventoReturned = gson.fromJson(apiTask.getValue(), TEvent.class);
+                TEvent eventReturned = gson.fromJson(apiTask.getValue(), TEvent.class);
                 // Asumir que la API devuelve el ID del evento
-                evento.setId(eventoReturned.getId());
+                event.setId(eventReturned.getId());
                 // Actualizar el Entry provisional con los datos finales
-                entry.setTitle(evento.getName());
-                entry.setUserObject(evento);
+                entry.setTitle(event.getName());
+                entry.setUserObject(event);
                 // Mostrar mensaje de éxito
                 showSuccessDialog("Evento creado", "El evento se ha creado correctamente.");
                 closeWindow();

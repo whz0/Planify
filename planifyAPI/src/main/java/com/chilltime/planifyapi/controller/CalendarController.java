@@ -26,7 +26,6 @@ public class CalendarController {
             return ResponseEntity.status(cont.getStatus_code()).body(cont);
         }
 
-
         return ResponseEntity.status(cont.getStatus_code()).body(cont);
     }
 

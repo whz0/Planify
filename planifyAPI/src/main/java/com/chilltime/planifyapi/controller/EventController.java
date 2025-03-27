@@ -12,14 +12,14 @@ import org.springframework.web.server.ResponseStatusException;
 public class EventController {
 
     @Autowired
-    private SAEvent eventoService;
+    private SAEvent eventService;
 
     @PostMapping("/create-event")
-    public Event createEvent(@RequestBody Event evento) {
+    public Event createEvent(@RequestBody Event event) {
         // TODO: Catch exception y retornar un código HTTP que no sea 200
         Event eventc;
         try {
-            eventc = eventoService.createEvent(evento);
+            eventc = eventService.createEvent(event);
         }
 
         catch (IllegalArgumentException e) {

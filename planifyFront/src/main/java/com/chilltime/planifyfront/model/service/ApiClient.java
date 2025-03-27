@@ -11,7 +11,7 @@ import java.net.http.HttpResponse;
 import java.util.Base64;
 
 public class ApiClient {
-    private static final String BASE_URL = "http://34.175.115.84:1010";
+    private static final String BASE_URL = "http://localhost:1010";
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
     private String basicAuth;

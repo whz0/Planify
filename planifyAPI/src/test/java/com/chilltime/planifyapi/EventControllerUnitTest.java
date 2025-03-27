@@ -28,7 +28,7 @@ public class EventControllerUnitTest {
     @Test
     public void testCreateEvent() {
         Event event = new Event();
-        event.setName("event Test");
+        event.setName("evento Test");
         event.setDate(LocalDate.now().plusDays(1));
         event.setTime(LocalTime.now().plusHours(1));
         event.setLocation("Ubicacion Test");

@@ -9,12 +9,12 @@ public class ServiceFactoryImp extends ServiceFactory{
     }
 
     @Override
-    public EventSA crearEventoSA() {
+    public EventSA createEventSA() {
         return new EventSA(apiClient);
     }
 
     @Override
-    public CalendarSA crearCalendarioSA() {
+    public CalendarSA createCalendarSA() {
         return new CalendarSA(apiClient);
     }
 }

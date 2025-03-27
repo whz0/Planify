@@ -17,9 +17,9 @@ public class Calendar {
     private String type;
     private boolean active;
     @Transient
-    private Long id_user;
+    private Long id_client;
     @ManyToOne
     @JsonBackReference
-    private User user;
+    private Client client;
 
 }

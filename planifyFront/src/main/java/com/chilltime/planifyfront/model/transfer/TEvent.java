@@ -15,12 +15,15 @@ public class TEvent {
 
     public String location;
 
-    public TEvent(Long id, String name, LocalDate date, LocalTime time, String location) {
+    public boolean active;
+
+    public TEvent(Long id, String name, LocalDate date, LocalTime time, String location, boolean active) {
         this.id = id;
         this.name = name;
         this.date = date;
         this.time = time;
         this.location = location;
+        this.active = active;
     }
 
     public TEvent(){}
@@ -63,6 +66,14 @@ public class TEvent {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override

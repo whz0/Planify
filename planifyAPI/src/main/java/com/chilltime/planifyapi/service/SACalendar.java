@@ -2,9 +2,9 @@ package com.chilltime.planifyapi.service;
 
 import com.chilltime.planifyapi.TContext;
 import com.chilltime.planifyapi.entity.Calendar;
-import com.chilltime.planifyapi.entity.User;
+import com.chilltime.planifyapi.entity.Client;
 import com.chilltime.planifyapi.repository.CalendarRepository;
-import com.chilltime.planifyapi.repository.UserRepository;
+import com.chilltime.planifyapi.repository.ClientRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,20 +16,20 @@ public class SACalendar {
     private CalendarRepository calendarRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private ClientRepository clientRepository;
 
     @Transactional
     public TContext createPrivateCalendar(Calendar calendar) {
-        User user = userRepository.findById(calendar.getId_user()).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        calendar.setUser(user);
+        Client client = clientRepository.findById(calendar.getId_client()).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        calendar.setClient(client);
 
-        validateCalenda(calendar.getName(), calendar.getDescription(), calendar.getUser());
+        validateCalendar(calendar.getName(), calendar.getDescription(), calendar.getClient());
 
         return new TContext(200, "Creado correctamente", calendarRepository.save(calendar));
 
     }
 
-    private void validateCalenda(String name, String description, User user) {
+    private void validateCalendar(String name, String description, Client client) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre es obligatorio y no puede estar compuesto por espacios en blanco.");
         }
@@ -45,7 +45,7 @@ public class SACalendar {
             throw new IllegalArgumentException("La descripción debe tener un máximo de 255 caracteres.");
         }
 
-        if (calendarRepository.existsByNombreAndUsuario(name, user)) {
+        if (calendarRepository.existsByNameAndClient(name, client)) {
             throw new IllegalArgumentException("El nombre ya está en uso por otro calendario privado suyo. Por favor, elija otro nombre.");
         }
     }

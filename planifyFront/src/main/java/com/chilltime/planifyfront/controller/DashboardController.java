@@ -227,8 +227,8 @@ public class DashboardController {
         updateTimeThread.start();
     }
 
-    public void addCalendar(TCalendar calendario) {
-        Calendar<TEvent> calendar = CalendarUtils.toCalendar(calendario);
+    public void addCalendar(TCalendar calendari) {
+        Calendar<TEvent> calendar = CalendarUtils.toCalendar(calendari);
         userCalendarSource.getCalendars().add(calendar);
     }
 }
