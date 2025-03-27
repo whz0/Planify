@@ -41,8 +41,6 @@ public class CalendarFormController {
     @FXML
     private TextField descriptionField;
 
-    @FXML
-    private ComboBox<Calendar.Style> styleComboBox;
 
     private Consumer<Calendar<TEvent>> onAccept;
     private CalendarSourceHolder calendarSourceHolder;
@@ -52,10 +50,6 @@ public class CalendarFormController {
      */
     @FXML
     void initialize() {
-        styleComboBox.getItems().setAll(Calendar.Style.values());
-        styleComboBox.setButtonCell(new StyleCell());
-        styleComboBox.setCellFactory(listView -> new StyleCell());
-        styleComboBox.getStylesheets().clear();
     }
 
     /**
@@ -65,21 +59,14 @@ public class CalendarFormController {
     void handleAccept() {
         String name = nameField.getText();
         String description = descriptionField.getText();
-        Calendar.Style style = styleComboBox.getValue();
 
         if (name == null || name.trim().isEmpty()) {
             showError("El nombre no puede estar vacío");
             return;
         }
-        if (style == null) {
-            showError("Debe seleccionar un color");
-            return;
-        }
 
         // Crear el Calendar y asignar el estilo
         Calendar<TEvent> newCalendar = new Calendar<>(name);
-        newCalendar.setStyle(style);
-
         // Se añade el Calendar al CalendarSource proporcionado
         if (calendarSourceHolder != null) {
             calendarSourceHolder.getCalendarSource().getCalendars().add(newCalendar);

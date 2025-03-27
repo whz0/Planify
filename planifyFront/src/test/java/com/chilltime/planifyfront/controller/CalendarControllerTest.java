@@ -1,8 +1,6 @@
 package com.chilltime.planifyfront.controller;
 
-import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarSource;
-import com.chilltime.planifyfront.model.transfer.TCalendario;
 import com.chilltime.planifyfront.test.BaseJavaFxTest;
 import javafx.application.Platform;
 import javafx.scene.Scene;

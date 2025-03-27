@@ -101,6 +101,8 @@ public class DashboardController {
 
         calendarView.setEntryDetailsPopOverContentCallback(param -> null);
         calendarView.setEntryDetailsCallback(param -> null);
+        calendarView.setShowSearchField(false);
+        calendarView.setShowPageSwitcher(false);
     }
 
     private void configureCellFactory() {
