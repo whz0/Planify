@@ -94,7 +94,8 @@ public class CalendarFormController {
         Task<String> apiTask = ServiceFactory.getInstance().crearCalendarioSA().crearCalendario(calendar);
         apiTask.setOnSucceeded(e->{
             try {
-                TCalendario calendarioReturned = gson.fromJson(apiTask.getValue(), TCalendario.class);
+                TContext contexto = gson.fromJson(apiTask.getValue(), TContext.class);
+                TCalendario calendarioReturned = (TCalendario) contexto.getData();
                 // Asumimos que la API devuelve el ID y lo asignamos
                 calendar.setId(calendarioReturned.getId());
 
