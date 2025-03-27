@@ -3,8 +3,9 @@ package com.chilltime.planifyfront.controller;
 import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarSource;
 import com.chilltime.planifyfront.model.service.ServiceFactory;
-import com.chilltime.planifyfront.model.transfer.TCalendar;
-import com.chilltime.planifyfront.model.transfer.TEvent;
+import com.chilltime.planifyfront.model.transfer.TCalendario;
+import com.chilltime.planifyfront.model.transfer.TContext;
+import com.chilltime.planifyfront.model.transfer.TEvento;
 import com.chilltime.planifyfront.utils.LocalDateAdapter;
 import com.chilltime.planifyfront.utils.LocalTimeAdapter;
 import com.google.gson.*;
@@ -23,7 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.function.Consumer;
 
-import static com.chilltime.planifyfront.utils.CalendarUtils.toTCalendar;
+import static com.chilltime.planifyfront.utils.CalendarUtils.toTCalendario;
 import static com.chilltime.planifyfront.utils.DialogWindows.showErrorDialog;
 import static com.chilltime.planifyfront.utils.DialogWindows.showSuccessDialog;
 
@@ -43,7 +44,7 @@ public class CalendarFormController {
     @FXML
     private ComboBox<Calendar.Style> styleComboBox;
 
-    private Consumer<Calendar<TEvent>> onAccept;
+    private Consumer<Calendar<TEvento>> onAccept;
     private CalendarSourceHolder calendarSourceHolder;
 
     /**
@@ -76,7 +77,7 @@ public class CalendarFormController {
         }
 
         // Crear el Calendar y asignar el estilo
-        Calendar<TEvent> newCalendar = new Calendar<>(name);
+        Calendar<TEvento> newCalendar = new Calendar<>(name);
         newCalendar.setStyle(style);
 
         // Se añade el Calendar al CalendarSource proporcionado
@@ -89,11 +90,12 @@ public class CalendarFormController {
             onAccept.accept(newCalendar);
         }
         // Llamar a la API para crear nuevo calendario privado
-        TCalendar calendar = toTCalendar(newCalendar);
-        Task<String> apiTask = ServiceFactory.getInstance().createCalendarSA().crearCalendario(calendar);
+        TCalendario calendar = toTCalendario(newCalendar);
+        Task<String> apiTask = ServiceFactory.getInstance().crearCalendarioSA().crearCalendario(calendar);
         apiTask.setOnSucceeded(e->{
             try {
-                TCalendar calendarioReturned = gson.fromJson(apiTask.getValue(), TCalendar.class);
+                TContext contexto = gson.fromJson(apiTask.getValue(), TContext.class);
+                TCalendario calendarioReturned = (TCalendario) contexto.getData();
                 // Asumimos que la API devuelve el ID y lo asignamos
                 calendar.setId(calendarioReturned.getId());
 
@@ -164,7 +166,7 @@ public class CalendarFormController {
      *
      * @param onAccept callback que recibe el Calendar creado.
      */
-    public void setOnAccept(Consumer<Calendar<TEvent>> onAccept) {
+    public void setOnAccept(Consumer<Calendar<TEvento>> onAccept) {
         this.onAccept = onAccept;
     }
 
