@@ -1,32 +1,29 @@
 package com.chilltime.planifyapi.controller;
 
 import com.chilltime.planifyapi.TContext;
-import com.chilltime.planifyapi.entity.Calendario;
-import com.chilltime.planifyapi.service.SACalendario;
+import com.chilltime.planifyapi.entity.Calendar;
+import com.chilltime.planifyapi.service.SACalendar;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/calendar")
 public class CalendarController {
 
     @Autowired
-    private SACalendario calendarioService;
+    private SACalendar calendarService;
 
     @PostMapping("/create-private")
-    public ResponseEntity<TContext> crearCalendarioPrivado(@RequestBody Calendario cal) {
+    public ResponseEntity<TContext> CreatePrivateCalendar(@RequestBody Calendar cal) {
         //System.out.println(cal.toString())
         TContext cont = new TContext();
         try {
-            cont = calendarioService.crearCalendarioPrivado(cal);
+            cont = calendarService.createPrivateCalendar(cal);
         }
         catch (Exception e) {
             cont = new TContext(200, e.getMessage(), null);
         }
-
 
         return ResponseEntity.status(cont.getStatus_code()).body(cont);
     }

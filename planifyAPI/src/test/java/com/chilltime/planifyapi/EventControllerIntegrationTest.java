@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = PlanifyApiApplication.class)
 @AutoConfigureMockMvc
 @WithMockUser
-public class EventControllerIntegracionTest {
+public class EventControllerIntegrationTest {
 
     @Container
     public static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest")
@@ -45,19 +45,19 @@ public class EventControllerIntegracionTest {
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"nombre\": \"Evento\", \"fecha\": \"2025-12-31\", \"hora\": \"10:00\", \"ubicacion\": \"Ubicacion\"}"));
+                .content("{\"name\": \"Evento\", \"date\": \"2025-12-31\", \"time\": \"10:00\", \"location\": \"Ubicacion\"}"));
 
         // Check that the event was created successfully
         result.andExpect(status().is(200));
     }
-    //Evento con fecha pasada
+    //Evento con date pasada
     @Test
     public void testCreateEventWithPastDate() throws Exception {
         // Create an event with ASCII characters
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"nombre\": \"Evento\", \"fecha\": \"2025-03-9\", \"hora\": \"10:00\", \"ubicacion\": \"Ubicacion\"}"));
+                .content("{\"name\": \"Evento\", \"date\": \"2025-03-9\", \"time\": \"10:00\", \"location\": \"Ubicacion\"}"));
 
         // Check that the event was created successfully
         result.andExpect(status().is(400));
@@ -70,7 +70,7 @@ public class EventControllerIntegracionTest {
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"nombre\": \"Evento\", \"fecha\": \"\", \"hora\": \"10:00\", \"ubicacion\": \"Ubicacion\"}"));
+                .content("{\"name\": \"Evento\", \"date\": \"\", \"time\": \"10:00\", \"location\": \"Ubicacion\"}"));
 
         // Check that the event was created successfully
         result.andExpect(status().is(400));
@@ -83,7 +83,7 @@ public class EventControllerIntegracionTest {
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"nombre\": \"España\", \"fecha\": \"2025-12-31\", \"hora\": \"10:00\", \"ubicacion\": \"Ubicacion\"}"));
+                .content("{\"name\": \"España\", \"date\": \"2025-12-31\", \"time\": \"10:00\", \"location\": \"Ubicacion\"}"));
 
         // Check that the event was created successfully
         result.andExpect(status().is(400));
@@ -96,7 +96,7 @@ public class EventControllerIntegracionTest {
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"nombre\": \"Evento\", \"fecha\": \"2025-12-31\", \"hora\": \"10:00\", \"ubicacion\": \"España\"}"));
+                .content("{\"name\": \"Evento\", \"date\": \"2025-12-31\", \"time\": \"10:00\", \"location\": \"España\"}"));
 
         // Check that the event was created successfully
         result.andExpect(status().is(400));

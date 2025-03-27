@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1"
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/21.0.0" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.chilltime.planifyfront.controller.CalendarFormController"
       stylesheets="@../styling/styles.css" styleClass="form-container">
 
@@ -17,9 +17,6 @@
 
     <Label text="Descripción:" styleClass="form-label" />
     <TextField fx:id="descriptionField" styleClass="form-textfield" />
-
-    <Label text="Color:" styleClass="form-label" />
-    <ComboBox fx:id="styleComboBox" styleClass="form-combobox" />
 
     <Separator />
 

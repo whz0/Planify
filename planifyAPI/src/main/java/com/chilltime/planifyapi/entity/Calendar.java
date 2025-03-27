@@ -8,18 +8,18 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class Calendario {
+public class Calendar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
-    private String descripcion;
-    private boolean activo;
-    private String tipo;
+    private String name;
+    private String description;
+    private String type;
+    private boolean active;
     @Transient
-    private Long id_usuario;
+    private Long id_client;
     @ManyToOne
     @JsonBackReference
-    private Usuario usuario;
+    private Client client;
 
 }

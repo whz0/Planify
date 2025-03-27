@@ -5,8 +5,8 @@ import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
 import com.calendarfx.view.CalendarView;
-import com.chilltime.planifyfront.model.transfer.TCalendario;
-import com.chilltime.planifyfront.model.transfer.TEvento;
+import com.chilltime.planifyfront.model.transfer.TCalendar;
+import com.chilltime.planifyfront.model.transfer.TEvent;
 import com.chilltime.planifyfront.utils.CalendarUtils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -14,11 +14,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -32,7 +30,7 @@ public class DashboardController {
     private AnchorPane calendarPane;
 
     @FXML
-    private ListView<TEvento> eventsListView;
+    private ListView<TEvent> eventsListView;
 
     private CalendarView calendarView;
     private Calendar calendar;
@@ -92,7 +90,7 @@ public class DashboardController {
         });
 
         calendarView.setEntryFactory(param -> {
-            Entry<TEvento> newEntry = new Entry<>("Nuevo Evento");
+            Entry<TEvent> newEntry = new Entry<>("Nuevo Evento");
             LocalDate clickedDate = param.getDateControl().getDate();
             LocalTime defaultTime = LocalTime.of(12, 0);
             newEntry.setInterval(clickedDate.atTime(defaultTime), clickedDate.atTime(defaultTime).plusHours(1));
@@ -103,21 +101,23 @@ public class DashboardController {
 
         calendarView.setEntryDetailsPopOverContentCallback(param -> null);
         calendarView.setEntryDetailsCallback(param -> null);
+        calendarView.setShowSearchField(false);
+        calendarView.setShowPageSwitcher(false);
     }
 
     private void configureCellFactory() {
-        eventsListView.setCellFactory(param -> new ListCell<TEvento>() {
+        eventsListView.setCellFactory(param -> new ListCell<TEvent>() {
             @Override
-            protected void updateItem(TEvento evento, boolean empty) {
+            protected void updateItem(TEvent evento, boolean empty) {
                 super.updateItem(evento, empty);
                 if (empty || evento == null) {
                     setText(null);
                 } else {
                     setText(String.format("Nombre: %s - Día: %s - Hora: %s - Ubicación: %s",
-                            evento.getNombre(),
-                            evento.getFecha(),
-                            evento.getHora().toString(),
-                            evento.getUbicacion()));
+                            evento.getName(),
+                            evento.getDate(),
+                            evento.getTime().toString(),
+                            evento.getLocation()));
                 }
             }
         });
@@ -126,7 +126,7 @@ public class DashboardController {
     /**
      * Abre el formulario de creación de evento, pasando la fecha clicada y el Entry provisional.
      */
-    public void crearFormulario(LocalDate date, Entry<TEvento> entry) {
+    public void crearFormulario(LocalDate date, Entry<TEvent> entry) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/eventForm.fxml"));
             Parent root = loader.load();
@@ -145,7 +145,7 @@ public class DashboardController {
 
     // Método auxiliar para abrir el formulario desde el entry factory
     @FXML
-    public void crearEventoForm(LocalDate localDate, Entry<TEvento> entry) {
+    public void crearEventoForm(LocalDate localDate, Entry<TEvent> entry) {
         crearFormulario(localDate, entry);
     }
 
@@ -153,7 +153,7 @@ public class DashboardController {
     public void crearEventoForm() {
         // Usar la fecha actual para crear el evento de forma manual
         LocalDate today = LocalDate.now();
-        Entry<TEvento> newEntry = new Entry<>("Nuevo Evento");
+        Entry<TEvent> newEntry = new Entry<>("Nuevo Evento");
         calendar.addEntry(newEntry);
         crearFormulario(today, newEntry);
     }
@@ -162,7 +162,7 @@ public class DashboardController {
     /**
      * Elimina el Entry del calendario.
      */
-    public void removeEntry(Entry<TEvento> entryToRemove) {
+    public void removeEntry(Entry<TEvent> entryToRemove) {
         if (entryToRemove != null) {
             Platform.runLater(() -> {
                 // Ensure the removal happens on the JavaFX Application Thread
@@ -174,11 +174,11 @@ public class DashboardController {
     /**
      * Agrega el evento creado al calendario (normalmente se invoca tras la creación exitosa).
      */
-    public void addEvent(TEvento evento) {
-        Entry<TEvento> entry = new Entry<>(evento.getNombre());
+    public void addEvent(TEvent evento) {
+        Entry<TEvent> entry = new Entry<>(evento.getName());
         entry.setUserObject(evento);
-        entry.changeStartDate(evento.getFecha());
-        entry.changeEndDate(evento.getFecha());
+        entry.changeStartDate(evento.getDate());
+        entry.changeEndDate(evento.getDate());
         calendar.addEntry(entry);
         eventsListView.getItems().add(evento);
     }
@@ -229,8 +229,8 @@ public class DashboardController {
         updateTimeThread.start();
     }
 
-    public void addCalendar(TCalendario calendario) {
-        Calendar<TEvento> calendar = CalendarUtils.toCalendar(calendario);
+    public void addCalendar(TCalendar calendari) {
+        Calendar<TEvent> calendar = CalendarUtils.toCalendar(calendari);
         userCalendarSource.getCalendars().add(calendar);
     }
 }

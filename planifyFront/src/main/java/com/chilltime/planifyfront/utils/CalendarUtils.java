@@ -1,19 +1,19 @@
 package com.chilltime.planifyfront.utils;
 
 import com.calendarfx.model.Calendar;
-import com.chilltime.planifyfront.model.transfer.TCalendario;
-import com.chilltime.planifyfront.model.transfer.TEvento;
+import com.chilltime.planifyfront.model.transfer.TCalendar;
+import com.chilltime.planifyfront.model.transfer.TEvent;
 
 public class CalendarUtils {
-    public static TCalendario toTCalendario(Calendar<TEvento> calendar) {
-        TCalendario calendario = new TCalendario();
-        calendario.setNombre(calendar.getName());
-        calendario.setActivo(true);
-        calendario.setTipo("Privado");
-        return calendario;
+    public static TCalendar toTCalendar(Calendar<TEvent> calendarIn) {
+        TCalendar calendar = new TCalendar();
+        calendar.setName(calendarIn.getName());
+        calendar.setActive(true);
+        calendar.setType("Privado");
+        return calendar;
     }
 
-    public static Calendar<TEvento> toCalendar(TCalendario calendar) {
-        return new Calendar<>(calendar.getNombre());
+    public static Calendar<TEvent> toCalendar(TCalendar calendar) {
+        return new Calendar<>(calendar.getName());
     }
 }
