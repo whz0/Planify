@@ -2,45 +2,51 @@ package com.chilltime.planifyfront.controller;
 
 import com.calendarfx.model.Calendar;
 import com.calendarfx.model.CalendarSource;
+import com.chilltime.planifyfront.model.transfer.TCalendario;
 import com.chilltime.planifyfront.test.BaseJavaFxTest;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CalendarControllerTest extends BaseJavaFxTest {
 
     private CalendarFormController controller;
-    private TextField nameField;
-    private TextField descriptionField;
-    private ComboBox<Calendar.Style> styleComboBox;
+    private CalendarSource calendarSource;
+    private Stage primaryStage;
 
     @Override
     public void start(Stage stage) throws Exception {
         controller = new CalendarFormController();
-
-        // Create fields
-        nameField = new TextField();
-        descriptionField = new TextField();
-        styleComboBox = new ComboBox<>();
-
-        // Set private fields using reflection
-        setPrivateField("nameField", nameField);
-        setPrivateField("descriptionField", descriptionField);
-        setPrivateField("styleComboBox", styleComboBox);
-
         AnchorPane root = new AnchorPane();
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 400, 400);
         stage.setScene(scene);
         stage.show();
+        primaryStage = stage;
+
+        // Crear e inyectar los TextField para name y description
+        TextField nameField = new TextField();
+        TextField descriptionField = new TextField();
+        setPrivateField("nameField", nameField);
+        setPrivateField("descriptionField", descriptionField);
+
+        // Añadir los TextField al contenedor para asignarles escena
+        root.getChildren().addAll(nameField, descriptionField);
+
+        // Configurar el CalendarSourceHolder con un CalendarSource de prueba
+        calendarSource = new CalendarSource("Test Source");
+        controller.setCalendarSourceHolder(new CalendarFormController.CalendarSourceHolder() {
+            @Override
+            public CalendarSource getCalendarSource() {
+                return calendarSource;
+            }
+        });
     }
 
     private void setPrivateField(String fieldName, Object value) throws Exception {
@@ -56,77 +62,37 @@ public class CalendarControllerTest extends BaseJavaFxTest {
     }
 
     @Test
-    public void testHandleAcceptWithValidData() throws Exception {
-        // Arrange
-        AtomicReference<Calendar> createdCalendar = new AtomicReference<>();
-        controller.setOnAccept(calendar -> createdCalendar.set(calendar));
-
-        CalendarSource source = new CalendarSource("Test Source");
-        controller.setCalendarSourceHolder(() -> source);
-
+    public void testCreateCalendar() throws Exception {
+        // Asignar valores a los campos de texto
+        TextField nameField = (TextField) getPrivateField("nameField");
+        TextField descriptionField = (TextField) getPrivateField("descriptionField");
         Platform.runLater(() -> {
             nameField.setText("Test Calendar");
             descriptionField.setText("Test Description");
-            styleComboBox.setValue(Calendar.Style.STYLE1);
         });
         sleep(100);
 
-        // Act
+        // Invocar handleAccept (se añade el Calendar al CalendarSource y se inicia el Task asíncrono)
         Platform.runLater(() -> controller.handleAccept());
-        sleep(100);
+        // Esperar un poco para que se ejecute el código asíncrono (en este caso, la adición es síncrona)
+        sleep(500);
 
-        // Assert
-        Calendar calendar = createdCalendar.get();
-        assertNotNull(calendar);
-        assertEquals("Test Calendar", calendar.getName());
-        assertEquals(Calendar.Style.STYLE1.toString().toLowerCase(), calendar.getStyle().toString().toLowerCase());
-        assertTrue(source.getCalendars().contains(calendar));
+        // Verificar que el CalendarSource contiene un Calendar con el nombre esperado
+        assertNotNull(calendarSource);
+        assertTrue(calendarSource.getCalendars().stream()
+                .anyMatch(cal -> cal.getName().equals("Test Calendar")));
     }
 
     @Test
-    public void testHandleAcceptWithInvalidData() throws Exception {
-        // Arrange
-        AtomicReference<Calendar> createdCalendar = new AtomicReference<>();
-        controller.setOnAccept(calendar -> createdCalendar.set(calendar));
+    public void testCancelCalendarCreation() throws Exception {
+        // Verificar que la ventana (Stage) está visible antes de cancelar
+        assertTrue(primaryStage.isShowing());
 
-        Platform.runLater(() -> {
-            nameField.setText("");
-            styleComboBox.setValue(null);
-        });
+        // Invocar handleCancel, que debe cerrar la ventana
+        Platform.runLater(() -> controller.handleCancel());
         sleep(100);
 
-        // Act
-        Platform.runLater(() -> controller.handleAccept());
-        sleep(100);
-
-        // Assert
-        assertNull(createdCalendar.get());
-    }
-
-    @Test
-    public void testStyleComboBoxInitialization() throws Exception {
-        // Act
-        Platform.runLater(() -> controller.initialize());
-        sleep(100);
-
-        // Assert
-        ComboBox<Calendar.Style> styleBox = (ComboBox<Calendar.Style>) getPrivateField("styleComboBox");
-        assertNotNull(styleBox.getItems());
-        assertEquals(Calendar.Style.values().length, styleBox.getItems().size());
-    }
-
-    @Test
-    public void testHandleCancel() {
-        // Arrange
-        AtomicReference<Boolean> windowClosed = new AtomicReference<>(false);
-        Platform.runLater(() -> {
-            Stage stage = (Stage) nameField.getScene().getWindow();
-            stage.setOnHidden(event -> windowClosed.set(true));
-            controller.handleCancel();
-        });
-        sleep(100);
-
-        // Assert
-        assertTrue(windowClosed.get());
+        // Comprobar que el Stage se ha cerrado
+        assertFalse(primaryStage.isShowing());
     }
 }

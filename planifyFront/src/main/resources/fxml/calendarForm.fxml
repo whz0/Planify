@@ -18,9 +18,6 @@
     <Label text="Descripción:" styleClass="form-label" />
     <TextField fx:id="descriptionField" styleClass="form-textfield" />
 
-    <Label text="Color:" styleClass="form-label" />
-    <ComboBox fx:id="styleComboBox" styleClass="form-combobox" />
-
     <Separator />
 
     <HBox spacing="10" alignment="CENTER" styleClass="form-buttons">
