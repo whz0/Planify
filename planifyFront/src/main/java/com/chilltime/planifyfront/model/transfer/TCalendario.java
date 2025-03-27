@@ -67,4 +67,15 @@ public class TCalendario {
     public void setId_usuario(Long id_usuario) {
         this.id_usuario = id_usuario;
     }
+
+    public String toString() {
+        return "TCalendario{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", activo=" + activo +
+                ", tipo='" + tipo + '\'' +
+                ", id_usuario=" + id_usuario +
+                '}';
+    }
 }
