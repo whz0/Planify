@@ -91,25 +91,33 @@ public class CalendarFormController {
         }
         // Llamar a la API para crear nuevo calendario privado
         TCalendario calendar = toTCalendario(newCalendar);
+        calendar.setId_usuario(1L);
+        System.out.println(calendar);
         Task<String> apiTask = ServiceFactory.getInstance().crearCalendarioSA().crearCalendario(calendar);
         apiTask.setOnSucceeded(e->{
             try {
                 TContext contexto = gson.fromJson(apiTask.getValue(), TContext.class);
-                TCalendario calendarioReturned = (TCalendario) contexto.getData();
-                // Asumimos que la API devuelve el ID y lo asignamos
-                calendar.setId(calendarioReturned.getId());
+                if (contexto.getData() == null) {
+                    showErrorDialog("Error de la API", contexto.getMessage());
+                }else{
+                    System.out.println(contexto.getData());
+                    TCalendario calendarioReturned = gson.fromJson(gson.toJson(contexto.getData()), TCalendario.class);
+                    // Asumimos que la API devuelve el ID y lo asignamos
+                    calendar.setId(calendarioReturned.getId());
 
-                DashboardController dashboardController = DashboardControllerSingleton.getInstance();
-                if (dashboardController != null) {
-                    dashboardController.addCalendar(calendar);
+                    DashboardController dashboardController = DashboardControllerSingleton.getInstance();
+                    if (dashboardController != null) {
+                        dashboardController.addCalendar(calendar);
+                    }
+                    showSuccessDialog("Calendario creado", "El calendario se ha creado correctamente.");
                 }
-                showSuccessDialog("Calendario creado", "El calendario se ha creado correctamente.");
             } catch (JsonSyntaxException | IOException ex) {
                 showErrorDialog("Error", ex.getMessage()); //TODO hacerlo mas concreto
             }
         });
         apiTask.setOnFailed(e -> {
-            showErrorDialog("Error de conexión", "Error inesperado");
+            System.out.println("Mensaje de error: " + apiTask.getValue());
+            //showErrorDialog("Error con la API", apiTask);
         });
         new Thread(apiTask).start();
 

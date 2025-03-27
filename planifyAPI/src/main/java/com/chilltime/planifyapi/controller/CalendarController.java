@@ -22,8 +22,7 @@ public class CalendarController {
             cont = calendarService.createPrivateCalendar(cal);
         }
         catch (Exception e) {
-            cont = new TContext(500, "Error en la API " + e.getMessage(), null);
-            return ResponseEntity.status(cont.getStatus_code()).body(cont);
+            cont = new TContext(200, e.getMessage(), null);
         }
 
         return ResponseEntity.status(cont.getStatus_code()).body(cont);
