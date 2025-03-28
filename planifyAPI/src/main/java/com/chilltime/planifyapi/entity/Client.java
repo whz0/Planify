@@ -25,6 +25,9 @@ public class Client implements UserDetails {
 
     private String role;
 
+    @Version
+    private long version;
+
     @OneToMany(mappedBy = "client")
     @JsonManagedReference
     private List<Calendar> calendars;

@@ -1,14 +1,13 @@
 package com.chilltime.planifyapi.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Set;
 
 @Entity
 @Data
@@ -27,4 +26,11 @@ public class Event {
     private String location;
 
     private boolean active;
+
+    @Version
+    private long version;
+
+    @ManyToMany(mappedBy = "events")
+    @JsonBackReference
+    private Set<Calendar> calendars;
 }
