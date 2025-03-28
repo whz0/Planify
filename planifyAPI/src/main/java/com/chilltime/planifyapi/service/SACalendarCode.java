@@ -1,6 +1,6 @@
 package com.chilltime.planifyapi.service;
 
-import com.chilltime.planifyapi.entity.Codigo;
+import com.chilltime.planifyapi.entity.CalendarCode;
 import com.chilltime.planifyapi.repository.CodigoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 
 @Service
-public class SACodigo {
+public class SACalendarCode {
 
     @Autowired
     private CodigoRepository codigoRepository;
@@ -18,7 +18,7 @@ public class SACodigo {
     private static final String CODE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     @Transactional
-    public Codigo createCode() {
+    public CalendarCode createCode() {
         Random random = new Random();
         StringBuilder sb = new StringBuilder(CODE_LENGTH);
 
@@ -27,10 +27,10 @@ public class SACodigo {
             sb.append(CODE_CHARACTERS.charAt(index));
         }
 
-        Codigo codigo = new Codigo();
-        codigo.setCodigo(sb.toString());
-        codigoRepository.save(codigo);
+        CalendarCode calendarCode = new CalendarCode();
+        calendarCode.setCodigo(sb.toString());
+        codigoRepository.save(calendarCode);
 
-        return codigo;
+        return calendarCode;
     }
 }
