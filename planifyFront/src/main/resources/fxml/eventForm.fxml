@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.chilltime.planifyfront.controller.EventFormController" stylesheets="@../styling/styles.css" styleClass="form-container">
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/21.0.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.chilltime.planifyfront.controller.EventFormController" stylesheets="@../styling/styles.css" styleClass="form-container">
     <Label text="Nombre del Evento:" styleClass="form-label" />
     <TextField fx:id="nombreField" styleClass="form-textfield" />
 
