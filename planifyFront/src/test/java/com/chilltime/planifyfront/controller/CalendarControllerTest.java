@@ -18,6 +18,7 @@ public class CalendarControllerTest extends BaseJavaFxTest {
     private CalendarFormController controller;
     private CalendarSource calendarSource;
     private Stage primaryStage;
+    //private CalendarCodeFormController calendarcodecontroller;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -93,4 +94,24 @@ public class CalendarControllerTest extends BaseJavaFxTest {
         // Comprobar que el Stage se ha cerrado
         assertFalse(primaryStage.isShowing());
     }
+
+  /*  @Test
+    public void testGenerateCalendarCode () throws Exception {
+        // Simular la interacción del usuario para generar un código de invitación
+        Platform.runLater(() -> {
+            //Llamar al método que genera el código de invitación
+            String generatedCode = CalendarCodecontroller.generateCalendarCode();
+
+            // Verificar que el código generado no es nulo y tiene la longitud esperada
+            assertNotNull(generatedCode);
+            assertEquals(6, generatedCode.length());
+
+            // Verificar que el código generado contiene solo caracteres permitidos
+            assertTrue(generatedCode.matches("[A-Z0-9]+"));
+        });
+
+        // Esperar un poco para que se ejecute el código asíncrono
+        sleep(100);
+    }
+    */
 }
