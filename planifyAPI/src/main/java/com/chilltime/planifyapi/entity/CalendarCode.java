@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class Codigo {
+public class CalendarCode {
     @OneToOne(mappedBy = "codigo")
-    private Calendario calendario;
+    private Calendar calendario;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
