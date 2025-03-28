@@ -1,6 +1,6 @@
 package com.chilltime.planifyfront.view;
 
-import com.chilltime.planifyfront.model.transfer.TEvento;
+import com.chilltime.planifyfront.model.transfer.TEvent;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -23,7 +23,7 @@ public class FullCalendarView {
     private VBox view;
     private Text calendarTitle;
     private YearMonth currentYearMonth;
-    private HashMap<LocalDate, List<TEvento>> events;
+    private HashMap<LocalDate, List<TEvent>> events;
 
     /**
      * Crea la vista del calendario para el mes indicado.
@@ -83,8 +83,8 @@ public class FullCalendarView {
         view = new VBox(titleBar, dayLabels, calendar);
     }
 
-    public void addEvent(TEvento evento) {
-        LocalDate eventDate = evento.getFecha();
+    public void addEvent(TEvent evento) {
+        LocalDate eventDate = evento.getDate();
         events.putIfAbsent(eventDate, new ArrayList<>());
         events.get(eventDate).add(evento);
         Platform.runLater(() -> {
@@ -126,7 +126,7 @@ public class FullCalendarView {
             // Set date and add event markers
             ap.setDate(calendarDate);
             if (events.containsKey(calendarDate)) {
-                List<TEvento> dayEvents = events.get(calendarDate);
+                List<TEvent> dayEvents = events.get(calendarDate);
                 for (int i = 0; i < dayEvents.size(); i++) {
                     ap.addEventMarker();
                 }
@@ -178,7 +178,7 @@ public class FullCalendarView {
         populateCalendar(currentYearMonth);
     }
 
-    public List<TEvento> getEventsForDate(LocalDate date) {
+    public List<TEvent> getEventsForDate(LocalDate date) {
         return events.getOrDefault(date, new ArrayList<>());
     }
 

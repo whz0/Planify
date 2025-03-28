@@ -25,7 +25,6 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         primaryStage = stage;
-        primaryStage.initStyle(StageStyle.UNDECORATED);
         changeView("dashboard", "Planify"); // Carga la primera vista
     }
 
