@@ -29,7 +29,7 @@ public class AnchorPaneNode extends AnchorPane {
 
         this.setOnMouseClicked(e -> {
             try {
-                DashboardControllerSingleton.getInstance().updateEventsPanel(date);
+                DashboardControllerSingleton.getInstance();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
