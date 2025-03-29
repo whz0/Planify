@@ -6,6 +6,7 @@ import com.chilltime.planifyapi.repository.CalendarRepository;
 import com.chilltime.planifyapi.repository.ClientRepository;
 import com.chilltime.planifyapi.service.SACalendar;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,6 +59,12 @@ public class CalendarControllerIntegrationTest {
         client.setUsername("Pepe");
         client.setCalendars(new ArrayList<Calendar>());
         clientRepository.save(client);
+    }
+
+    @AfterEach
+    void tearDown(){
+        calendarRepository.deleteAll();
+        clientRepository.deleteAll();
     }
 
     @Test
