@@ -23,6 +23,9 @@ public class SACalendar {
         Client client = clientRepository.findById(calendar.getId_client()).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         calendar.setClient(client);
 
+        System.out.println("Cliente ID: " + calendar.getId_client());
+        System.out.println("Calendarios en BD: " + calendarRepository.count());
+
         validateCalendar(calendar.getName(), calendar.getDescription(), calendar.getClient());
 
         return new TContext(200, "Creado correctamente", calendarRepository.save(calendar));
