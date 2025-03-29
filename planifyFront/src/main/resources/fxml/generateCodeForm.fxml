@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/21.0.0"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.chilltime.planifyfront.controller.GenerateCodeFormController"
+      stylesheets="@../styling/styles.css"
+      styleClass="form-container">
+
+    <Label text="Código de Invitación:" styleClass="form-label" />
+
+    <TextField fx:id="codeTextField" editable="false"
+               styleClass="form-textfield form-codefield"
+               style="-fx-alignment: center;"/>
+
+    <HBox spacing="10" alignment="CENTER" styleClass="form-buttons">
+        <Button text="Generar Nuevo" onAction="#handleGenerate" styleClass="form-button generate-button" />
+        <Button text="Cancelar" onAction="#handleCancel" styleClass="form-button" />
+    </HBox>
+
+</VBox>

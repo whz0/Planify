@@ -9,8 +9,10 @@ import com.chilltime.planifyfront.model.transfer.TCalendar;
 import com.chilltime.planifyfront.model.transfer.TEvent;
 import com.chilltime.planifyfront.utils.CalendarUtils;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -23,6 +25,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+
+import static com.chilltime.planifyfront.utils.DialogWindows.showErrorDialog;
 
 public class DashboardController {
 
@@ -232,6 +236,25 @@ public class DashboardController {
     public void addCalendar(TCalendar calendari) {
         Calendar<TEvent> calendar = CalendarUtils.toCalendar(calendari);
         userCalendarSource.getCalendars().add(calendar);
+    }
+
+    public void generarCodigoForm(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/generateCodeForm.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Generar Código de Invitación");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.initModality(Modality.WINDOW_MODAL);
+
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            showErrorDialog("Error Crítico",
+                    "No se pudo inicializar el generador de códigos: " + e.getMessage());
+        }
     }
 }
 
