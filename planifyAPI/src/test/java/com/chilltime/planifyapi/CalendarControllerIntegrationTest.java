@@ -77,6 +77,10 @@ public class CalendarControllerIntegrationTest {
         calendar.setType("privado");
         calendar.setId_client(1L);
 
+        System.out.println("Cliente ID: " + calendar.getId_client());
+        System.out.println("Calendarios en BD: " + calendarRepository.count());
+        calendarRepository.save(calendar);
+
         // Save the calendar using the service
         TContext context = calendarService.createPrivateCalendar(calendar);
 
