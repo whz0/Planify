@@ -64,6 +64,12 @@ public class CalendarControllerIntegrationTest {
         clientRepository.save(client);
     }
 
+    @AfterEach
+    void tearDownDatas(){
+        calendarRepository.deleteAll();
+        clientRepository.deleteAll();
+    }
+
     @Test
     void connectionEstablished(){
         assertThat(postgreSQLContainer.isCreated()).isTrue();
