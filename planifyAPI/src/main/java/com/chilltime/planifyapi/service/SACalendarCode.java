@@ -27,11 +27,8 @@ public class SACalendarCode {
             int index = random.nextInt(CODE_CHARACTERS.length());
             sb.append(CODE_CHARACTERS.charAt(index));
         }
+        code.setCodigo(sb.toString());
 
-        CalendarCode calendarCode = new CalendarCode();
-        calendarCode.setCodigo(sb.toString());
-        codigoRepository.save(calendarCode);
-
-        return new TContext(200, "Creado correctamente", calendarCode);
+        return new TContext(200, "Creado correctamente", codigoRepository.save(code));
     }
 }
