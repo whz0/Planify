@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -29,8 +30,27 @@ public class SACalendarCode {
 
         CalendarCode calendarCode = new CalendarCode();
         calendarCode.setCodigo(sb.toString());
+        calendarCode.setUsado(false);
         codigoRepository.save(calendarCode);
 
         return calendarCode;
     }
+
+    @Transactional
+    public boolean validateCode(String code) {
+        if(code == null || code.isEmpty()) {
+            return false;
+        }
+        Optional<CalendarCode> optionalCode= codigoRepository.findByCodigo(code);
+        if(optionalCode.isPresent()) {
+            CalendarCode calendarCode = optionalCode.get();
+            if(!calendarCode.isUsado()) {
+                calendarCode.setUsado(true);
+                codigoRepository.save(calendarCode);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

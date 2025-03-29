@@ -1,10 +1,6 @@
 package com.chilltime.planifyapi.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,4 +16,7 @@ public class CalendarCode {
     private Long id;
     private String codigo;
     private boolean usado = false;
+
+    @Version
+    private long version;
 }
