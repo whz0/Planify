@@ -1,5 +1,7 @@
 package com.chilltime.planifyapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class CalendarCode {
-    @OneToOne(mappedBy = "codigo")
-    private Calendar calendario;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,4 +20,7 @@ public class CalendarCode {
 
     @Version
     private long version;
+
+    @OneToOne
+    private Calendar calendario;
 }

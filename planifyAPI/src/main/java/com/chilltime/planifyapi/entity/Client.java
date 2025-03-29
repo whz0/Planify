@@ -1,6 +1,8 @@
 package com.chilltime.planifyapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Data
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Client implements UserDetails {
 
     @Id
@@ -29,7 +32,6 @@ public class Client implements UserDetails {
     private long version;
 
     @OneToMany(mappedBy = "client")
-    @JsonManagedReference
     private List<Calendar> calendars;
 
     @Override
