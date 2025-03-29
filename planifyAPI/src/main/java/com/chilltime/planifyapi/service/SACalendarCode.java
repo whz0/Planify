@@ -1,5 +1,6 @@
 package com.chilltime.planifyapi.service;
 
+import com.chilltime.planifyapi.TContext;
 import com.chilltime.planifyapi.entity.CalendarCode;
 import com.chilltime.planifyapi.repository.CodigoRepository;
 import jakarta.transaction.Transactional;
@@ -18,7 +19,7 @@ public class SACalendarCode {
     private static final String CODE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     @Transactional
-    public CalendarCode createCode() {
+    public TContext createCode() {
         Random random = new Random();
         StringBuilder sb = new StringBuilder(CODE_LENGTH);
 
@@ -31,6 +32,6 @@ public class SACalendarCode {
         calendarCode.setCodigo(sb.toString());
         codigoRepository.save(calendarCode);
 
-        return calendarCode;
+        return new TContext(200, "Creado correctamente", calendarCode);
     }
 }
