@@ -15,6 +15,15 @@ on:
 jobs:
   test-backend:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: planifydb
+        ports:
+          - 5432:5432
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 21 for x64

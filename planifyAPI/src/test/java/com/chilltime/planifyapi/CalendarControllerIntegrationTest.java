@@ -37,7 +37,8 @@ public class CalendarControllerIntegrationTest {
     public static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:latest")
             .withDatabaseName("planifydb")
             .withUsername("user")
-            .withPassword("password");
+            .withPassword("password")
+            .withReuse(false);
 
     @Autowired
     private SACalendar calendarService;
