@@ -28,7 +28,7 @@ public class Client implements UserDetails {
     @Version
     private long version;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Calendar> calendars;
 
