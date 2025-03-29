@@ -58,7 +58,7 @@ public class CalendarControllerUnitTest {
         ResponseEntity<TContext> response = calendarController.CreatePrivateCalendar(calendar);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(400, response.getStatusCodeValue());
         assertEquals("El nombre es obligatorio y no puede estar compuesto por espacios en blanco.", response.getBody().getMessage());
         assertNull(response.getBody().getData());
     }
@@ -75,7 +75,7 @@ public class CalendarControllerUnitTest {
         ResponseEntity<TContext> response = calendarController.CreatePrivateCalendar(calendar);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(400, response.getStatusCodeValue());
         assertEquals("La descripción debe tener un máximo de 255 caracteres.", response.getBody().getMessage());
         assertNull(response.getBody().getData());
     }
@@ -92,7 +92,7 @@ public class CalendarControllerUnitTest {
         ResponseEntity<TContext> response = calendarController.CreatePrivateCalendar(calendar);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(400, response.getStatusCodeValue());
         assertEquals("El nombre ya está en uso por otro calendario privado suyo. Por favor, elija otro nombre.", response.getBody().getMessage());
         assertNull(response.getBody().getData());
     }
@@ -109,7 +109,7 @@ public class CalendarControllerUnitTest {
         ResponseEntity<TContext> response = calendarController.CreatePrivateCalendar(calendar);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(400, response.getStatusCodeValue());
         assertEquals("El nombre debe contener solo caracteres alfanuméricos y espacios.", response.getBody().getMessage());
         assertNull(response.getBody().getData());
     }
@@ -126,7 +126,7 @@ public class CalendarControllerUnitTest {
         ResponseEntity<TContext> response = calendarController.CreatePrivateCalendar(calendar);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(400, response.getStatusCodeValue());
         assertEquals("Usuario no encontrado", response.getBody().getMessage());
         assertNull(response.getBody().getData());
     }
