@@ -1,19 +1,26 @@
 package com.chilltime.planifyapi.service;
 
+import com.chilltime.planifyapi.TContext;
+import com.chilltime.planifyapi.entity.Calendar;
 import com.chilltime.planifyapi.entity.Event;
 
+import com.chilltime.planifyapi.repository.CalendarRepository;
 import com.chilltime.planifyapi.repository.EventRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class SAEvent {
 
     @Autowired
     private EventRepository eventRepository;
+
+    @Autowired
+    private CalendarRepository calendarRepository;
 
     @Transactional
     public Event createEvent(Event event){
@@ -46,6 +53,12 @@ public class SAEvent {
             }
         }
         return true;
+    }
+
+    @Transactional
+    public TContext getEventsByCalendarId(Long idCalendar) {
+        Calendar calendar = calendarRepository.findById(idCalendar).orElseThrow(()->new RuntimeException());
+        return new TContext(200, "Eventos obtenidos correctamente", eventRepository.findByCalendars(calendar));
     }
 
     //public int eliminarEvento();
