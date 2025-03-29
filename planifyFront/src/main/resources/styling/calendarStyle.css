@@ -170,3 +170,79 @@
 .events-scrollpane .viewport {
     -fx-background-color: transparent;
 }
+
+/* AJustes accordion */
+
+/* Existing styles remain the same */
+
+/* Accordion and TitledPane Styling */
+.accordion {
+    -fx-background-color: transparent;
+}
+
+.accordion .titled-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 5px 0;
+}
+
+.accordion .titled-pane > .title {
+    -fx-background-color: #7289da;
+    -fx-text-fill: #FFF;
+    -fx-font-size: 12px;
+    -fx-padding: 8px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2);
+    -fx-padding: 5px; /* Reducido el padding */
+}
+
+.accordion .titled-pane > .title:hover {
+    -fx-background-color: #0056b3;
+}
+
+.accordion .titled-pane > .title:pressed {
+    -fx-background-color: #004085;
+}
+
+.accordion .titled-pane > .content {
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 10px;
+    -fx-background-radius: 0 0 5px 5px;
+}
+
+.accordion .titled-pane:expanded > .title {
+    -fx-background-color: #0056b3;
+    -fx-text-fill: #FFFFFF;
+}
+
+/* Animation for expanding/collapsing */
+.accordion .titled-pane {
+    -fx-background-radius: 5px;
+    -fx-background-insets: 0;
+    -fx-background-color: transparent;
+    -fx-transition: all 0.3s ease;
+}
+
+.accordion .titled-pane > .content {
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 10px;
+    -fx-background-radius: 0 0 5px 5px;
+    -fx-opacity: 0;
+    -fx-max-height: 0;
+    -fx-transition: all 0.3s ease;
+}
+
+.accordion .titled-pane:expanded > .content {
+    -fx-opacity: 1;
+    -fx-max-height: 300px; /* Adjust as needed */
+}
+
+/* Ensure buttons inside accordion have consistent styling */
+.accordion .button-sidebar {
+    -fx-margin: 5px 0;
+    -fx-padding: 8px;
+    -fx-min-width: 150px;
+    -fx-pref-height: 30px;
+
+}
