@@ -6,10 +6,7 @@ import com.chilltime.planifyapi.repository.CalendarRepository;
 import com.chilltime.planifyapi.repository.ClientRepository;
 import com.chilltime.planifyapi.service.SACalendar;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -49,6 +46,12 @@ public class CalendarControllerIntegrationTest {
         System.setProperty("spring.datasource.url", postgreSQLContainer.getJdbcUrl());
         System.setProperty("spring.datasource.username", postgreSQLContainer.getUsername());
         System.setProperty("spring.datasource.password", postgreSQLContainer.getPassword());
+        postgreSQLContainer.start();
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        postgreSQLContainer.stop();
     }
 
     @BeforeEach
