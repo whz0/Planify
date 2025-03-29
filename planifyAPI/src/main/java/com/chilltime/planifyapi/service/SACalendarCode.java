@@ -19,7 +19,7 @@ public class SACalendarCode {
     private static final String CODE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     @Transactional
-    public TContext createCode() {
+    public TContext createCode(CalendarCode code) {
         Random random = new Random();
         StringBuilder sb = new StringBuilder(CODE_LENGTH);
 

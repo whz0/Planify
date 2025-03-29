@@ -19,7 +19,7 @@ public class CodeController {
         // TODO: Catch exception y retornar un código HTTP que no sea 200
         TContext codec = new TContext();
         try {
-            codec = codeService.createCode();
+            codec = codeService.createCode(code);
         }
 
         catch (IllegalArgumentException e) {
