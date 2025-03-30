@@ -7,6 +7,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Service
@@ -22,14 +24,13 @@ public class SAEvent {
             throw new IllegalArgumentException("Rellene todos los campos vacíos");
         }
 
-        if(event.getDate().isBefore(new Date().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate()) ||
-                (event.getDate().isEqual(new Date().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate()) &&
-                        event.getTime().isBefore(new Date().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalTime()))){
+        if (event.getDate().isBefore(LocalDate.now()) ||
+                (event.getDate().isEqual(LocalDate.now()) && event.getTime().isBefore(LocalTime.now()))) {
             throw new IllegalArgumentException("La fecha no puede ser anterior a la fecha actual");
         }
 
-        if(event.getName().length() >= 20){
-            throw new IllegalArgumentException("El campo nombre no puede tener menos de 20 caracteres");
+        if (event.getName().length() > 20) {
+            throw new IllegalArgumentException("El campo nombre no puede tener más de 20 caracteres");
         }
 
         if(!isASCII(event.getName()) || !isASCII(event.getLocation())){

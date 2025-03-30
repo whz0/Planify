@@ -1,6 +1,5 @@
 package com.chilltime.planifyapi.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -28,7 +27,6 @@ public class Calendar {
     private Long id_client;
 
     @ManyToOne
-    @JsonBackReference
     private Client client;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

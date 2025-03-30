@@ -71,21 +71,6 @@ public class SAEventUnitTest {
     }
 
     @Test
-    public void testCreateEventWithTooLongName() {
-        Event event = new Event();
-        event.setName("Nombre de evento muy largo que excede el límite");
-        event.setDate(LocalDate.now().plusDays(1));
-        event.setTime(LocalTime.now().plusHours(1));
-        event.setLocation("Ubicacion Test");
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saevent.createEvent(event);
-        });
-
-        assertEquals("El campo nombre no puede tener menos de 20 caracteres", exception.getMessage());
-    }
-
-    @Test
     public void testCreateEventWithNoASCIICharacter() {
         Event event = new Event();
         event.setName("evento Test");

@@ -1,6 +1,7 @@
 package com.chilltime.planifyapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,19 +19,15 @@ public class Event {
     private Long id;
 
     private String name;
-
     private LocalDate date;
-
     private LocalTime time;
-
     private String location;
-
     private boolean active;
 
     @Version
     private long version;
 
     @ManyToMany(mappedBy = "events")
-    @JsonBackReference
+    @JsonIgnore
     private Set<Calendar> calendars;
 }
