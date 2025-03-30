@@ -3,8 +3,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?xml version="1.0" encoding="UTF-8"?>
-
 <VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/21.0.0"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.chilltime.planifyfront.controller.GenerateCodeFormController"

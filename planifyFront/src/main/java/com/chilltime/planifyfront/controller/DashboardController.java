@@ -246,12 +246,12 @@ public class DashboardController {
             Stage stage = new Stage();
             stage.setTitle("Generar Código de Invitación");
             stage.setScene(new Scene(root));
-            stage.setResizable(false);
-            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initModality(Modality.APPLICATION_MODAL);
 
             stage.showAndWait();
 
         } catch (IOException e) {
+            e.printStackTrace(); // Agrega esta línea para obtener más detalles del error
             showErrorDialog("Error Crítico",
                     "No se pudo inicializar el generador de códigos: " + e.getMessage());
         }
