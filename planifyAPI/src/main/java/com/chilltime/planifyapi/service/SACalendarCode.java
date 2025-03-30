@@ -30,14 +30,14 @@ public class SACalendarCode {
     public TContext createCode(CalendarCode code) {
 
         // Verificar si el usuario tiene permiso
-        Optional<Calendar> calendarOpt = calendarRepository.findById(code.getCalendario().getId());
+        Optional<Calendar> calendarOpt = calendarRepository.findById(code.getCalendar().getId());
 
         if (calendarOpt.isEmpty()) {
             return new TContext(404, "Calendario no encontrado", null);
         }
 
         Calendar calendar = calendarOpt.get();
-        boolean esPropietario = calendar.getClient().getId().equals(code.getCalendario().getClient().getId());
+        boolean esPropietario = calendar.getClient().getId().equals(code.getCalendar().getClient().getId());
 
         // Si el calendario es público y el usuario no tiene permisos, bloquear
         if (!"private".equalsIgnoreCase(calendar.getType()) && !esPropietario) {
@@ -50,7 +50,7 @@ public class SACalendarCode {
             int index = random.nextInt(CODE_CHARACTERS.length());
             sb.append(CODE_CHARACTERS.charAt(index));
         }
-        code.setCodigo(sb.toString());
+        code.setCode(sb.toString());
 
         return new TContext(200, "Creado correctamente", codigoRepository.save(code));
     }

@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class CalendarCode {
-    @OneToOne(mappedBy = "codigo")
-    private Calendar calendario;
+    @ManyToOne()
+    private Calendar calendar;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String codigo;
-    private boolean usado = false;
+    private String code;
+    private boolean used;
 
     @Version
     private long version;

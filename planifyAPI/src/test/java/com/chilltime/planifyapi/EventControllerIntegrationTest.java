@@ -45,7 +45,7 @@ public class EventControllerIntegrationTest {
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"name\": \"Evento\", \"date\": \"2025-12-31\", \"time\": \"10:00\", \"location\": \"Ubicacion\"}"));
+                .content("{\"name\": \"Evento\", \"date\": \"2028-12-31\", \"time\": \"10:00\", \"location\": \"Ubicacion\", \"active\": \"true\"}"));
 
         // Check that the event was created successfully
         result.andExpect(status().is(200));

@@ -40,4 +40,6 @@ public class Calendar {
     @JsonManagedReference
     private Set<Event> events;
 
+    @OneToMany(mappedBy = "calendar")
+    private Set<CalendarCode> codes;
 }
