@@ -1,12 +1,16 @@
 package com.chilltime.planifyapi.service;
 
 import com.chilltime.planifyapi.TContext;
+import com.chilltime.planifyapi.entity.Calendar;
 import com.chilltime.planifyapi.entity.CalendarCode;
+import com.chilltime.planifyapi.repository.CalendarRepository;
+import com.chilltime.planifyapi.repository.ClientRepository;
 import com.chilltime.planifyapi.repository.CodigoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -14,12 +18,31 @@ public class SACalendarCode {
 
     @Autowired
     private CodigoRepository codigoRepository;
+    @Autowired
+    private CalendarRepository calendarRepository;
+    @Autowired
+    private ClientRepository clientRepository;
 
     private static final int CODE_LENGTH = 6;
     private static final String CODE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     @Transactional
     public TContext createCode(CalendarCode code) {
+
+        // Verificar si el usuario tiene permiso
+        Optional<Calendar> calendarOpt = calendarRepository.findById(code.getCalendario().getId());
+
+        if (calendarOpt.isEmpty()) {
+            return new TContext(404, "Calendario no encontrado", null);
+        }
+
+        Calendar calendar = calendarOpt.get();
+        boolean esPropietario = calendar.getClient().getId().equals(code.getCalendario().getClient().getId());
+
+        // Si el calendario es público y el usuario no tiene permisos, bloquear
+        if (!"private".equalsIgnoreCase(calendar.getType()) && !esPropietario) {
+            return new TContext(403, "No puedes generar un código para un calendario público sin permisos", null);
+        }
         Random random = new Random();
         StringBuilder sb = new StringBuilder(CODE_LENGTH);
 
