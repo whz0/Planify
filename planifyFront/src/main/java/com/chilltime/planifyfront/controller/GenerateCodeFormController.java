@@ -31,7 +31,7 @@ public class GenerateCodeFormController {
     }
 
     @FXML
-    private void handleGenerate() {
+    void handleGenerate() {
         generateNewCode();
     }
 

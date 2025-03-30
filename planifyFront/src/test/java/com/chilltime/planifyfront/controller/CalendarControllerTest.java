@@ -95,16 +95,31 @@ public class CalendarControllerTest extends BaseJavaFxTest {
         assertFalse(primaryStage.isShowing());
     }
 
-  /*  @Test
-    public void testGenerateCalendarCode () throws Exception {
+
+    private void setPrivateField(Object object, String fieldName, Object value) throws Exception {
+        Field field = object.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        field.set(object, value);
+    }
+
+    @Test
+    public void testGenerateCalendarCode() throws Exception {
+        // Crear una instancia del controlador
+        GenerateCodeFormController controller = new GenerateCodeFormController();
+
+        // Crear e inyectar el TextField para el código
+        TextField codeTextField = new TextField();
+        setPrivateField(controller, "codeTextField", codeTextField);
+
         // Simular la interacción del usuario para generar un código de invitación
         Platform.runLater(() -> {
-            //Llamar al método que genera el código de invitación
-            String generatedCode = CalendarCodecontroller.generateCalendarCode();
+            // Llamar al método que genera el código de invitación
+            controller.handleGenerate();
 
             // Verificar que el código generado no es nulo y tiene la longitud esperada
+            String generatedCode = codeTextField.getText();
             assertNotNull(generatedCode);
-            assertEquals(6, generatedCode.length());
+            assertEquals(8, generatedCode.length());
 
             // Verificar que el código generado contiene solo caracteres permitidos
             assertTrue(generatedCode.matches("[A-Z0-9]+"));
@@ -113,5 +128,6 @@ public class CalendarControllerTest extends BaseJavaFxTest {
         // Esperar un poco para que se ejecute el código asíncrono
         sleep(100);
     }
-    */
+
+
 }
