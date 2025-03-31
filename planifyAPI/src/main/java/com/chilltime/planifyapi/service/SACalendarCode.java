@@ -8,6 +8,7 @@ import com.chilltime.planifyapi.repository.ClientRepository;
 import com.chilltime.planifyapi.repository.CodigoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -53,11 +54,11 @@ public class SACalendarCode {
         code.setCode(sb.toString());
 
         CalendarCode calendarCode = new CalendarCode();
-        calendarCode.setCodigo(sb.toString());
-        calendarCode.setUsado(false);
+        calendarCode.setCode(sb.toString());
+        calendarCode.setUsed(false);
         codigoRepository.save(calendarCode);
 
-        return calendarCode;
+        return new TContext(200,"Se ha registrado el codigo de union",calendarCode);
     }
 
     @Transactional
@@ -68,8 +69,8 @@ public class SACalendarCode {
         Optional<CalendarCode> optionalCode= codigoRepository.findByCodigo(code);
         if(optionalCode.isPresent()) {
             CalendarCode calendarCode = optionalCode.get();
-            if(!calendarCode.isUsado()) {
-                calendarCode.setUsado(true);
+            if(!calendarCode.isUsed()) {
+                calendarCode.setUsed(true);
                 codigoRepository.save(calendarCode);
                 return true;
             }

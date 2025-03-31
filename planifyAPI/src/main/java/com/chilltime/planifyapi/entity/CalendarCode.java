@@ -22,5 +22,5 @@ public class CalendarCode {
     private long version;
 
     @ManyToOne
-    private Calendar calendario;
+    private Calendar calendar;
 }
