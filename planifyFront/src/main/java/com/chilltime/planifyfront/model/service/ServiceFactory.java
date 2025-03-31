@@ -4,7 +4,7 @@ public abstract class ServiceFactory {
 
     private static ServiceFactory instance;
 
-    public static ServiceFactory getInstance() {
+    public static synchronized ServiceFactory getInstance() {
         if (instance == null) {
             instance = new ServiceFactoryImp();
         }

@@ -35,4 +35,18 @@ public class EventSA {
             }
         };
     }
+
+    public Task<String> getEventsByCalendarId(Long calendarId) {
+        return new Task<>() {
+            @Override
+            protected String call() throws Exception {
+                try {
+                    return apiClient.get(BASE_URL + "/" + calendarId + "/events");
+                } catch (IOException e) {
+                    System.err.println("Error during API call: " + e.getMessage());
+                    throw e;
+                }
+            }
+        };
+    }
 }

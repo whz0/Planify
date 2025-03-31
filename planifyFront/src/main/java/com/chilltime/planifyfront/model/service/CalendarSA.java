@@ -36,4 +36,22 @@ public class CalendarSA {
         };
     }
 
+    public Task<String> getCalendarsWithEventsByUserId(Long userId) {
+        return new Task<>() {
+            @Override
+            protected String call() throws Exception {
+                try {
+                    // Obtenemos primero los calendarios del usuario
+                    String calendarsResponse = apiClient.get(BASE_URL + "/user/" + userId);
+
+                    // Procesamos la respuesta para solicitar eventos de cada calendario
+                    return calendarsResponse;
+                } catch (IOException e) {
+                    System.err.println("Error during API call: " + e.getMessage());
+                    throw e;
+                }
+            }
+        };
+    }
+
 }
