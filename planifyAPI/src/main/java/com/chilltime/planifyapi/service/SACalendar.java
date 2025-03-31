@@ -2,7 +2,9 @@ package com.chilltime.planifyapi.service;
 
 import com.chilltime.planifyapi.TContext;
 import com.chilltime.planifyapi.entity.Calendar;
+import com.chilltime.planifyapi.entity.CalendarCode;
 import com.chilltime.planifyapi.entity.Client;
+import com.chilltime.planifyapi.service.SACalendarCode;
 import com.chilltime.planifyapi.repository.CalendarRepository;
 import com.chilltime.planifyapi.repository.ClientRepository;
 import jakarta.transaction.Transactional;
@@ -20,6 +22,9 @@ public class SACalendar {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private SACalendarCode calendarService;
 
     @Transactional
     public TContext createPrivateCalendar(Calendar calendar) {
@@ -79,4 +84,19 @@ public class SACalendar {
         return new TContext(200, "Calendario obtenido correctamente", calendar.get());
     }
 
+    @Transactional
+    public TContext joinCalendar(Long userId, String code) {
+        Client client = clientRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        CalendarCode calendarCode = calendarService.useCode(code);
+
+        if (calendarCode == null) {
+            return new TContext(404, "Código no encontrado", null);
+        }
+
+        calendarCode.getCalendario().setClient(client);
+
+        return new TContext(200, "Se ha unido al usuario al calendario", null);
+    }
 }

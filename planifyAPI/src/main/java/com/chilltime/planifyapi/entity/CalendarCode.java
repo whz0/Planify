@@ -15,8 +15,8 @@ public class CalendarCode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String codigo;
-    private boolean usado = false;
+    private String code;
+    private boolean used = false;
 
     @Version
     private long version;

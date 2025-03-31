@@ -1,7 +1,7 @@
 package com.chilltime.planifyapi.service;
 
 import com.chilltime.planifyapi.entity.CalendarCode;
-import com.chilltime.planifyapi.repository.CodigoRepository;
+import com.chilltime.planifyapi.repository.CalendarCodeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.Random;
 public class SACalendarCode {
 
     @Autowired
-    private CodigoRepository codigoRepository;
+    private CalendarCodeRepository calendarCodeRepository;
 
     private static final int CODE_LENGTH = 6;
     private static final String CODE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -21,17 +21,23 @@ public class SACalendarCode {
     @Transactional
     public CalendarCode createCode() {
         Random random = new Random();
-        StringBuilder sb = new StringBuilder(CODE_LENGTH);
 
-        for (int i = 0; i < CODE_LENGTH; i++) {
-            int index = random.nextInt(CODE_CHARACTERS.length());
-            sb.append(CODE_CHARACTERS.charAt(index));
-        }
+        String code;
+        do {
+            StringBuilder sb = new StringBuilder(CODE_LENGTH);
+
+            for (int i = 0; i < CODE_LENGTH; i++) {
+                int index = random.nextInt(CODE_CHARACTERS.length());
+                sb.append(CODE_CHARACTERS.charAt(index));
+            }
+
+            code = sb.toString();
+        } while (calendarCodeRepository.findByCodeAndUsedFalse(code).isPresent());
 
         CalendarCode calendarCode = new CalendarCode();
-        calendarCode.setCodigo(sb.toString());
-        calendarCode.setUsado(false);
-        codigoRepository.save(calendarCode);
+        calendarCode.setCode(code);
+        calendarCode.setUsed(false);
+        calendarCodeRepository.save(calendarCode);
 
         return calendarCode;
     }
@@ -41,16 +47,29 @@ public class SACalendarCode {
         if(code == null || code.isEmpty()) {
             return false;
         }
-        Optional<CalendarCode> optionalCode= codigoRepository.findByCodigo(code);
+        Optional<CalendarCode> optionalCode = calendarCodeRepository.findByCode(code);
         if(optionalCode.isPresent()) {
             CalendarCode calendarCode = optionalCode.get();
-            if(!calendarCode.isUsado()) {
-                calendarCode.setUsado(true);
-                codigoRepository.save(calendarCode);
+            if(!calendarCode.isUsed()) {
+                calendarCodeRepository.save(calendarCode);
                 return true;
             }
         }
         return false;
     }
 
+    @Transactional
+    public CalendarCode useCode(String code) {
+        Optional<CalendarCode> calendarCodeOpt = calendarCodeRepository.findByCodeAndUsedFalse(code);
+
+        if (calendarCodeOpt.isEmpty()) {
+            return null;
+        }
+
+        CalendarCode calendarCode = calendarCodeOpt.get();
+        calendarCode.setUsed(true);
+        calendarCodeRepository.save(calendarCode);
+
+        return calendarCode;
+    }
 }
