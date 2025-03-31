@@ -203,6 +203,37 @@ public class DashboardController {
         }
     }
 
+    @FXML
+    public void unirseCalendario() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/joinCalendarForm.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Unirse a Calendario");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            mostrarAlerta("Error", "No se pudo abrir el formulario para unirse a un calendario.");
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void generarCodigoCalendario() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/generateCalendarCodeForm.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Generar Código de Calendario");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (IOException e) {
+            mostrarAlerta("Error", "No se pudo abrir el formulario para generar código de calendario.");
+            e.printStackTrace();
+        }
+    }
+
     private void mostrarAlerta(String titulo, String contenido) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle(titulo);

@@ -9,6 +9,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class SACalendar {
 
@@ -24,9 +27,24 @@ public class SACalendar {
         calendar.setClient(client);
 
         validateCalendar(calendar.getName(), calendar.getDescription(), calendar.getClient());
-
+        calendar.setActive(true);
+        calendar.setType("PRIVATE");
         return new TContext(200, "Creado correctamente", calendarRepository.save(calendar));
 
+    }
+
+    @Transactional
+    public TContext getCalendarsByUserId(Long userId) {
+        Client client = clientRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        List<Calendar> calendars = calendarRepository.findByClient(client);
+
+        if (calendars.isEmpty()) {
+            return new TContext(404, "No se encontraron calendarios para este usuario", null);
+        }
+
+        return new TContext(200, "Calendarios obtenidos correctamente", calendars);
     }
 
     private void validateCalendar(String name, String description, Client client) {
@@ -50,5 +68,15 @@ public class SACalendar {
         }
     }
 
+    @Transactional
+    public TContext getCalendarById(Long calendarId) {
+        Optional<Calendar> calendar = calendarRepository.findById(calendarId);
+
+        if (calendar.isEmpty()) {
+            return new TContext(404, "Calendario no encontrado", null);
+        }
+
+        return new TContext(200, "Calendario obtenido correctamente", calendar.get());
+    }
 
 }

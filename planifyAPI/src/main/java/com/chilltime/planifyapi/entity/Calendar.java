@@ -1,15 +1,17 @@
 package com.chilltime.planifyapi.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Calendar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,9 +37,10 @@ public class Calendar {
             joinColumns = @JoinColumn(name = "calendar_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id")
     )
-    @JsonManagedReference
     private Set<Event> events;
 
     @OneToMany(mappedBy = "calendar")
     private Set<CalendarCode> codes;
+  
 }
+

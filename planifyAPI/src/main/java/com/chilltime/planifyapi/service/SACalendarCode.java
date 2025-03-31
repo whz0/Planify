@@ -52,6 +52,29 @@ public class SACalendarCode {
         }
         code.setCode(sb.toString());
 
-        return new TContext(200, "Creado correctamente", codigoRepository.save(code));
+        CalendarCode calendarCode = new CalendarCode();
+        calendarCode.setCodigo(sb.toString());
+        calendarCode.setUsado(false);
+        codigoRepository.save(calendarCode);
+
+        return calendarCode;
     }
+
+    @Transactional
+    public boolean validateCode(String code) {
+        if(code == null || code.isEmpty()) {
+            return false;
+        }
+        Optional<CalendarCode> optionalCode= codigoRepository.findByCodigo(code);
+        if(optionalCode.isPresent()) {
+            CalendarCode calendarCode = optionalCode.get();
+            if(!calendarCode.isUsado()) {
+                calendarCode.setUsado(true);
+                codigoRepository.save(calendarCode);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
