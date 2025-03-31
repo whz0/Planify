@@ -97,6 +97,6 @@ public class SACalendar {
 
         calendarCode.getCalendario().setClient(client);
 
-        return new TContext(200, "Se ha unido al usuario al calendario", null);
+        return new TContext(200, "Se ha unido al usuario al calendario", calendarCode);
     }
 }
