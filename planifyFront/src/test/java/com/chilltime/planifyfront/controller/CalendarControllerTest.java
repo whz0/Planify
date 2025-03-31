@@ -18,7 +18,6 @@ public class CalendarControllerTest extends BaseJavaFxTest {
     private CalendarFormController controller;
     private CalendarSource calendarSource;
     private Stage primaryStage;
-    //private CalendarCodeFormController calendarcodecontroller;
 
     @Override
     public void start(Stage stage) throws Exception {

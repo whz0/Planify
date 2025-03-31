@@ -6,6 +6,9 @@ import javafx.stage.Stage;
 
 public class GenerateCodeFormController {
 
+    private static final int CODE_LENGTH = 8;
+    private static final String CODE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
     @FXML
     private TextField codeTextField;
 
@@ -15,17 +18,15 @@ public class GenerateCodeFormController {
     }
 
     private void generateNewCode() {
-        String code = generateRandomCode(8);
+        String code = generateRandomCode(CODE_LENGTH);
         codeTextField.setText(code);
     }
 
     private String generateRandomCode(int length) {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        StringBuilder code = new StringBuilder();
-
-        for(int i = 0; i < length; i++) {
-            int index = (int) (Math.random() * characters.length());
-            code.append(characters.charAt(index));
+        StringBuilder code = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int index = (int) (Math.random() * CODE_CHARACTERS.length());
+            code.append(CODE_CHARACTERS.charAt(index));
         }
         return code.toString();
     }

@@ -44,17 +44,8 @@ public class SACalendarCode {
         if (!"private".equalsIgnoreCase(calendar.getType()) && !esPropietario) {
             return new TContext(403, "No puedes generar un código para un calendario público sin permisos", null);
         }
-        // Generar código único
-        String newCode;
-        Random random = new Random();
-        do {
-            StringBuilder sb = new StringBuilder(CODE_LENGTH);
-            for (int i = 0; i < CODE_LENGTH; i++) {
-                int index = random.nextInt(CODE_CHARACTERS.length());
-                sb.append(CODE_CHARACTERS.charAt(index));
-            }
-            newCode = sb.toString();
-        } while (codigoRepository.findByCode(newCode).isPresent()); // Asegurar que no se repite
+        // Llamada a la función que genera el código
+        String newCode = generateUniqueCode();
 
         // Asignar valores y guardar
         CalendarCode calendarCode = new CalendarCode();
@@ -87,6 +78,20 @@ public class SACalendarCode {
         codigoRepository.save(calendarCode);
 
         return new TContext(200, "Código validado correctamente", calendarCode);
+    }
+
+    private String generateUniqueCode() {
+        Random random = new Random();
+        String newCode;
+        do {
+            StringBuilder sb = new StringBuilder(CODE_LENGTH);
+            for (int i = 0; i < CODE_LENGTH; i++) {
+                int index = random.nextInt(CODE_CHARACTERS.length());
+                sb.append(CODE_CHARACTERS.charAt(index));
+            }
+            newCode = sb.toString();
+        } while (codigoRepository.findByCode(newCode).isPresent());
+        return newCode;
     }
 
 }
