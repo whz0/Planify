@@ -44,38 +44,49 @@ public class SACalendarCode {
         if (!"private".equalsIgnoreCase(calendar.getType()) && !esPropietario) {
             return new TContext(403, "No puedes generar un código para un calendario público sin permisos", null);
         }
+        // Generar código único
+        String newCode;
         Random random = new Random();
-        StringBuilder sb = new StringBuilder(CODE_LENGTH);
+        do {
+            StringBuilder sb = new StringBuilder(CODE_LENGTH);
+            for (int i = 0; i < CODE_LENGTH; i++) {
+                int index = random.nextInt(CODE_CHARACTERS.length());
+                sb.append(CODE_CHARACTERS.charAt(index));
+            }
+            newCode = sb.toString();
+        } while (codigoRepository.findByCode(newCode).isPresent()); // Asegurar que no se repite
 
-        for (int i = 0; i < CODE_LENGTH; i++) {
-            int index = random.nextInt(CODE_CHARACTERS.length());
-            sb.append(CODE_CHARACTERS.charAt(index));
-        }
-        code.setCode(sb.toString());
-
+        // Asignar valores y guardar
         CalendarCode calendarCode = new CalendarCode();
-        calendarCode.setCode(sb.toString());
+        calendarCode.setCode(newCode);
         calendarCode.setUsed(false);
+        calendarCode.setCalendar(calendar);
         codigoRepository.save(calendarCode);
 
         return new TContext(200,"Se ha registrado el codigo de union",calendarCode);
     }
 
     @Transactional
-    public boolean validateCode(String code) {
-        if(code == null || code.isEmpty()) {
-            return false;
+    public TContext validateCode(String code) {
+        if (code == null || code.isEmpty()) {
+            return new TContext(400, "Código inválido", null);
         }
-        Optional<CalendarCode> optionalCode= codigoRepository.findByCodigo(code);
-        if(optionalCode.isPresent()) {
-            CalendarCode calendarCode = optionalCode.get();
-            if(!calendarCode.isUsed()) {
-                calendarCode.setUsed(true);
-                codigoRepository.save(calendarCode);
-                return true;
-            }
+
+        Optional<CalendarCode> optionalCode = codigoRepository.findByCode(code);
+
+        if (optionalCode.isEmpty()) {
+            return new TContext(404, "Código no encontrado", null);
         }
-        return false;
+
+        CalendarCode calendarCode = optionalCode.get();
+        if (calendarCode.isUsed()) {
+            return new TContext(409, "El código ya ha sido usado", null);
+        }
+
+        calendarCode.setUsed(true);
+        codigoRepository.save(calendarCode);
+
+        return new TContext(200, "Código validado correctamente", calendarCode);
     }
 
 }
