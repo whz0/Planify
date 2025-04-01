@@ -48,7 +48,7 @@ public class SACalendar {
         List<Calendar> calendars = calendarRepository.findByClient(client);
 
         if (calendars.isEmpty()) {
-            return new TContext(404, "No se encontraron calendarios para este usuario", null);
+            return new TContext(200, "No se encontraron calendarios para este usuario", null);
         }
 
         return new TContext(200, "Calendarios obtenidos correctamente", calendars);
@@ -80,7 +80,7 @@ public class SACalendar {
         Optional<Calendar> calendar = calendarRepository.findById(calendarId);
 
         if (calendar.isEmpty()) {
-            return new TContext(404, "Calendario no encontrado", null);
+            return new TContext(200, "Calendario no encontrado", null);
         }
 
         return new TContext(200, "Calendario obtenido correctamente", calendar.get());
@@ -89,14 +89,14 @@ public class SACalendar {
     @Transactional
     public TContext joinCalendar(Long userId, String code) {
         if (!calendarCodeService.validateCode(code)) {
-            return new TContext(404, "Código no válido o ya utilizado", null);
+            return new TContext(200, "Código no válido o ya utilizado", null);
         }
 
         Client client = findClientById(userId);
         CalendarCode calendarCode = useCalendarCode(code);
 
         if (calendarCode == null) {
-            return new TContext(404, "Código no encontrado", null);
+            return new TContext(200, "Código no encontrado", null);
         }
 
         client.getCalendars().add(calendarCode.getCalendar());
