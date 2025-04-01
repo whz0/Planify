@@ -4,7 +4,6 @@ import com.chilltime.planifyapi.TContext;
 import com.chilltime.planifyapi.entity.Calendar;
 import com.chilltime.planifyapi.entity.CalendarCode;
 import com.chilltime.planifyapi.entity.Client;
-import com.chilltime.planifyapi.service.SACalendarCode;
 import com.chilltime.planifyapi.repository.CalendarRepository;
 import com.chilltime.planifyapi.repository.ClientRepository;
 import jakarta.transaction.Transactional;
@@ -24,7 +23,7 @@ public class SACalendar {
     private ClientRepository clientRepository;
 
     @Autowired
-    private SACalendarCode calendarService;
+    private SACalendarCode calendarCodeService;
 
     @Transactional
     public TContext createPrivateCalendar(Calendar calendar) {
@@ -34,7 +33,10 @@ public class SACalendar {
         validateCalendar(calendar.getName(), calendar.getDescription(), calendar.getClient());
         calendar.setActive(true);
         calendar.setType("PRIVATE");
-        return new TContext(200, "Creado correctamente", calendarRepository.save(calendar));
+
+        Calendar savedCalendar = calendarRepository.save(calendar);
+
+        return new TContext(200, "Creado correctamente", savedCalendar);
 
     }
 
@@ -86,17 +88,21 @@ public class SACalendar {
 
     @Transactional
     public TContext joinCalendar(Long userId, String code) {
+        if (!calendarCodeService.validateCode(code)) {
+            return new TContext(404, "Código no válido o ya utilizado", null);
+        }
+
         Client client = clientRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        CalendarCode calendarCode = calendarService.useCode(code);
+        CalendarCode calendarCode = calendarCodeService.useCode(code);
 
         if (calendarCode == null) {
             return new TContext(404, "Código no encontrado", null);
         }
 
-        calendarCode.getCalendario().setClient(client);
+        client.getCalendars().add(calendarCode.getCalendario());
 
-        return new TContext(200, "Se ha unido al usuario al calendario", calendarCode);
+        return new TContext(200, "Se ha unido al usuario al calendario", calendarCode.getCalendario());
     }
 }

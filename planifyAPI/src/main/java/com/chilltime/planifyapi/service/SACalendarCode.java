@@ -1,7 +1,10 @@
 package com.chilltime.planifyapi.service;
 
+import com.chilltime.planifyapi.TContext;
+import com.chilltime.planifyapi.entity.Calendar;
 import com.chilltime.planifyapi.entity.CalendarCode;
 import com.chilltime.planifyapi.repository.CalendarCodeRepository;
+import com.chilltime.planifyapi.repository.CalendarRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +18,21 @@ public class SACalendarCode {
     @Autowired
     private CalendarCodeRepository calendarCodeRepository;
 
+    @Autowired
+    private CalendarRepository calendarRepository;
+
     private static final int CODE_LENGTH = 6;
     private static final String CODE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     @Transactional
-    public CalendarCode createCode() {
+    public TContext createCode(Long calendarId) {
+        Optional<Calendar> calendarOpt = calendarRepository.findById(calendarId);
+        if(calendarOpt.isEmpty()) {
+            return new TContext(404, "Calendario no encontrado", null);
+        }
+
         Random random = new Random();
+        Calendar calendar = calendarOpt.get();
 
         String code;
         do {
@@ -37,9 +49,10 @@ public class SACalendarCode {
         CalendarCode calendarCode = new CalendarCode();
         calendarCode.setCode(code);
         calendarCode.setUsed(false);
+        calendarCode.setCalendario(calendar);
         calendarCodeRepository.save(calendarCode);
 
-        return calendarCode;
+        return new TContext(200, "Código creado correctamente", calendarCode.getCode());
     }
 
     @Transactional
@@ -50,10 +63,7 @@ public class SACalendarCode {
         Optional<CalendarCode> optionalCode = calendarCodeRepository.findByCode(code);
         if(optionalCode.isPresent()) {
             CalendarCode calendarCode = optionalCode.get();
-            if(!calendarCode.isUsed()) {
-                calendarCodeRepository.save(calendarCode);
-                return true;
-            }
+            return !calendarCode.isUsed();
         }
         return false;
     }
@@ -71,5 +81,16 @@ public class SACalendarCode {
         calendarCodeRepository.save(calendarCode);
 
         return calendarCode;
+    }
+
+    @Transactional
+    public Calendar getCalendarByCode(String code) {
+        Optional<CalendarCode> calendarCodeOpt = calendarCodeRepository.findByCode(code);
+
+        if (calendarCodeOpt.isEmpty()) {
+            return null;
+        }
+
+        return calendarCodeOpt.get().getCalendario();
     }
 }
