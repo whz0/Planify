@@ -1,6 +1,7 @@
 package com.chilltime.planifyfront.controller;
 
 import com.chilltime.planifyfront.model.service.ServiceFactory;
+import com.chilltime.planifyfront.model.transfer.TContext;
 import com.chilltime.planifyfront.model.transfer.TEvent;
 import com.chilltime.planifyfront.utils.LocalDateAdapter;
 import com.chilltime.planifyfront.utils.LocalTimeAdapter;
@@ -129,14 +130,25 @@ public class EventFormController {
             // Llamar a la API para crear el evento
             Task<String> apiTask = ServiceFactory.getInstance().createEventSA().createEvent(event);
             apiTask.setOnSucceeded(e -> {
-                TEvent eventReturned = gson.fromJson(apiTask.getValue(), TEvent.class);
-                // Asumir que la API devuelve el ID del evento
-                event.setId(eventReturned.getId());
-                // Actualizar el Entry provisional con los datos finales
-                entry.setTitle(event.getName());
-                entry.setUserObject(event);
-                // Mostrar mensaje de éxito
-                showSuccessDialog("Evento creado", "El evento se ha creado correctamente.");
+                try{
+                    TContext contexto = gson.fromJson(apiTask.getValue(), TContext.class);
+                    if (contexto.getData() == null) {
+                        showErrorDialog("Error de la API", contexto.getMessage());
+                        return;
+                    }else{
+                        TEvent eventReturned = gson.fromJson(gson.toJson(contexto.getData()), TEvent.class);
+                        // Asumir que la API devuelve el ID del evento
+                        event.setId(eventReturned.getId());
+                        // Actualizar el Entry provisional con los datos finales
+                        entry.setTitle(event.getName());
+                        entry.setUserObject(event);
+                        // Mostrar mensaje de éxito
+                        showSuccessDialog("Evento creado", "El evento se ha creado correctamente.");
+                    }
+                }catch (Exception ex){
+                    showErrorDialog("Error de la API", "Ocurrió un error inesperado: " + ex.getMessage());
+                }
+
                 closeWindow();
             });
 

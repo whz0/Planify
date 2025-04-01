@@ -1,5 +1,6 @@
 package com.chilltime.planifyapi.controller;
 
+import com.chilltime.planifyapi.TContext;
 import com.chilltime.planifyapi.entity.Event;
 import com.chilltime.planifyapi.service.SAEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,15 @@ public class EventController {
     private SAEvent eventService;
 
     @PostMapping("/create-event")
-    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+    public ResponseEntity<TContext> createEvent(@RequestBody Event event) {
+        TContext cont;
         try {
-            Event createdEvent = eventService.createEvent(event);
-            return ResponseEntity.ok(createdEvent);
+            cont = eventService.createEvent(event);
         } catch (IllegalArgumentException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            cont = new TContext(200, e.getMessage(), null);
         }
+
+        return ResponseEntity.status(cont.getStatus_code()).body(cont);
     }
 }
 
