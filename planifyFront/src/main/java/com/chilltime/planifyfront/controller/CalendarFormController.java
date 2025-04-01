@@ -78,7 +78,7 @@ public class CalendarFormController {
         }
         // Llamar a la API para crear nuevo calendario privado
         TCalendar calendar = CalendarUtils.toTCalendar(newCalendar);
-        calendar.setId_client(1L);
+        calendar.setId_client(2L);
         calendar.setDescription(description);
         System.out.println(calendar);
         Task<String> apiTask = ServiceFactory.getInstance().createCalendarSA().crearCalendario(calendar);

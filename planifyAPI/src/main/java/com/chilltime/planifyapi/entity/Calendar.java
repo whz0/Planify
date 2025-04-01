@@ -1,5 +1,6 @@
 package com.chilltime.planifyapi.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -38,6 +39,8 @@ public class Calendar {
     )
     private Set<Event> events;
 
-    @OneToOne(mappedBy = "calendario")
-    private CalendarCode codigo;
+    @OneToMany(mappedBy = "calendar")
+    private Set<CalendarCode> codes;
+  
 }
+
