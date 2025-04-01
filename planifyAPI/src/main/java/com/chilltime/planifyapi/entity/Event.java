@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,6 +30,8 @@ public class Event {
     private long version;
 
     @ManyToMany(mappedBy = "events")
-
     private Set<Calendar> calendars;
+
+    @OneToMany
+    private List<Client> participants;
 }
