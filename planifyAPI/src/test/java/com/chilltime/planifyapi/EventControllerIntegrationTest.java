@@ -73,66 +73,67 @@ public class EventControllerIntegrationTest {
 
     @Test
     public void testCreateEvent() throws Exception {
-        // Create an event with ASCII characters
+        // Crear un evento con caracteres ASCII
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"name\": \"Evento\", \"date\": \"2025-12-31\", \"time\": \"10:00\", \"location\": \"Ubicacion\"}"));
+                .content("{\"name\": \"Evento\", \"date\": \"2028-12-31\", \"time\": \"10:00\", \"location\": \"Ubicacion\", \"active\": true}"));
 
-        // Check that the event was created successfully
-        result.andExpect(status().is(200));
+        // Verificar que el evento fue creado exitosamente
+        result.andExpect(status().isOk());
     }
 
     //Evento con date pasada
     @Test
     public void testCreateEventWithPastDate() throws Exception {
-        // Create an event with ASCII characters
+        // Crear un evento con caracteres ASCII
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"name\": \"Evento\", \"date\": \"2025-03-9\", \"time\": \"10:00\", \"location\": \"Ubicacion\"}"));
+                .content("{\"name\": \"Evento\", \"date\": \"2025-03-09\", \"time\": \"10:00\", \"location\": \"Ubicacion\", \"active\": true}"));
 
-        // Check that the event was created successfully
-        result.andExpect(status().is(400));
+        // Verificar que el evento no fue creado debido a la fecha pasada
+        result.andExpect(status().isBadRequest());
     }
 
-    //Evento con datos vacios
     @Test
     public void testCreateEventWithEmptyFields() throws Exception {
-        // Create an event with ASCII characters
+        // Crear un evento con campos vacíos
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"name\": \"Evento\", \"date\": \"\", \"time\": \"10:00\", \"location\": \"Ubicacion\"}"));
+                .content("{\"name\": \"Evento\", \"date\": null, \"time\": \"10:00\", \"location\": \"Ubicacion\", \"active\": true}"));
 
-        // Check that the event was created successfully
-        result.andExpect(status().is(400));
+        // Verificar que el evento no fue creado debido a campos vacíos
+        result.andExpect(status().isBadRequest());
     }
 
-    //Evento con nombre no ASCII
     @Test
     public void testCreateEventWithNoASCIIName() throws Exception {
-        // Create an event with ASCII characters
+        // Crear un evento con nombre no ASCII
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"name\": \"España\", \"date\": \"2025-12-31\", \"time\": \"10:00\", \"location\": \"Ubicacion\"}"));
+                .content("{\"name\": \"España\", \"date\": \"2025-12-31\", \"time\": \"10:00\", \"location\": \"Ubicacion\", \"active\": true}"));
 
-        // Check that the event was created successfully
-        result.andExpect(status().is(400));
+        // Verificar que el evento no fue creado debido a nombre no ASCII
+        result.andExpect(status().isBadRequest());
     }
 
-    //Evento con ubicacion no ASCII
     @Test
     public void testCreateEventWithNoASCIILocation() throws Exception {
-        // Create an event with ASCII characters
+        // Crear un evento con ubicación no ASCII
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"name\": \"Evento\", \"date\": \"2025-12-31\", \"time\": \"10:00\", \"location\": \"España\"}"));
+                .content("{\"name\": \"Evento\", \"date\": \"2025-12-31\", \"time\": \"10:00\", \"location\": \"España\", \"active\": true}"));
 
-        // Check that the event was created successfully
-        result.andExpect(status().is(400));
+        // Verificar que el evento no fue creado debido a ubicación no ASCII
+        result.andExpect(status().isBadRequest());
     }
-
 }

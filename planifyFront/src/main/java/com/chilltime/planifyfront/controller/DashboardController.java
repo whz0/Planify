@@ -16,9 +16,12 @@ import com.chilltime.planifyfront.utils.SessionManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import javafx.application.Platform;
+import javafx.beans.Observable;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -32,6 +35,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+
+import static com.chilltime.planifyfront.utils.DialogWindows.showErrorDialog;
 
 public class DashboardController {
 
@@ -89,7 +94,8 @@ public class DashboardController {
         // Iniciar thread de actualización de tiempo
         updateTimeThread();
 
-        SessionManager.getInstance().setCurrentUserId(1L);
+        SessionManager.getInstance().setCurrentUserId(2L);
+        loadUserCalendars();
     }
 
     private void configureCalendarHandlers() {
@@ -228,21 +234,6 @@ public class DashboardController {
             e.printStackTrace();
         }
     }
-    @FXML
-    public void generarCodigoCalendario() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/generateCalendarCodeForm.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Generar Código de Calendario");
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
-        } catch (IOException e) {
-            mostrarAlerta("Error", "No se pudo abrir el formulario para generar código de calendario.");
-            e.printStackTrace();
-        }
-    }
 
     private void mostrarAlerta(String titulo, String contenido) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
@@ -277,6 +268,26 @@ public class DashboardController {
     public void addCalendar(TCalendar calendari) {
         Calendar<TEvent> calendar = CalendarUtils.toCalendar(calendari);
         userCalendarSource.getCalendars().add(calendar);
+    }
+
+    @FXML
+    public void generarCodigoForm(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/generateCodeForm.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Generar Código de Invitación");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace(); // Agrega esta línea para obtener más detalles del error
+            showErrorDialog("Error Crítico",
+                    "No se pudo inicializar el generador de códigos: " + e.getMessage());
+        }
     }
 
     private void loadUserCalendars() {
@@ -323,6 +334,10 @@ public class DashboardController {
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
+    }
+
+    public CalendarSource getUserCalendarSource() {
+        return userCalendarSource;
     }
 
     private void loadCalendarEvents(Long calendarId) {

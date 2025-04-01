@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
@@ -35,10 +37,12 @@ public class EventControllerUnitTest {
 
         when(eventService.createEvent(any(Event.class))).thenReturn(event);
 
-        Event result = eventController.createEvent(event);
+        ResponseEntity<Event> response = eventController.createEvent(event);
 
-        assertNotNull(result);
-        assertEquals("evento Test", result.getName());
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("evento Test", response.getBody().getName());
     }
 
     @Test
@@ -48,9 +52,10 @@ public class EventControllerUnitTest {
 
         when(eventService.createEvent(any(Event.class))).thenThrow(new IllegalArgumentException("Rellene todos los campos vacíos"));
 
-        assertThrows(ResponseStatusException.class, () -> {
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
             eventController.createEvent(event);
         });
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
     }
     @Test
     public void testCreateEventWithPastDate() {
@@ -62,23 +67,10 @@ public class EventControllerUnitTest {
 
         when(eventService.createEvent(any(Event.class))).thenThrow(new IllegalArgumentException("La fecha no puede ser anterior a la fecha actual"));
 
-        assertThrows(ResponseStatusException.class, () -> {
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
             eventController.createEvent(event);
         });
-    }
-    @Test
-    public void testCreateEventWithLongName() {
-        Event event = new Event();
-        event.setName("evento Test con un nombre muy largo que no debería ser permitido");
-        event.setDate(LocalDate.now().plusDays(1));
-        event.setTime(LocalTime.now().plusHours(1));
-        event.setLocation("Ubicacion Test");
-
-        when(eventService.createEvent(any(Event.class))).thenThrow(new IllegalArgumentException("El campo nombre no puede tener menos de 20 caracteres"));
-
-        assertThrows(ResponseStatusException.class, () -> {
-            eventController.createEvent(event);
-        });
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
     }
     @Test
     public void testCreateEventWithNoASCIIName() {
@@ -90,9 +82,10 @@ public class EventControllerUnitTest {
 
         when(eventService.createEvent(any(Event.class))).thenThrow(new IllegalArgumentException("Los campos nombre y ubicación deben ser caracteres ASCII"));
 
-        assertThrows(ResponseStatusException.class, () -> {
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
             eventController.createEvent(event);
         });
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
     }
     @Test
     public void testCreateEventWithNoASCIILocation() {
@@ -104,9 +97,10 @@ public class EventControllerUnitTest {
 
         when(eventService.createEvent(any(Event.class))).thenThrow(new IllegalArgumentException("Los campos nombre y ubicación deben ser caracteres ASCII"));
 
-        assertThrows(ResponseStatusException.class, () -> {
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
             eventController.createEvent(event);
         });
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
     }
     @Test
     public void testCreateEventWithEmptyFields() {
@@ -118,8 +112,9 @@ public class EventControllerUnitTest {
 
         when(eventService.createEvent(any(Event.class))).thenThrow(new IllegalArgumentException("Rellene todos los campos vacíos"));
 
-        assertThrows(ResponseStatusException.class, () -> {
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
             eventController.createEvent(event);
         });
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
     }
 }

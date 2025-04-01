@@ -92,17 +92,24 @@ public class SACalendar {
             return new TContext(404, "Código no válido o ya utilizado", null);
         }
 
-        Client client = clientRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        CalendarCode calendarCode = calendarCodeService.useCode(code);
+        Client client = findClientById(userId);
+        CalendarCode calendarCode = useCalendarCode(code);
 
         if (calendarCode == null) {
             return new TContext(404, "Código no encontrado", null);
         }
 
-        client.getCalendars().add(calendarCode.getCalendario());
+        client.getCalendars().add(calendarCode.getCalendar());
 
-        return new TContext(200, "Se ha unido al usuario al calendario", calendarCode.getCalendario());
+        return new TContext(200, "Se ha unido al usuario al calendario", calendarCode.getCalendar());
+    }
+
+    private Client findClientById(Long userId) {
+        return clientRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
+
+    private CalendarCode useCalendarCode(String code) {
+        return calendarCodeService.useCode(code);
     }
 }

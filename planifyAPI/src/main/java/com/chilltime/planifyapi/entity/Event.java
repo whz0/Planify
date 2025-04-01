@@ -1,5 +1,6 @@
 package com.chilltime.planifyapi.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -28,5 +29,6 @@ public class Event {
     private long version;
 
     @ManyToMany(mappedBy = "events")
+
     private Set<Calendar> calendars;
 }

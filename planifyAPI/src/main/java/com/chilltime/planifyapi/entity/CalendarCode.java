@@ -16,11 +16,11 @@ public class CalendarCode {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String code;
-    private boolean used = false;
+    private boolean used;
 
     @Version
     private long version;
 
-    @OneToOne
-    private Calendar calendario;
+    @ManyToOne
+    private Calendar calendar;
 }
