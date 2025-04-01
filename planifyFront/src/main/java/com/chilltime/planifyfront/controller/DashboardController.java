@@ -5,10 +5,18 @@ import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
 import com.calendarfx.view.CalendarView;
+import com.chilltime.planifyfront.model.service.CalendarSA;
+import com.chilltime.planifyfront.model.service.EventSA;
+import com.chilltime.planifyfront.model.service.ServiceFactory;
 import com.chilltime.planifyfront.model.transfer.TCalendar;
+import com.chilltime.planifyfront.model.transfer.TContext;
 import com.chilltime.planifyfront.model.transfer.TEvent;
 import com.chilltime.planifyfront.utils.CalendarUtils;
+import com.chilltime.planifyfront.utils.SessionManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,6 +31,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class DashboardController {
 
@@ -79,6 +88,8 @@ public class DashboardController {
 
         // Iniciar thread de actualización de tiempo
         updateTimeThread();
+
+        SessionManager.getInstance().setCurrentUserId(1L);
     }
 
     private void configureCalendarHandlers() {
@@ -183,6 +194,9 @@ public class DashboardController {
         eventsListView.getItems().add(evento);
     }
 
+    /*
+    *  Métodos para manejar la creación de formularios
+    */
 
     @FXML
     public void crearCalendarioForm() {
@@ -264,6 +278,118 @@ public class DashboardController {
         Calendar<TEvent> calendar = CalendarUtils.toCalendar(calendari);
         userCalendarSource.getCalendars().add(calendar);
     }
+
+    private void loadUserCalendars() {
+        CalendarSA calendarSA = ServiceFactory.getInstance().createCalendarSA();
+        Task<String> task = calendarSA.getCalendarsWithEventsByUserId(SessionManager.getInstance().getCurrentUserId());
+
+        task.setOnSucceeded(event -> {
+            String response = task.getValue();
+            try {
+                // Parsear la respuesta JSON para obtener los calendarios
+                ObjectMapper mapper = new ObjectMapper();
+                TContext context = mapper.readValue(response, TContext.class);
+
+                if (context.getStatus_code() == 200) {
+                    List<TCalendar> calendars = mapper.convertValue(context.getData(),
+                            mapper.getTypeFactory().constructCollectionType(List.class, TCalendar.class));
+
+                    // Limpiar calendarios existentes
+                    userCalendarSource.getCalendars().clear();
+
+                    // Añadir cada calendario y sus eventos
+                    for (TCalendar tCalendar : calendars) {
+                        Calendar<TEvent> calendar = CalendarUtils.toCalendar(tCalendar);
+                        userCalendarSource.getCalendars().add(calendar);
+
+                        // Cargar eventos para este calendario
+                        loadCalendarEvents(tCalendar.getId());
+                    }
+                } else {
+                    mostrarAlerta("Error", context.getMessage());
+                }
+            } catch (IOException e) {
+                mostrarAlerta("Error", "No se pudieron cargar los calendarios: " + e.getMessage());
+                e.printStackTrace();
+            }
+        });
+
+        task.setOnFailed(event -> {
+            mostrarAlerta("Error", "Falló la carga de calendarios: " + task.getException().getMessage());
+            task.getException().printStackTrace();
+        });
+
+        // Ejecutar la tarea en un hilo separado
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    private void loadCalendarEvents(Long calendarId) {
+        EventSA eventSA = ServiceFactory.getInstance().createEventSA();
+        Task<String> task = eventSA.getEventsByCalendarId(calendarId);
+
+        task.setOnSucceeded(event -> {
+            String response = task.getValue();
+            try {
+                // Parsear la respuesta JSON
+                ObjectMapper mapper = new ObjectMapper();
+                // Configurar para manejar LocalDate y LocalTime
+                mapper.registerModule(new JavaTimeModule());
+                TContext context = mapper.readValue(response, TContext.class);
+
+                if (context.getStatus_code() == 200) {
+                    List<TEvent> events = mapper.convertValue(context.getData(),
+                            mapper.getTypeFactory().constructCollectionType(List.class, TEvent.class));
+
+                    // Obtener el calendario correspondiente por ID
+                    Calendar targetCalendar = null;
+                    for (Calendar cal : userCalendarSource.getCalendars()) {
+                        if (cal.getName().contains("ID:" + calendarId)) {
+                            targetCalendar = cal;
+                            break;
+                        }
+                    }
+
+                    if (targetCalendar != null) {
+                        // Añadir eventos al calendario
+                        for (TEvent tEvent : events) {
+                            Entry<TEvent> entry = new Entry<>(tEvent.getName());
+                            entry.setUserObject(tEvent);
+                            entry.changeStartDate(tEvent.getDate());
+                            entry.changeStartTime(tEvent.getTime());
+                            entry.changeEndDate(tEvent.getDate());
+                            entry.changeEndTime(tEvent.getTime().plusHours(1)); // Asumiendo duración de 1 hora
+                            entry.setLocation(tEvent.getLocation());
+
+                            targetCalendar.addEntry(entry);
+
+                            // Añadir a la lista de eventos
+                            Platform.runLater(() -> {
+                                eventsListView.getItems().add(tEvent);
+                            });
+                        }
+                    }
+                } else {
+                    System.err.println("Error al cargar eventos: " + context.getMessage());
+                }
+            } catch (IOException e) {
+                System.err.println("Error al procesar eventos: " + e.getMessage());
+                e.printStackTrace();
+            }
+        });
+
+        task.setOnFailed(event -> {
+            System.err.println("Falló la carga de eventos: " + task.getException().getMessage());
+            task.getException().printStackTrace();
+        });
+
+        // Ejecutar la tarea
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
 }
 
 

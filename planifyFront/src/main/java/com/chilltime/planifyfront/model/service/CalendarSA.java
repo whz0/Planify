@@ -30,6 +30,24 @@ public class CalendarSA {
         };
     }
 
+    public Task<String> getCalendarsWithEventsByUserId(Long userId) {
+      return new Task<>() {
+            @Override
+            protected String call() throws Exception {
+                try {
+   // Obtenemos primero los calendarios del usuario
+                    String calendarsResponse = apiClient.get(BASE_URL + "/user/" + userId);
+
+                    // Procesamos la respuesta para solicitar eventos de cada calendario
+                    return calendarsResponse;
+                  } catch (IOException e) {
+                    System.err.println("Error during API call: " + e.getMessage());
+                    throw e;
+                }
+            }
+        };
+  }
+
     /**
      * Tarea para unirse a un calendario mediante un código
      * @param userId ID del usuario
@@ -41,6 +59,7 @@ public class CalendarSA {
             @Override
             protected String call() throws Exception {
                 try {
+                   
                     // Construcción del URL con parámetros
                     String url = BASE_URL + "/join?userId=" + userId + "&code=" + code;
                     return apiClient.post(url, "");
@@ -70,6 +89,7 @@ public class CalendarSA {
             }
         };
     }
+
 
     /**
      * Tarea para validar un código
