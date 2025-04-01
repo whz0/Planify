@@ -8,6 +8,8 @@ import com.chilltime.planifyapi.repository.ClientRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.chilltime.planifyapi.entity.Event;
+import com.chilltime.planifyapi.repository.EventRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +22,9 @@ public class SACalendar {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     @Transactional
     public TContext createPrivateCalendar(Calendar calendar) {
@@ -77,6 +82,32 @@ public class SACalendar {
         }
 
         return new TContext(200, "Calendario obtenido correctamente", calendar.get());
+    }
+
+    @Transactional
+    public TContext linkEvent(Long calendarId, Long eventId) {
+        Optional<Calendar> calendar = calendarRepository.findById(calendarId);
+        Optional<Event> event = eventRepository.findById(eventId);
+
+        if (calendar.isEmpty()) {
+            return new TContext(404, "Calendario no encontrado", null);
+        }
+
+        if (event.isEmpty()) {
+            return new TContext(404, "Evento no encontrado", null);
+        }
+
+        // Verificar si el evento ya está vinculado al calendario
+        List<Event> events = eventRepository.findByCalendars(calendar.get());
+        if (events.contains(event.get())) {
+            return new TContext(409, "El evento ya está vinculado a este calendario", null);
+        }
+
+        // Vincular el evento al calendario
+        Event eventToUpdate = event.get();
+        eventToUpdate.getCalendars().add(calendar.get());
+        eventRepository.save(eventToUpdate);
+        return new TContext(200, "Evento vinculado correctamente al calendario", eventToUpdate);
     }
 
 }
