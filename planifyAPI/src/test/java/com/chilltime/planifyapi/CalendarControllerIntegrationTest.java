@@ -74,6 +74,7 @@ public class CalendarControllerIntegrationTest {
 
     @AfterEach
     void tearDownDatas(){
+        calendarRepository.deleteAll();
         clientRepository.deleteAll();
     }
 
