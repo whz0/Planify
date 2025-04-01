@@ -25,7 +25,7 @@ public class SAEvent {
     private CalendarRepository calendarRepository;
 
     @Transactional
-    public Event createEvent(Event event){
+    public Event createEvent(Event event, Long calendarId) {
 
         if(event.getDate() == null || event.getTime() == null || event.getName() == null || event.getLocation() == null){
             throw new IllegalArgumentException("Rellene todos los campos vacíos");
@@ -44,7 +44,25 @@ public class SAEvent {
             throw new IllegalArgumentException("Los campos nombre y ubicación deben ser caracteres ASCII");
         }
 
-        return eventRepository.save(event);
+        Calendar calendar = calendarRepository.findById(calendarId)
+                .orElseThrow(() -> new IllegalArgumentException("Calendario no encontrado"));
+
+        Event savedEvent = eventRepository.save(event);
+        // Initialize collections if null
+        if (savedEvent.getCalendars() == null) {
+            savedEvent.setCalendars(new java.util.HashSet<>());
+        }
+        if (calendar.getEvents() == null) {
+            calendar.setEvents(new java.util.HashSet<>());
+        }
+
+        // Associate the event with the calendar
+        calendar.getEvents().add(savedEvent);
+
+        calendarRepository.save(calendar);
+
+
+        return savedEvent;
     }
 
     private boolean isASCII(String chain){

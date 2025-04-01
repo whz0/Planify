@@ -4,6 +4,8 @@ import com.chilltime.planifyfront.model.transfer.TEvent;
 import javafx.concurrent.Task;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EventSA {
 
@@ -21,15 +23,18 @@ public class EventSA {
      * @param event El objeto TEvento a enviar.
      * @return Un Task que devuelve la respuesta del servidor.
      */
-    public Task<String> createEvent(TEvent event) {
+    public Task<String> createEvent(TEvent event,Long calendarId) {
         return new Task<>() {
             @Override
             protected String call() throws Exception {
                 try {
-                    String requestBody = apiClient.getObjectMapper().writeValueAsString(event);
+                    Map<String, Object> requestMap = new HashMap<>();
+                    requestMap.put("event", event);
+                    requestMap.put("calendarId", calendarId);
+                    String requestBody = apiClient.getObjectMapper().writeValueAsString(requestMap);
                     return apiClient.post(BASE_URL + "/create-event", requestBody);
                 } catch (IOException e) {
-                    System.err.println("Error during API call: " + e.getMessage());
+                    System.err.println("Error during API call: " + e.getMessage() + e.getLocalizedMessage());
                     throw e;
                 }
             }

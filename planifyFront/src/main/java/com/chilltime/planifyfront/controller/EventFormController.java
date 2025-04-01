@@ -1,12 +1,19 @@
 package com.chilltime.planifyfront.controller;
 
 import com.chilltime.planifyfront.model.service.ServiceFactory;
+import com.chilltime.planifyfront.model.transfer.TCalendar;
+import com.chilltime.planifyfront.model.transfer.TContext;
 import com.chilltime.planifyfront.model.transfer.TEvent;
 import com.chilltime.planifyfront.utils.LocalDateAdapter;
 import com.chilltime.planifyfront.utils.LocalTimeAdapter;
+import com.chilltime.planifyfront.utils.SessionManager;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -15,8 +22,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import com.calendarfx.model.Entry;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import static com.chilltime.planifyfront.utils.DialogWindows.showErrorDialog;
 import static com.chilltime.planifyfront.utils.DialogWindows.showSuccessDialog;
@@ -37,6 +46,11 @@ public class EventFormController {
     @FXML
     private TextField ubicacionField;
 
+    @FXML
+    private ComboBox<TCalendar> calendarComboBox;
+
+    private ObservableList<TCalendar> calendars = FXCollections.observableArrayList();
+
     private Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
             .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
@@ -44,6 +58,33 @@ public class EventFormController {
 
     @FXML
     private void initialize() {
+
+        calendarComboBox.setCellFactory(param -> new javafx.scene.control.ListCell<TCalendar>() {
+            @Override
+            protected void updateItem(TCalendar item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getName());
+                }
+            }
+        });
+
+        calendarComboBox.setButtonCell(new javafx.scene.control.ListCell<TCalendar>() {
+            @Override
+            protected void updateItem(TCalendar item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getName());
+                }
+            }
+        });
+        // Configurar ComboBox
+        calendarComboBox.setItems(calendars);
+
         // Rellenar el ComboBox con horas
         for (int hour = 0; hour < 24; hour++) {
             for (int minute = 0; minute < 60; minute += 30) {
@@ -59,6 +100,8 @@ public class EventFormController {
                 handleCancel();
             });
         });
+
+        loadUserCalendars();
     }
 
     /**
@@ -118,7 +161,11 @@ public class EventFormController {
                 return;
             }
 
-            // Otras validaciones de formato y longitud...
+            TCalendar selectedCalendar = calendarComboBox.getValue();
+            if (selectedCalendar == null) {
+                showErrorDialog("Error de validación", "Debe seleccionar un calendario para el evento.");
+                return;
+            }
 
             LocalDate fecha = fechaPicker.getValue();
             LocalTime hora = horaComboBox.getValue();
@@ -126,8 +173,10 @@ public class EventFormController {
             String ubicacion = ubicacionField.getText();
             TEvent event = new TEvent(null, nombre, fecha, hora, ubicacion, true);
 
+            Long calendarId = selectedCalendar.getId();
+
             // Llamar a la API para crear el evento
-            Task<String> apiTask = ServiceFactory.getInstance().createEventSA().createEvent(event);
+            Task<String> apiTask = ServiceFactory.getInstance().createEventSA().createEvent(event, calendarId);
             apiTask.setOnSucceeded(e -> {
                 TEvent eventReturned = gson.fromJson(apiTask.getValue(), TEvent.class);
                 // Asumir que la API devuelve el ID del evento
@@ -148,6 +197,49 @@ public class EventFormController {
         } catch (Exception e) {
             showErrorDialog("Error inesperado", "Ocurrió un error inesperado: " + e.getMessage());
         }
+    }
+
+    private void loadUserCalendars() {
+        Long userId = SessionManager.getInstance().getCurrentUserId();
+        Task<String> task = ServiceFactory.getInstance().createCalendarSA().getCalendarsWithEventsByUserId(userId);
+
+        task.setOnSucceeded(event -> {
+            String response = task.getValue();
+            try {
+                // Parsear la respuesta JSON para obtener los calendarios
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+                TContext context = mapper.readValue(response, TContext.class);
+
+                if (context.getStatus_code() == 200) {
+                    List<TCalendar> calendarList = mapper.convertValue(context.getData(),
+                            mapper.getTypeFactory().constructCollectionType(List.class, TCalendar.class));
+
+                    Platform.runLater(() -> {
+                        calendars.clear();
+                        calendars.addAll(calendarList);
+                        if (!calendars.isEmpty()) {
+                            calendarComboBox.getSelectionModel().selectFirst();
+                        }
+                    });
+                } else {
+                    showErrorDialog("Error", context.getMessage());
+                }
+            } catch (IOException e) {
+                showErrorDialog("Error", "No se pudieron cargar los calendarios: " + e.getMessage());
+                e.printStackTrace();
+            }
+        });
+
+        task.setOnFailed(event -> {
+            showErrorDialog("Error", "Falló la carga de calendarios: " + task.getException().getMessage());
+            task.getException().printStackTrace();
+        });
+
+        // Ejecutar la tarea en un hilo separado
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     private void closeWindow() {

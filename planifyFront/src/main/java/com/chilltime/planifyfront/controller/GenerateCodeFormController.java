@@ -34,7 +34,6 @@ public class GenerateCodeFormController {
 
     @FXML
     private void initialize() {
-        CalendarSA calendarSA = ServiceFactory.getInstance().createCalendarSA();
 
         // Configurar ComboBox
         calendarComboBox.setItems(calendars);

@@ -18,6 +18,9 @@
     <Label text="Hora del Evento:" styleClass="form-label" />
     <ComboBox fx:id="horaComboBox" styleClass="form-combobox" />
 
+    <Label text="Calendario:" styleClass="form-label" />
+    <ComboBox fx:id="calendarComboBox" styleClass="form-combobox" />
+
     <Label text="Ubicación del Evento:" styleClass="form-label" />
     <TextField fx:id="ubicacionField" styleClass="form-textfield" />
 

@@ -1,5 +1,8 @@
 package com.chilltime.planifyapi;
 
+import com.chilltime.planifyapi.entity.Calendar;
+import com.chilltime.planifyapi.repository.CalendarRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -11,6 +14,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
@@ -33,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "logging.level.org.springframework=DEBUG",
         "logging.level.com.chilltime=DEBUG"
 })
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class EventControllerIntegrationTest {
 
     @Container
@@ -45,6 +50,11 @@ public class EventControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private CalendarRepository calendarRepository;
+
+    private Long calendarId;
 
     @TestConfiguration
     static class TestConfig {
@@ -68,7 +78,17 @@ public class EventControllerIntegrationTest {
         // Add any other required properties
         registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
         registry.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
+    }
 
+    @BeforeEach
+    public void setup() {
+        // Create a test calendar
+        Calendar calendar = new Calendar();
+        calendar.setName("Test Calendar");
+        // Set other required calendar properties if any
+
+        Calendar savedCalendar = calendarRepository.save(calendar);
+        calendarId = savedCalendar.getId();
     }
 
     @Test
@@ -78,7 +98,7 @@ public class EventControllerIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"name\": \"Evento\", \"date\": \"2028-12-31\", \"time\": \"10:00\", \"location\": \"Ubicacion\", \"active\": true}"));
+                .content("{\"event\":{\"name\": \"Evento\", \"date\": \"2028-12-31\", \"time\": \"10:00\", \"location\": \"Ubicacion\", \"active\": true}, \"calendarId\": " + calendarId + "}"));
 
         // Verificar que el evento fue creado exitosamente
         result.andExpect(status().isOk());
@@ -87,12 +107,12 @@ public class EventControllerIntegrationTest {
     //Evento con date pasada
     @Test
     public void testCreateEventWithPastDate() throws Exception {
-        // Crear un evento con caracteres ASCII
+        // Crear un evento con fecha pasada
         ResultActions result = mockMvc.perform(post("/event/create-event")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"name\": \"Evento\", \"date\": \"2025-03-09\", \"time\": \"10:00\", \"location\": \"Ubicacion\", \"active\": true}"));
+                .content("{\"event\":{\"name\": \"Evento\", \"date\": \"2025-03-09\", \"time\": \"10:00\", \"location\": \"Ubicacion\", \"active\": true}, \"calendarId\": " + calendarId + "}"));
 
         // Verificar que el evento no fue creado debido a la fecha pasada
         result.andExpect(status().isBadRequest());
@@ -105,7 +125,7 @@ public class EventControllerIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"name\": \"Evento\", \"date\": null, \"time\": \"10:00\", \"location\": \"Ubicacion\", \"active\": true}"));
+                .content("{\"event\":{\"name\": \"Evento\", \"date\": null, \"time\": \"10:00\", \"location\": \"Ubicacion\", \"active\": true}, \"calendarId\": " + calendarId + "}"));
 
         // Verificar que el evento no fue creado debido a campos vacíos
         result.andExpect(status().isBadRequest());
@@ -118,7 +138,7 @@ public class EventControllerIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"name\": \"España\", \"date\": \"2025-12-31\", \"time\": \"10:00\", \"location\": \"Ubicacion\", \"active\": true}"));
+                .content("{\"event\":{\"name\": \"España\", \"date\": \"2028-12-31\", \"time\": \"10:00\", \"location\": \"Ubicacion\", \"active\": true}, \"calendarId\": " + calendarId + "}"));
 
         // Verificar que el evento no fue creado debido a nombre no ASCII
         result.andExpect(status().isBadRequest());
@@ -131,7 +151,7 @@ public class EventControllerIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
-                .content("{\"name\": \"Evento\", \"date\": \"2025-12-31\", \"time\": \"10:00\", \"location\": \"España\", \"active\": true}"));
+                .content("{\"event\":{\"name\": \"Evento\", \"date\": \"2028-12-31\", \"time\": \"10:00\", \"location\": \"España\", \"active\": true}, \"calendarId\": " + calendarId + "}"));
 
         // Verificar que el evento no fue creado debido a ubicación no ASCII
         result.andExpect(status().isBadRequest());
