@@ -12,6 +12,10 @@ import org.mockito.Mock;
 import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import static org.mockito.Mockito.*;
 
 public class SACalendarUnitTest {
@@ -140,6 +144,40 @@ public class SACalendarUnitTest {
         });
 
         assertEquals("Usuario no encontrado", exception.getMessage());
+    }
+
+    @Test
+    public void testGetCalendarsByUserId() {
+        Long userId = 1L;
+        Client client = new Client();
+        client.setId(userId);
+
+        List<Calendar> calendars = new ArrayList<>();
+        calendars.add(new Calendar());
+
+        when(clientRepository.findById(userId)).thenReturn(Optional.of(client));
+        when(calendarRepository.findByClient(client)).thenReturn(calendars);
+
+        TContext result = saCalendar.getCalendarsByUserId(userId);
+
+        assertNotNull(result);
+        assertEquals("Calendarios obtenidos correctamente", result.getMessage());
+        assertEquals(calendars, result.getData());
+    }
+
+    @Test
+    public void testGetCalendarById() {
+        Long calendarId = 1L;
+        Calendar calendar = new Calendar();
+        calendar.setId(calendarId);
+
+        when(calendarRepository.findById(calendarId)).thenReturn(Optional.of(calendar));
+
+        TContext result = saCalendar.getCalendarById(calendarId);
+
+        assertNotNull(result);
+        assertEquals("Calendario obtenido correctamente", result.getMessage());
+        assertEquals(calendar, result.getData());
     }
 
 

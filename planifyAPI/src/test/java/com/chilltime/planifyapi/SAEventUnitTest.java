@@ -1,7 +1,9 @@
 package com.chilltime.planifyapi;
 
+import com.chilltime.planifyapi.entity.Calendar;
 import com.chilltime.planifyapi.entity.Event;
 import com.chilltime.planifyapi.repository.EventRepository;
+import com.chilltime.planifyapi.repository.CalendarRepository;
 import com.chilltime.planifyapi.service.SAEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,9 @@ import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -19,6 +24,9 @@ public class SAEventUnitTest {
 
     @Mock
     private EventRepository eventRepository;
+
+    @Mock
+    private CalendarRepository calendarRepository;
 
     @InjectMocks
     private SAEvent saevent;
@@ -98,5 +106,23 @@ public class SAEventUnitTest {
         });
 
         assertEquals("Los campos nombre y ubicación deben ser caracteres ASCII", exception.getMessage());
+    }
+    @Test
+    public void testGetEventsByCalendarId() {
+        Long calendarId = 1L;
+        Calendar calendar = new Calendar();
+        calendar.setId(calendarId);
+
+        List<Event> events = new ArrayList<>();
+        events.add(new Event());
+
+        when(calendarRepository.findById(calendarId)).thenReturn(Optional.of(calendar));
+        when(eventRepository.findByCalendars(calendar)).thenReturn(events);
+
+        TContext result = saevent.getEventsByCalendarId(calendarId);
+
+        assertNotNull(result);
+        assertEquals("Eventos obtenidos correctamente", result.getMessage());
+        assertEquals(events, result.getData());
     }
 }
