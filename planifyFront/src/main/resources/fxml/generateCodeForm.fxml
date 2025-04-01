@@ -9,6 +9,11 @@
       stylesheets="@../styling/styles.css"
       styleClass="form-container">
 
+    <Label text="Seleccionar Calendario:" styleClass="form-label" />
+
+    <ComboBox fx:id="calendarComboBox" promptText="Seleccione un calendario"
+              styleClass="form-combobox" prefWidth="250" />
+
     <Label text="Código de Invitación:" styleClass="form-label" />
 
     <TextField fx:id="codeTextField" editable="false"
@@ -16,7 +21,7 @@
                style="-fx-alignment: center;"/>
 
     <HBox spacing="10" alignment="CENTER" styleClass="form-buttons">
-        <Button text="Generar Nuevo" onAction="#handleGenerate" styleClass="form-button generate-button" />
+        <Button text="Generar Nuevo" onAction="#handleGenerate" styleClass="form-button" />
         <Button text="Cancelar" onAction="#handleCancel" styleClass="form-button" />
     </HBox>
 

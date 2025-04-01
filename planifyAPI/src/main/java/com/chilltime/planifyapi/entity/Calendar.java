@@ -1,8 +1,6 @@
 package com.chilltime.planifyapi.entity;
 
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +27,7 @@ public class Calendar {
     private Long id_client;
 
     @ManyToOne
+    @JsonIdentityReference(alwaysAsId = true)  // This will serialize client as its ID
     private Client client;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -40,7 +39,21 @@ public class Calendar {
     private Set<Event> events;
 
     @OneToMany(mappedBy = "calendar")
+    @JsonIgnore  // Ignore this field during serialization
     private Set<CalendarCode> codes;
-  
-}
 
+    // Add this to have a proper codigo property in JSON
+    @Transient
+    @JsonProperty("codigo")
+    public String getCodigo() {
+        if (codes == null || codes.isEmpty()) {
+            return null;
+        }
+        // Return the first active code or null
+        return codes.stream()
+                .filter(code -> code.isUsed())
+                .map(CalendarCode::getCode)
+                .findFirst()
+                .orElse(null);
+    }
+}

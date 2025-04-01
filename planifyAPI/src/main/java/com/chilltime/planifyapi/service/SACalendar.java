@@ -101,8 +101,8 @@ public class SACalendar {
             return new TContext(404, "Código no encontrado", null);
         }
 
-        client.getCalendars().add(calendarCode.getCalendario());
+        client.getCalendars().add(calendarCode.getCalendar());
 
-        return new TContext(200, "Se ha unido al usuario al calendario", calendarCode.getCalendario());
+        return new TContext(200, "Se ha unido al usuario al calendario", calendarCode.getCalendar());
     }
 }

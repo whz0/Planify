@@ -36,7 +36,7 @@ public class CalendarSA {
             protected String call() throws Exception {
                 try {
    // Obtenemos primero los calendarios del usuario
-                    String calendarsResponse = apiClient.get(BASE_URL + "/user/" + userId);
+                    String calendarsResponse = apiClient.get(BASE_URL + "/user/" + 1);
 
                     // Procesamos la respuesta para solicitar eventos de cada calendario
                     return calendarsResponse;

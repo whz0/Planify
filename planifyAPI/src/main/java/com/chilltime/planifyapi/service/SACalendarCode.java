@@ -49,7 +49,7 @@ public class SACalendarCode {
         CalendarCode calendarCode = new CalendarCode();
         calendarCode.setCode(code);
         calendarCode.setUsed(false);
-        calendarCode.setCalendario(calendar);
+        calendarCode.setCalendar(calendar);
         calendarCodeRepository.save(calendarCode);
 
         return new TContext(200, "Código creado correctamente", calendarCode.getCode());
@@ -91,6 +91,6 @@ public class SACalendarCode {
             return null;
         }
 
-        return calendarCodeOpt.get().getCalendario();
+        return calendarCodeOpt.get().getCalendar();
     }
 }

@@ -7,11 +7,13 @@ public class TCalendar {
     private boolean active;
     private String type;
     private Long id_client;
+    private long version;
+
 
     public TCalendar() {
     }
 
-    public TCalendar(Long id, String name, String description, boolean active, String type, Long id_user) {
+    public TCalendar(Long id, String name, String description, boolean active, String type, Long id_user, int version) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -67,4 +69,8 @@ public class TCalendar {
     public void setId_client(Long id_client) {
         this.id_client = id_client;
     }
+
+    public long getVersion() {return version;}
+
+    public void setVersion(long version) {this.version = version;}
 }

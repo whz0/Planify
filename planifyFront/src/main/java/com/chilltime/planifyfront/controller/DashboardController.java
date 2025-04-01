@@ -16,6 +16,9 @@ import com.chilltime.planifyfront.utils.SessionManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import javafx.application.Platform;
+import javafx.beans.Observable;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -330,6 +333,10 @@ public class DashboardController {
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
+    }
+
+    public CalendarSource getUserCalendarSource() {
+        return userCalendarSource;
     }
 
     private void loadCalendarEvents(Long calendarId) {

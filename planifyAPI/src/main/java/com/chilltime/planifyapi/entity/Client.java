@@ -1,8 +1,6 @@
 package com.chilltime.planifyapi.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +22,7 @@ public class Client implements UserDetails {
     @Column(nullable = false)
     private String username;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)  // Don't include password in JSON
     private String password;
 
     private String role;
@@ -32,14 +31,17 @@ public class Client implements UserDetails {
     private long version;
 
     @OneToMany(mappedBy = "client")
+    @JsonIdentityReference(alwaysAsId = true)  // This will serialize calendars as their IDs
     private List<Calendar> calendars;
 
     @Override
+    @JsonIgnore  // Don't include authorities in JSON
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role));
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -50,21 +52,25 @@ public class Client implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }
