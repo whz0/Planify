@@ -21,7 +21,7 @@ public class CalendarController {
     @PostMapping("/create-private")
     public ResponseEntity<TContext> CreatePrivateCalendar(@RequestBody Calendar cal) {
         //System.out.println(cal.toString())
-        TContext cont = new TContext();
+        TContext cont ;
         try {
             cont = calendarService.createPrivateCalendar(cal);
         }
@@ -35,7 +35,7 @@ public class CalendarController {
     // Obtener calendarios por usuario
     @GetMapping("/user/{userId}")
     public ResponseEntity<TContext> getCalendarsByUserId(@PathVariable Long userId) {
-        TContext cont = new TContext();
+        TContext cont;
         try {
             cont = calendarService.getCalendarsByUserId(userId);
         }
@@ -49,7 +49,7 @@ public class CalendarController {
     // Obtener un calendario específico por ID
     @GetMapping("/{calendarId}")
     public ResponseEntity<TContext> getCalendarById(@PathVariable Long calendarId) {
-        TContext cont = new TContext();
+        TContext cont;
         try {
             cont = calendarService.getCalendarById(calendarId);
         }
@@ -63,12 +63,26 @@ public class CalendarController {
     // Obtener eventos de un calendario específico
     @GetMapping("/{calendarId}/events")
     public ResponseEntity<TContext> getEventsByCalendarId(@PathVariable Long calendarId) {
-        TContext cont = new TContext();
+        TContext cont;
         try {
             cont = eventService.getEventsByCalendarId(calendarId);
         }
         catch (Exception e) {
             cont = new TContext(200, e.getMessage(), null);
+        }
+
+        return ResponseEntity.status(cont.getStatus_code()).body(cont);
+    }
+
+    // Unirse a un calendario con un código
+    @PostMapping("/join")
+    public ResponseEntity<TContext> joinCalendar(@RequestParam Long userId, @RequestParam String code) {
+        TContext cont;
+        try {
+            cont = calendarService.joinCalendar(userId, code);
+        }
+        catch (Exception e) {
+            cont = new TContext(400, e.getMessage(), null);
         }
 
         return ResponseEntity.status(cont.getStatus_code()).body(cont);
