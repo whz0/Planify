@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/codigo")
+@RequestMapping("/calendar-code")
 public class CodeController {
 
     @Autowired

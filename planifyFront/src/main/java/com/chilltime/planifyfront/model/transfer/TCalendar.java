@@ -1,5 +1,8 @@
 package com.chilltime.planifyfront.model.transfer;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TCalendar {
     private Long id;
     private String name;
@@ -8,7 +11,7 @@ public class TCalendar {
     private String type;
     private Long id_client;
     private long version;
-
+    private Long client; // Nuevo campo para manejar client como ID
 
     public TCalendar() {
     }
@@ -73,4 +76,13 @@ public class TCalendar {
     public long getVersion() {return version;}
 
     public void setVersion(long version) {this.version = version;}
+
+    // Nuevos getters y setters para el campo client
+    public Long getClient() {
+        return client;
+    }
+
+    public void setClient(Long client) {
+        this.client = client;
+    }
 }

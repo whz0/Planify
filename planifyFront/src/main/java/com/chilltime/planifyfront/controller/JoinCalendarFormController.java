@@ -8,6 +8,7 @@ import com.chilltime.planifyfront.model.transfer.TEvent;
 import com.chilltime.planifyfront.utils.CalendarUtils;
 import com.chilltime.planifyfront.utils.LocalDateAdapter;
 import com.chilltime.planifyfront.utils.LocalTimeAdapter;
+import com.chilltime.planifyfront.utils.SessionManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.concurrent.Task;
@@ -41,9 +42,9 @@ public class JoinCalendarFormController {
         }
 
         // Crear una tarea para solicitar unirse al calendario por código
-        /*Task<String> joinCalendarTask = ServiceFactory.getInstance()
+        Task<String> joinCalendarTask = ServiceFactory.getInstance()
                 .createCalendarSA()
-                .unirseACalendario(code);
+                .unirseACalendario(SessionManager.getInstance().getCurrentUserId(), code);
 
         joinCalendarTask.setOnSucceeded(event -> {
             try {
@@ -83,7 +84,7 @@ public class JoinCalendarFormController {
         });
 
         // Iniciar la tarea en un nuevo hilo
-        new Thread(joinCalendarTask).start();*/
+        new Thread(joinCalendarTask).start();
     }
 
     /**

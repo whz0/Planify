@@ -15,13 +15,12 @@ public class CalendarCodeSA {
         this.apiClient = apiClient;
     }
 
-    public Task<String> generateCalendarCode(TCalendarCode calendarCode) {
+    public Task<String> generateCalendarCode(Long idCalendar) {
         return new Task<>() {
             @Override
             protected String call() throws Exception {
                 try {
-                    String requestBody = apiClient.getObjectMapper().writeValueAsString(calendarCode);
-                    return apiClient.post(BASE_URL + "/generate", requestBody);
+                    return apiClient.post(BASE_URL + "/create/" + idCalendar, "");
                 } catch (IOException e) {
                     System.err.println("Error during API call: " + e.getMessage());
                     throw e;

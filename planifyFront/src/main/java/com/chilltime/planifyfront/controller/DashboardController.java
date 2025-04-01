@@ -94,7 +94,8 @@ public class DashboardController {
         // Iniciar thread de actualización de tiempo
         updateTimeThread();
 
-        SessionManager.getInstance().setCurrentUserId(1L);
+        SessionManager.getInstance().setCurrentUserId(2L);
+        loadUserCalendars();
     }
 
     private void configureCalendarHandlers() {
