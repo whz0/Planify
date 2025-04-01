@@ -58,8 +58,6 @@ public class SACalendarCodeUnitTest {
 
         Client client = new Client();
         client.setId(1L);
-        client.setUsername("testUser");
-        client.setPassword("testPassword");
 
         when(clientRepository.findById(client.getId())).thenReturn(java.util.Optional.of(client));
 
