@@ -124,7 +124,7 @@ public class CalendarControllerIntegrationTest {
         // Create a calendar with ASCII characters in name
         Calendar calendar = new Calendar();
         calendar.setName("Ñalendario");
-        calendar.setDescription("Bueno");
+        calendar.setDescription("MuyBueno");
         calendar.setActive(false);
         calendar.setType("privado");
         calendar.setId_client(this.id_client);
