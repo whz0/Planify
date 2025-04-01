@@ -44,7 +44,7 @@ public class JoinCalendarFormController {
         // Crear una tarea para solicitar unirse al calendario por código
         Task<String> joinCalendarTask = ServiceFactory.getInstance()
                 .createCalendarSA()
-                .unirseACalendario(SessionManager.getInstance().getCurrentUserId(), code);
+                .unirseACalendario(2L, code);
 
         joinCalendarTask.setOnSucceeded(event -> {
             try {
