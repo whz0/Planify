@@ -82,7 +82,7 @@ public class CalendarController {
             cont = calendarService.joinCalendar(userId, code);
         }
         catch (Exception e) {
-            cont = new TContext(400, e.getMessage(), null);
+            cont = new TContext(200, e.getMessage(), null);
         }
 
         return ResponseEntity.status(cont.getStatus_code()).body(cont);

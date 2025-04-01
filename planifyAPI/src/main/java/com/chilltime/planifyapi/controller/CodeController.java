@@ -22,13 +22,14 @@ public class CodeController {
 
     @PostMapping("/create/{calendarId}")
     public ResponseEntity<TContext> createCodeForCalendar(@PathVariable Long calendarId) {
+        TContext cont;
         try {
-            TContext context = codeService.createCode(calendarId);
-            return ResponseEntity.status(context.getStatus_code()).body(context);
+            cont = codeService.createCode(calendarId);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new TContext(400, e.getMessage(), null));
+            cont = new TContext(200, e.getMessage(), null);
         }
+
+        return ResponseEntity.status(cont.getStatus_code()).body(cont);
     }
 
     @GetMapping("/validate/{code}")

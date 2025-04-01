@@ -2,6 +2,7 @@ package com.chilltime.planifyapi;
 
 import com.chilltime.planifyapi.entity.Event;
 import com.chilltime.planifyapi.repository.EventRepository;
+import com.chilltime.planifyapi.repository.CalendarRepository;
 import com.chilltime.planifyapi.service.SAEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,9 @@ public class SAEventUnitTest {
 
     @Mock
     private EventRepository eventRepository;
+
+    @Mock
+    private CalendarRepository calendarRepository;
 
     @InjectMocks
     private SAEvent saevent;
@@ -38,10 +42,12 @@ public class SAEventUnitTest {
 
         when(eventRepository.save(event)).thenReturn(event);
 
-        Event result = saevent.createEvent(event);
+        TContext result = saevent.createEvent(event);
 
         assertNotNull(result);
-        assertEquals("evento Test", result.getName());
+        assertEquals(200, result.getStatus_code());
+        assertEquals("Evento creado correctamente", result.getMessage());
+        assertEquals("evento Test", ((Event)result.getData()).getName());
     }
 
     @Test
@@ -83,5 +89,20 @@ public class SAEventUnitTest {
         });
 
         assertEquals("Los campos nombre y ubicación deben ser caracteres ASCII", exception.getMessage());
+    }
+
+    @Test
+    public void testCreateEventWithLongName() {
+        Event event = new Event();
+        event.setName("Este nombre es demasiado largo para ser aceptado");
+        event.setDate(LocalDate.now().plusDays(1));
+        event.setTime(LocalTime.now().plusHours(1));
+        event.setLocation("Ubicacion Test");
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            saevent.createEvent(event);
+        });
+
+        assertEquals("El campo nombre no puede tener más de 20 caracteres", exception.getMessage());
     }
 }

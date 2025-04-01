@@ -28,7 +28,7 @@ public class SACalendarCode {
     public TContext createCode(Long calendarId) {
         Optional<Calendar> calendarOpt = calendarRepository.findById(calendarId);
         if(calendarOpt.isEmpty()) {
-            return new TContext(404, "Calendario no encontrado", null);
+            return new TContext(200, "Calendario no encontrado", null);
         }
 
         Random random = new Random();

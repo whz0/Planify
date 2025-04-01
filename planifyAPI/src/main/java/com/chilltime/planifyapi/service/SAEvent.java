@@ -25,7 +25,7 @@ public class SAEvent {
     private CalendarRepository calendarRepository;
 
     @Transactional
-    public Event createEvent(Event event){
+    public TContext createEvent(Event event){
 
         if(event.getDate() == null || event.getTime() == null || event.getName() == null || event.getLocation() == null){
             throw new IllegalArgumentException("Rellene todos los campos vacíos");
@@ -44,7 +44,7 @@ public class SAEvent {
             throw new IllegalArgumentException("Los campos nombre y ubicación deben ser caracteres ASCII");
         }
 
-        return eventRepository.save(event);
+        return new TContext(200, "Evento creado correctamente", eventRepository.save(event));
     }
 
     private boolean isASCII(String chain){
