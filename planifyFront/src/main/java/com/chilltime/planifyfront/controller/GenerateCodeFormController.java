@@ -31,11 +31,10 @@ public class GenerateCodeFormController {
     private ComboBox<TCalendar> calendarComboBox;
 
     private ObservableList<TCalendar> calendars = FXCollections.observableArrayList();
-    private CalendarSA calendarSA;
 
     @FXML
     private void initialize() {
-        calendarSA = ServiceFactory.getInstance().createCalendarSA();
+        CalendarSA calendarSA = ServiceFactory.getInstance().createCalendarSA();
 
         // Configurar ComboBox
         calendarComboBox.setItems(calendars);
@@ -72,7 +71,7 @@ public class GenerateCodeFormController {
 
     private void loadUserCalendars() {
         Long userId = SessionManager.getInstance().getCurrentUserId();
-        Task<String> task = calendarSA.getCalendarsWithEventsByUserId(userId);
+        Task<String> task = ServiceFactory.getInstance().createCalendarSA().getCalendarsWithEventsByUserId(userId);
 
         task.setOnSucceeded(event -> {
             String response = task.getValue();
@@ -121,7 +120,7 @@ public class GenerateCodeFormController {
             return;
         }
 
-        Task<String> task = calendarSA.generarCodigoCompartir(selectedCalendar.getId());
+        Task<String> task = ServiceFactory.getInstance().createCalendarCodeSA().generateCalendarCode(selectedCalendar.getId());
 
         task.setOnSucceeded(event -> {
             String response = task.getValue();
