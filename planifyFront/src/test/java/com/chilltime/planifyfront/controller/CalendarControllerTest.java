@@ -3,12 +3,16 @@ package com.chilltime.planifyfront.controller;
 import com.calendarfx.model.CalendarSource;
 import com.chilltime.planifyfront.test.BaseJavaFxTest;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,18 +51,6 @@ public class CalendarControllerTest extends BaseJavaFxTest {
         });
     }
 
-    private void setPrivateField(String fieldName, Object value) throws Exception {
-        Field field = CalendarFormController.class.getDeclaredField(fieldName);
-        field.setAccessible(true);
-        field.set(controller, value);
-    }
-
-    private Object getPrivateField(String fieldName) throws Exception {
-        Field field = CalendarFormController.class.getDeclaredField(fieldName);
-        field.setAccessible(true);
-        return field.get(controller);
-    }
-
     @Test
     public void testCreateCalendar() throws Exception {
         // Asignar valores a los campos de texto
@@ -94,13 +86,6 @@ public class CalendarControllerTest extends BaseJavaFxTest {
         assertFalse(primaryStage.isShowing());
     }
 
-
-    private void setPrivateField(Object object, String fieldName, Object value) throws Exception {
-        Field field = object.getClass().getDeclaredField(fieldName);
-        field.setAccessible(true);
-        field.set(object, value);
-    }
-
     @Test
     public void testGenerateCalendarCode() throws Exception {
         // Crear una instancia del controlador
@@ -128,5 +113,41 @@ public class CalendarControllerTest extends BaseJavaFxTest {
         sleep(100);
     }
 
+    @Test
+    public void testJoinCalendar() {
+
+        Platform.runLater(() -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/joinCalendarForm.fxml"));
+                Parent root = loader.load();
+                Stage stage = new Stage();
+                stage.setTitle("Unirse a Calendario");
+                stage.setScene(new Scene(root));
+                stage.show();
+                assertTrue(stage.isShowing());
+            }
+            catch (IOException e) {
+                Assertions.assertFalse(false);
+            }
+        });
+    }
+
+    private Object getPrivateField(String fieldName) throws Exception {
+        Field field = CalendarFormController.class.getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return field.get(controller);
+    }
+
+    private void setPrivateField(String fieldName, Object value) throws Exception {
+        Field field = CalendarFormController.class.getDeclaredField(fieldName);
+        field.setAccessible(true);
+        field.set(controller, value);
+    }
+
+    private void setPrivateField(Object object, String fieldName, Object value) throws Exception {
+        Field field = object.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        field.set(object, value);
+    }
 
 }
