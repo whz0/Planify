@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/21.0.0" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.chilltime.planifyfront.controller.JoinCalendarFormController"
+      stylesheets="@../styling/styles.css" styleClass="form-container">
+
+    <Label text="Unirse a Calendario" styleClass="form-label" />
+
+    <TextField fx:id="codeField"
+            promptText="Ingrese código de calendario"
+            styleClass="form-textfield"/>
+
+    <HBox spacing="10" alignment="CENTER" styleClass="form-buttons">
+        <Button text="Cancelar" onAction="#handleCancel" styleClass="form-button" />
+        <Button text="Aceptar" onAction="#handleAccept" styleClass="form-button" />
+    </HBox>
+</VBox>

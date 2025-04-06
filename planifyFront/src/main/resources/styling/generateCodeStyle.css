@@ -1,0 +1,11 @@
+.generate-button {
+    -fx-base: #2196F3; /* Color azul para diferenciar la acción */
+    -fx-text-fill: white;
+}
+
+.form-codefield {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #cccccc;
+}

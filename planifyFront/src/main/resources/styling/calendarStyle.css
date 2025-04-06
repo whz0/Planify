@@ -1,24 +1,25 @@
 /* Fondo unificado para todos los paneles */
 .root, .events-panel, .events-container {
-    -fx-background-color: #36393f;
+    -fx-background-color: #ffffff; /* Fondo blanco */
 }
-
 
 /* Blue color for day names and numbers */
 .day-number, .day-name {
     -fx-fill: #7289da;
     -fx-font-weight: bold;
 }
+
 .events-list-view {
-    -fx-background-color: #36393f; /* Mismo color de fondo que el resto */
-    -fx-control-inner-background: #36393f; /* Fondo interno de los elementos */
-    -fx-text-fill: #FFF; /* Color del texto */
+    -fx-background-color: #ffffff; /* Fondo blanco */
+    -fx-control-inner-background: #ffffff; /* Fondo interno blanco */
+    -fx-text-fill: #000; /* Texto en negro para buen contraste */
 }
+
 /* Estilos para el sidebar */
 .sidebar {
- -fx-background-color: #2C2F33;
+    -fx-background-color: #f0f0f0; /* Fondo gris claro */
     -fx-padding: 15px;
-    -fx-border-radius: 5px;
+    -fx-border-radius: 1px;
     -fx-border-color: #7289da;
 }
 
@@ -73,7 +74,6 @@
     -fx-min-height: 24px;
     -fx-background-radius: 3; /* Botón cuadrado */
     -fx-alignment: CENTER;
-
     -fx-cursor: hand;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 3, 0, 0, 2);
 }
@@ -86,6 +86,27 @@
     -fx-background-color: #004085;
 }
 
+/* Ejemplo de estilos para el contenedor de eventos */
+.events-container {
+    -fx-border-color: #7289da;
+    -fx-border-width: 1px;
+    -fx-padding: 10px;
+    -fx-background-color: #f4f4f4;
+}
+
+.events-header {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-padding: 0 0 5px 0;
+}
+
+.events-list-view {
+    -fx-background-color: white;
+    -fx-border-color: #7289da;
+}
+
+
 /* Panel superior del calendario: Barra de navegación fija */
 .calendar-title-bar {
     -fx-min-height: 50px;
@@ -93,11 +114,10 @@
     -fx-max-height: 50px;
     -fx-alignment: center;
     -fx-padding: 10px;
-
 }
 
 .calendar-title {
-    -fx-fill: #FFF; /* Cambiado de -fx-text-fill a -fx-fill */
+    -fx-fill: #000; /* Texto en negro para contraste con fondo claro */
     -fx-font-size: 20px;
     -fx-min-width: 200px;
     -fx-text-weight: bold;
@@ -120,7 +140,7 @@
 }
 
 .cell {
-    -fx-border-color : #FFF;
+    -fx-border-color: #FFF;
 }
 
 /* Resaltar fila seleccionada */
@@ -149,4 +169,80 @@
 
 .events-scrollpane .viewport {
     -fx-background-color: transparent;
+}
+
+/* AJustes accordion */
+
+/* Existing styles remain the same */
+
+/* Accordion and TitledPane Styling */
+.accordion {
+    -fx-background-color: transparent;
+}
+
+.accordion .titled-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 5px 0;
+}
+
+.accordion .titled-pane > .title {
+    -fx-background-color: #7289da;
+    -fx-text-fill: #FFF;
+    -fx-font-size: 12px;
+    -fx-padding: 8px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2);
+    -fx-padding: 5px; /* Reducido el padding */
+}
+
+.accordion .titled-pane > .title:hover {
+    -fx-background-color: #0056b3;
+}
+
+.accordion .titled-pane > .title:pressed {
+    -fx-background-color: #004085;
+}
+
+.accordion .titled-pane > .content {
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 10px;
+    -fx-background-radius: 0 0 5px 5px;
+}
+
+.accordion .titled-pane:expanded > .title {
+    -fx-background-color: #0056b3;
+    -fx-text-fill: #FFFFFF;
+}
+
+/* Animation for expanding/collapsing */
+.accordion .titled-pane {
+    -fx-background-radius: 5px;
+    -fx-background-insets: 0;
+    -fx-background-color: transparent;
+    -fx-transition: all 0.3s ease;
+}
+
+.accordion .titled-pane > .content {
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 10px;
+    -fx-background-radius: 0 0 5px 5px;
+    -fx-opacity: 0;
+    -fx-max-height: 0;
+    -fx-transition: all 0.3s ease;
+}
+
+.accordion .titled-pane:expanded > .content {
+    -fx-opacity: 1;
+    -fx-max-height: 300px; /* Adjust as needed */
+}
+
+/* Ensure buttons inside accordion have consistent styling */
+.accordion .button-sidebar {
+    -fx-margin: 5px 0;
+    -fx-padding: 8px;
+    -fx-min-width: 150px;
+    -fx-pref-height: 30px;
+
 }

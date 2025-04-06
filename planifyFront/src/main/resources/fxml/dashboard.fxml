@@ -1,27 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="506.0" prefWidth="1094.0" stylesheets="@../styling/calendarStyle.css" xmlns="http://javafx.com/javafx/21.0.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.chilltime.planifyfront.controller.DashboardController">
-    <!-- Sidebar with dark interface and blue contrasts -->
+<BorderPane prefHeight="700.0" prefWidth="1400.0" stylesheets="@../styling/calendarStyle.css" xmlns="http://javafx.com/javafx/21.0.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.chilltime.planifyfront.controller.DashboardController" styleClass="form-container">
+    <!-- Sidebar -->
     <left>
         <VBox alignment="TOP_LEFT" prefWidth="200.0" spacing="10" styleClass="sidebar">
             <Label styleClass="sidebar-label" text="Planify" />
-            <Button alignment="CENTER" onAction="#crearEvento" prefHeight="26.0" prefWidth="168.0" styleClass="button-sidebar" text="Crear Evento" textAlignment="CENTER" />
+
+            <Button alignment="CENTER" onAction="#crearEventoForm" prefHeight="26.0" prefWidth="194.0" styleClass="button-sidebar" text="Crear Evento" textAlignment="CENTER" />
+
+            <Accordion>
+                <panes>
+                    <TitledPane animated="true" prefHeight="190.0" prefWidth="168.0" text="Calendarios" textFill="WHITE">
+                        <VBox spacing="10">
+                            <Button alignment="CENTER" onAction="#crearCalendarioForm" prefHeight="30.0" prefWidth="151.0" styleClass="button-sidebar" text="Crear Calendario" textAlignment="CENTER" />
+                            <Button alignment="CENTER" onAction="#unirseCalendario" prefHeight="30.0" prefWidth="151.0" styleClass="button-sidebar" text="Unirse a Calendario" textAlignment="CENTER" />
+                            <Button alignment="CENTER" onAction="#generarCodigoForm" prefHeight="30.0" prefWidth="151.0" styleClass="button-sidebar" text="Generar Código" textAlignment="CENTER" />
+                        </VBox>
+                    </TitledPane>
+                </panes>
+            </Accordion>
         </VBox>
     </left>
 
-    <!-- Center area containing calendar and events panel -->
+    <!-- Área central: Calendario arriba y panel de eventos anclado abajo -->
     <center>
-        <VBox alignment="TOP_CENTER" spacing="10">
-            <!-- Calendar pane remains unchanged -->
-            <AnchorPane fx:id="calendarPane" prefHeight="400.0" prefWidth="800.0" />
-            <ListView fx:id="eventsListView" prefHeight="150.0" prefWidth="800.0" styleClass="events-list-view" />
-        </VBox>
+        <AnchorPane>
+            <!-- Calendario anclado en todos los lados excepto el fondo -->
+            <AnchorPane fx:id="calendarPane" prefHeight="520.0" prefWidth="1200.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+
+            <VBox prefHeight="180.0" prefWidth="1200.0" spacing="5" styleClass="events-container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                <!-- Título para el panel -->
+                <Label styleClass="events-header" text="Eventos" />
+                <!-- ListView de eventos -->
+                <ListView fx:id="eventsListView" prefHeight="120.0" styleClass="events-list-view" />
+            </VBox>
+        </AnchorPane>
     </center>
 </BorderPane>
