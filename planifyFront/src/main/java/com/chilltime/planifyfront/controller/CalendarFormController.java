@@ -13,7 +13,6 @@ import com.google.gson.*;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
@@ -78,7 +77,7 @@ public class CalendarFormController {
         }
         // Llamar a la API para crear nuevo calendario privado
         TCalendar calendar = CalendarUtils.toTCalendar(newCalendar);
-        calendar.setId_client(2L);
+        calendar.setId_planner(2L);
         calendar.setDescription(description);
         System.out.println(calendar);
         Task<String> apiTask = ServiceFactory.getInstance().createCalendarSA().crearCalendario(calendar);

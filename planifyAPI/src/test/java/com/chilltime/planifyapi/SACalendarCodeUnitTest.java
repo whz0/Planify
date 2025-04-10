@@ -2,9 +2,9 @@ package com.chilltime.planifyapi;
 
 import com.chilltime.planifyapi.entity.Calendar;
 import com.chilltime.planifyapi.entity.CalendarCode;
-import com.chilltime.planifyapi.entity.Client;
+import com.chilltime.planifyapi.entity.Planner;
 import com.chilltime.planifyapi.repository.CalendarRepository;
-import com.chilltime.planifyapi.repository.ClientRepository;
+import com.chilltime.planifyapi.repository.PlannerRepository;
 import com.chilltime.planifyapi.repository.CodigoRepository;
 import com.chilltime.planifyapi.service.SACalendarCode;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 public class SACalendarCodeUnitTest {
 
-    /*private class StubClient extends Client {
+    /*private class Stubplanner extends Client {
         public StubClient() {
             super();
         }
@@ -31,7 +31,7 @@ public class SACalendarCodeUnitTest {
             super();
             this.setName("StubCalendar");
             this.setDescription("Stub Description");
-            this.setId_client(1L);
+            this.setId_planner(1L);
             this.setId(1L);
         }
     }*/
@@ -43,7 +43,7 @@ public class SACalendarCodeUnitTest {
     private CalendarRepository calendarRepository;
 
     @Mock
-    private ClientRepository clientRepository;
+    private PlannerRepository plannerRepository;
 
     @InjectMocks
     private SACalendarCode saCode;
@@ -56,14 +56,14 @@ public class SACalendarCodeUnitTest {
     @Test
     public void testCreateCalendarCodeWithValidInput() {
 
-        Client client = new Client();
-        client.setId(1L);
+        Planner planner = new Planner();
+        planner.setId(1L);
 
-        when(clientRepository.findById(client.getId())).thenReturn(java.util.Optional.of(client));
+        when(plannerRepository.findById(planner.getId())).thenReturn(java.util.Optional.of(planner));
 
         Calendar calendar = new Calendar();
         calendar.setId(1L);
-        calendar.setClient(client);
+        calendar.setPlanner(planner);
         calendar.setType("private");
         when(calendarRepository.findById(calendar.getId())).thenReturn(java.util.Optional.of(calendar));
 

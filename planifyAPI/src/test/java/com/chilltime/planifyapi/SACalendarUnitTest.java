@@ -1,9 +1,9 @@
 package com.chilltime.planifyapi;
 
 import com.chilltime.planifyapi.entity.Calendar;
-import com.chilltime.planifyapi.entity.Client;
+import com.chilltime.planifyapi.entity.Planner;
 import com.chilltime.planifyapi.repository.CalendarRepository;
-import com.chilltime.planifyapi.repository.ClientRepository;
+import com.chilltime.planifyapi.repository.PlannerRepository;
 import com.chilltime.planifyapi.service.SACalendar;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ public class SACalendarUnitTest {
     private CalendarRepository calendarRepository;
 
     @Mock
-    private ClientRepository clientRepository;
+    private PlannerRepository plannerRepository;
 
     @InjectMocks
     private SACalendar saCalendar;
@@ -34,12 +34,12 @@ public class SACalendarUnitTest {
         Calendar calendar = new Calendar();
         calendar.setName("Calendario Test");
         calendar.setDescription("Descripción Test");
-        calendar.setId_client(1L);
+        calendar.setId_planner(1L);
 
-        Client client = new Client();
-        client.setId(1L);
+        Planner planner = new Planner();
+        planner.setId(1L);
 
-        when(clientRepository.findById(1L)).thenReturn(java.util.Optional.of(client));
+        when(plannerRepository.findById(1L)).thenReturn(java.util.Optional.of(planner));
         when(calendarRepository.save(calendar)).thenReturn(calendar);
 
         TContext result = saCalendar.createPrivateCalendar(calendar);
@@ -55,12 +55,12 @@ public class SACalendarUnitTest {
         Calendar calendar = new Calendar();
         calendar.setName("");
         calendar.setDescription("Descripción Test");
-        calendar.setId_client(1L);
+        calendar.setId_planner(1L);
 
-        Client client = new Client();
-        client.setId(1L);
+        Planner planner = new Planner();
+        planner.setId(1L);
 
-        when(clientRepository.findById(1L)).thenReturn(java.util.Optional.of(client));
+        when(plannerRepository.findById(1L)).thenReturn(java.util.Optional.of(planner));
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             saCalendar.createPrivateCalendar(calendar);
@@ -73,12 +73,12 @@ public class SACalendarUnitTest {
         Calendar calendar = new Calendar();
         calendar.setName("Calendario Test");
         calendar.setDescription("Descripción".repeat(30)); // Descripción demasiado larga
-        calendar.setId_client(1L);
+        calendar.setId_planner(1L);
 
-        Client client = new Client();
-        client.setId(1L);
+        Planner planner = new Planner();
+        planner.setId(1L);
 
-        when(clientRepository.findById(1L)).thenReturn(java.util.Optional.of(client));
+        when(plannerRepository.findById(1L)).thenReturn(java.util.Optional.of(planner));
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             saCalendar.createPrivateCalendar(calendar);
@@ -92,13 +92,13 @@ public class SACalendarUnitTest {
         Calendar calendar = new Calendar();
         calendar.setName("Calendario Test");
         calendar.setDescription("Descripción Test");
-        calendar.setId_client(1L);
+        calendar.setId_planner(1L);
 
-        Client client = new Client();
-        client.setId(1L);
+        Planner planner = new Planner();
+        planner.setId(1L);
 
-        when(clientRepository.findById(1L)).thenReturn(java.util.Optional.of(client));
-        when(calendarRepository.existsByNameAndClient("Calendario Test", client)).thenReturn(true);
+        when(plannerRepository.findById(1L)).thenReturn(java.util.Optional.of(planner));
+        when(calendarRepository.existsByNameAndPlanner("Calendario Test", planner)).thenReturn(true);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             saCalendar.createPrivateCalendar(calendar);
@@ -112,12 +112,12 @@ public class SACalendarUnitTest {
         Calendar calendar = new Calendar();
         calendar.setName("Calendario@123");
         calendar.setDescription("Descripción Test");
-        calendar.setId_client(1L);
+        calendar.setId_planner(1L);
 
-        Client client = new Client();
-        client.setId(1L);
+        Planner planner = new Planner();
+        planner.setId(1L);
 
-        when(clientRepository.findById(1L)).thenReturn(java.util.Optional.of(client));
+        when(plannerRepository.findById(1L)).thenReturn(java.util.Optional.of(planner));
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             saCalendar.createPrivateCalendar(calendar);
@@ -127,13 +127,13 @@ public class SACalendarUnitTest {
     }
 
     @Test
-    public void testCreatePrivateCalendarWithNonExistentClient() {
+    public void testCreatePrivateCalendarWithNonExistentPlanner() {
         Calendar calendar = new Calendar();
         calendar.setName("Calendario Test");
         calendar.setDescription("Descripción Test");
-        calendar.setId_client(1L);
+        calendar.setId_planner(1L);
 
-        when(clientRepository.findById(1L)).thenReturn(java.util.Optional.empty());
+        when(plannerRepository.findById(1L)).thenReturn(java.util.Optional.empty());
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             saCalendar.createPrivateCalendar(calendar);

@@ -1,7 +1,6 @@
 package com.chilltime.planifyapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -15,7 +14,7 @@ import java.util.List;
 @Entity
 @Data
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Client implements UserDetails {
+public class Planner implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +30,7 @@ public class Client implements UserDetails {
     @Version
     private long version;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "planner")
     private List<Calendar> calendars;
 
     @Override

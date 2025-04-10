@@ -2,9 +2,9 @@ package com.chilltime.planifyapi.service;
 
 import com.chilltime.planifyapi.TContext;
 import com.chilltime.planifyapi.entity.Calendar;
-import com.chilltime.planifyapi.entity.Client;
+import com.chilltime.planifyapi.entity.Planner;
 import com.chilltime.planifyapi.repository.CalendarRepository;
-import com.chilltime.planifyapi.repository.ClientRepository;
+import com.chilltime.planifyapi.repository.PlannerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,17 +19,18 @@ public class SACalendar {
     private CalendarRepository calendarRepository;
 
     @Autowired
-    private ClientRepository clientRepository;
+    private PlannerRepository plannerRepository;
 
     @Transactional
     public TContext createPrivateCalendar(Calendar calendar) {
-        Client client = clientRepository.findById(calendar.getId_client()).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        calendar.setClient(client);
+        Planner planner = plannerRepository.findById(calendar.getId_planner()).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        calendar.setPlanner(planner);
 
-        System.out.println("Cliente ID: " + calendar.getId_client());
+        System.out.println("planner ID: " + calendar.getId_planner());
         System.out.println("Calendarios en BD: " + calendarRepository.count());
 
-        validateCalendar(calendar.getName(), calendar.getDescription(), calendar.getClient());
+
+        validateCalendar(calendar.getName(), calendar.getDescription(), calendar.getPlanner());
         calendar.setActive(true);
         calendar.setType("PRIVATE");
         return new TContext(200, "Creado correctamente", calendarRepository.save(calendar));
@@ -38,10 +39,10 @@ public class SACalendar {
 
     @Transactional
     public TContext getCalendarsByUserId(Long userId) {
-        Client client = clientRepository.findById(userId)
+        Planner planner = plannerRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        List<Calendar> calendars = calendarRepository.findByClient(client);
+        List<Calendar> calendars = calendarRepository.findByPlanner(planner);
 
         if (calendars.isEmpty()) {
             return new TContext(404, "No se encontraron calendarios para este usuario", null);
@@ -50,7 +51,7 @@ public class SACalendar {
         return new TContext(200, "Calendarios obtenidos correctamente", calendars);
     }
 
-    private void validateCalendar(String name, String description, Client client) {
+    private void validateCalendar(String name, String description, Planner planner) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre es obligatorio y no puede estar compuesto por espacios en blanco.");
         }
@@ -66,7 +67,7 @@ public class SACalendar {
             throw new IllegalArgumentException("La descripción debe tener un máximo de 255 caracteres.");
         }
 
-        if (calendarRepository.existsByNameAndClient(name, client)) {
+        if (calendarRepository.existsByNameAndPlanner(name, planner)) {
             throw new IllegalArgumentException("El nombre ya está en uso por otro calendario privado suyo. Por favor, elija otro nombre.");
         }
     }

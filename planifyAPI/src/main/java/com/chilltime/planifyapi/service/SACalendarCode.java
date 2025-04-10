@@ -4,11 +4,10 @@ import com.chilltime.planifyapi.TContext;
 import com.chilltime.planifyapi.entity.Calendar;
 import com.chilltime.planifyapi.entity.CalendarCode;
 import com.chilltime.planifyapi.repository.CalendarRepository;
-import com.chilltime.planifyapi.repository.ClientRepository;
+import com.chilltime.planifyapi.repository.PlannerRepository;
 import com.chilltime.planifyapi.repository.CodigoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,7 +21,7 @@ public class SACalendarCode {
     @Autowired
     private CalendarRepository calendarRepository;
     @Autowired
-    private ClientRepository clientRepository;
+    private PlannerRepository plannerRepository;
 
     private static final int CODE_LENGTH = 6;
     private static final String CODE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -38,7 +37,7 @@ public class SACalendarCode {
         }
 
         Calendar calendar = calendarOpt.get();
-        boolean esPropietario = calendar.getClient().getId().equals(code.getCalendar().getClient().getId());
+        boolean esPropietario = calendar.getPlanner().getId().equals(code.getCalendar().getPlanner().getId());
 
         // Si el calendario es público y el usuario no tiene permisos, bloquear
         if (!"private".equalsIgnoreCase(calendar.getType()) && !esPropietario) {

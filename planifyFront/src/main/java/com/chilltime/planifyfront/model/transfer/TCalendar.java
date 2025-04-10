@@ -6,18 +6,18 @@ public class TCalendar {
     private String description;
     private boolean active;
     private String type;
-    private Long id_client;
+    private Long id_planner;
 
     public TCalendar() {
     }
 
-    public TCalendar(Long id, String name, String description, boolean active, String type, Long id_user) {
+    public TCalendar(Long id, String name, String description, boolean active, String type, Long id_planner) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.active = active;
         this.type = type;
-        this.id_client = id_user;
+        this.id_planner = id_planner;
     }
 
     public Long getId() {
@@ -60,11 +60,11 @@ public class TCalendar {
         this.type = type;
     }
 
-    public Long getId_client() {
-        return id_client;
+    public Long getId_planner() {
+        return id_planner;
     }
 
-    public void setId_client(Long id_client) {
-        this.id_client = id_client;
+    public void setId_planner(Long id_planner) {
+        this.id_planner = id_planner;
     }
 }

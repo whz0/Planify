@@ -1,17 +1,15 @@
 package com.chilltime.planifyapi;
 
 import com.chilltime.planifyapi.entity.Calendar;
-import com.chilltime.planifyapi.entity.Client;
+import com.chilltime.planifyapi.entity.Planner;
 import com.chilltime.planifyapi.repository.CalendarRepository;
-import com.chilltime.planifyapi.repository.ClientRepository;
+import com.chilltime.planifyapi.repository.PlannerRepository;
 import com.chilltime.planifyapi.service.SACalendar;
-import com.zaxxer.hikari.HikariDataSource;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
@@ -42,9 +40,9 @@ public class CalendarControllerIntegrationTest {
     private CalendarRepository calendarRepository;
 
     @Autowired
-    private ClientRepository clientRepository;
+    private PlannerRepository plannerRepository;
 
-    private Long id_client;
+    private Long id_planner;
 
     @BeforeAll
     public static void setUp() {
@@ -62,20 +60,20 @@ public class CalendarControllerIntegrationTest {
     @BeforeEach
     void setUpDatas(){
 
-        Client client = new Client();
-        client.setRole("admin");
-        client.setPassword("password");
-        client.setUsername("Pepe");
-        client.setCalendars(new ArrayList<Calendar>());
-        clientRepository.save(client);
+        Planner planner = new Planner();
+        planner.setRole("admin");
+        planner.setPassword("password");
+        planner.setUsername("Pepe");
+        planner.setCalendars(new ArrayList<Calendar>());
+        plannerRepository.save(planner);
 
-        this.id_client = client.getId();
+        this.id_planner = planner.getId();
     }
 
     @AfterEach
     void tearDownDatas(){
         calendarRepository.deleteAll();
-        clientRepository.deleteAll();
+        plannerRepository.deleteAll();
     }
 
     @Test
@@ -93,7 +91,7 @@ public class CalendarControllerIntegrationTest {
         calendar.setDescription("Bueno");
         calendar.setActive(false);
         calendar.setType("privado");
-        calendar.setId_client(this.id_client);
+        calendar.setId_planner(this.id_planner);
 
         // Save the calendar using the service
         TContext context = calendarService.createPrivateCalendar(calendar);
@@ -111,7 +109,7 @@ public class CalendarControllerIntegrationTest {
         calendar.setDescription("Bueno");
         calendar.setActive(false);
         calendar.setType("privado");
-        calendar.setId_client(this.id_client);
+        calendar.setId_planner(this.id_planner);
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(()->{
             calendarService.createPrivateCalendar(calendar);
@@ -128,7 +126,7 @@ public class CalendarControllerIntegrationTest {
         calendar.setDescription("MuyBueno");
         calendar.setActive(false);
         calendar.setType("privado");
-        calendar.setId_client(this.id_client);
+        calendar.setId_planner(this.id_planner);
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(()->{
             calendarService.createPrivateCalendar(calendar);
@@ -145,7 +143,7 @@ public class CalendarControllerIntegrationTest {
         calendar.setDescription("Bueno");
         calendar.setActive(false);
         calendar.setType("privado");
-        calendar.setId_client(this.id_client);
+        calendar.setId_planner(this.id_planner);
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(()->{
             calendarService.createPrivateCalendar(calendar);
@@ -171,7 +169,7 @@ public class CalendarControllerIntegrationTest {
                                 "2KDGKcJMq2455Fp5HCYRkvLwkD");
         calendar.setActive(false);
         calendar.setType("privado");
-        calendar.setId_client(this.id_client);
+        calendar.setId_planner(this.id_planner);
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(()->{
             calendarService.createPrivateCalendar(calendar);
@@ -187,7 +185,7 @@ public class CalendarControllerIntegrationTest {
         calendar.setDescription("Bueno");
         calendar.setActive(false);
         calendar.setType("privado");
-        calendar.setId_client(this.id_client);
+        calendar.setId_planner(this.id_planner);
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(()->{
             calendarService.createPrivateCalendar(calendar);
@@ -204,7 +202,7 @@ public class CalendarControllerIntegrationTest {
         calendar.setDescription("Bueno");
         calendar.setActive(false);
         calendar.setType("privado");
-        calendar.setId_client(this.id_client);
+        calendar.setId_planner(this.id_planner);
 
         calendarService.createPrivateCalendar(calendar);
 
@@ -213,7 +211,7 @@ public class CalendarControllerIntegrationTest {
         calendar2.setDescription("Mejor");
         calendar2.setActive(false);
         calendar2.setType("privado");
-        calendar2.setId_client(this.id_client);
+        calendar2.setId_planner(this.id_planner);
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(()->{
             calendarService.createPrivateCalendar(calendar2);

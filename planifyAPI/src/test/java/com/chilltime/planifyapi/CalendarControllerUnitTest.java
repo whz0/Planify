@@ -32,7 +32,7 @@ public class CalendarControllerUnitTest {
         Calendar calendar = new Calendar();
         calendar.setName("Calendario Test");
         calendar.setDescription("Descripción Test");
-        calendar.setId_client(1L);
+        calendar.setId_planner(1L);
 
         TContext context = new TContext(200, "Creado correctamente", calendar);
 
@@ -51,7 +51,7 @@ public class CalendarControllerUnitTest {
         Calendar calendar = new Calendar();
         calendar.setName("");
         calendar.setDescription("Descripción Test");
-        calendar.setId_client(1L);
+        calendar.setId_planner(1L);
 
         when(saCalendar.createPrivateCalendar(calendar)).thenThrow(new IllegalArgumentException("El nombre es obligatorio y no puede estar compuesto por espacios en blanco."));
 
@@ -68,7 +68,7 @@ public class CalendarControllerUnitTest {
         Calendar calendar = new Calendar();
         calendar.setName("Calendario Test");
         calendar.setDescription("Descripción".repeat(30)); // Descripción demasiado larga
-        calendar.setId_client(1L);
+        calendar.setId_planner(1L);
 
         when(saCalendar.createPrivateCalendar(calendar)).thenThrow(new IllegalArgumentException("La descripción debe tener un máximo de 255 caracteres."));
 
@@ -85,7 +85,7 @@ public class CalendarControllerUnitTest {
         Calendar calendar = new Calendar();
         calendar.setName("Calendario Test");
         calendar.setDescription("Descripción Test");
-        calendar.setId_client(1L);
+        calendar.setId_planner(1L);
 
         when(saCalendar.createPrivateCalendar(calendar)).thenThrow(new IllegalArgumentException("El nombre ya está en uso por otro calendario privado suyo. Por favor, elija otro nombre."));
 
@@ -102,7 +102,7 @@ public class CalendarControllerUnitTest {
         Calendar calendar = new Calendar();
         calendar.setName("Calendario@123");
         calendar.setDescription("Descripción Test");
-        calendar.setId_client(1L);
+        calendar.setId_planner(1L);
 
         when(saCalendar.createPrivateCalendar(calendar)).thenThrow(new IllegalArgumentException("El nombre debe contener solo caracteres alfanuméricos y espacios."));
 
@@ -115,11 +115,11 @@ public class CalendarControllerUnitTest {
     }
 
     @Test
-    public void testCreatePrivateCalendarWithNonExistentClient() {
+    public void testCreatePrivateCalendarWithNonExistentPlanner() {
         Calendar calendar = new Calendar();
         calendar.setName("Calendario Test");
         calendar.setDescription("Descripción Test");
-        calendar.setId_client(1L);
+        calendar.setId_planner(1L);
 
         when(saCalendar.createPrivateCalendar(calendar)).thenThrow(new RuntimeException("Usuario no encontrado"));
 

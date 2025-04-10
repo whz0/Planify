@@ -1,6 +1,5 @@
 package com.chilltime.planifyapi.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
@@ -26,10 +25,10 @@ public class Calendar {
     private long version;
 
     @Transient
-    private Long id_client;
+    private Long id_planner;
 
     @ManyToOne
-    private Client client;
+    private Planner planner;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
