@@ -25,7 +25,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         primaryStage = stage;
-        changeView("dashboard", "Planify"); // Carga la primera vista
+        changeView("register", "Planify"); // Carga la primera vista
     }
 
     public static void main(String[] args) {

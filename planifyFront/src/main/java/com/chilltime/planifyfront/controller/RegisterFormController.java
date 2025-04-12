@@ -1,5 +1,6 @@
 package com.chilltime.planifyfront.controller;
 
+import com.chilltime.planifyfront.App;
 import com.chilltime.planifyfront.model.service.ServiceFactory;
 import com.chilltime.planifyfront.model.transfer.TEvent;
 import com.chilltime.planifyfront.model.transfer.TPlanner;
@@ -9,10 +10,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
@@ -34,6 +33,11 @@ public class RegisterFormController {
     private PasswordField password;
 
     @FXML
+    private Label lblErrors;
+
+    // TODO Actualizar lblErrors para q muestre error cuando funcione(usuario ya registrado, etc)
+    // TODO Guardar id de usuario creado en SessionManager cuando se cree
+    @FXML
     private void handleRegister(){
         try{
             TPlanner planner = new TPlanner();
@@ -44,6 +48,7 @@ public class RegisterFormController {
             apiTask.setOnSucceeded(e -> {
                 TPlanner plannerReturned = gson.fromJson(apiTask.getValue(), TPlanner.class);
                 showSuccessDialog("Planner Registrado", "Te has registrado correctamente.");
+                App.changeView("dashboard","Planify");
                 closeWindow();
             });
 
@@ -63,5 +68,19 @@ public class RegisterFormController {
     private void closeWindow() {
         Stage stage = (Stage) username.getScene().getWindow();
         stage.close();
+    }
+
+    private void showError(String message) {
+        lblErrors.setText(message);
+    }
+
+
+    public void handleButtonAction(MouseEvent mouseEvent) {
+    }
+
+    /**
+     * TODO Logica para cambiar de vista de registro a login
+     */
+    public void changeView(MouseEvent mouseEvent) {
     }
 }
