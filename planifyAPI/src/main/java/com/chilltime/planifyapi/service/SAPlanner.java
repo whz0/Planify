@@ -31,6 +31,11 @@ public class SAPlanner {
             throw new IllegalArgumentException("El nombre de usuario no es válido. Debe tener máximo 15 caracteres");
         }
 
+        //Validar longitud de la contraseña
+        if(password.length() < 8 || password.length() > 15) {
+            throw new IllegalArgumentException("La contraseña debe de tener entre 8 y 15 caracteres de longitud");
+        }
+
         //Validar si el planner ya existe
         if (plannerRepository.findByUsername(username) != null) {
             throw new IllegalArgumentException("El nombre de usuario ya existe");

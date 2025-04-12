@@ -59,7 +59,7 @@ public class TPlanner {
 
     @Override
     public String toString() {
-        return "Planner: " + username + " " + password;
+        return "Planner: " + username + " with password: " + password;
     }
 
 }
