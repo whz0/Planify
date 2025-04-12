@@ -19,6 +19,11 @@ public class ServiceFactoryImp extends ServiceFactory{
     }
 
     @Override
+    public CalendarCodeSA createCalendarCodeSA() {
+        return new CalendarCodeSA(apiClient);
+    }
+
+    @Override
     public PlannerSA createPlannerSA() {
         return new PlannerSA(apiClient);
     }
