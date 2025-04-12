@@ -6,6 +6,7 @@ import com.chilltime.planifyfront.model.transfer.TEvent;
 import com.chilltime.planifyfront.model.transfer.TPlanner;
 import com.chilltime.planifyfront.utils.LocalDateAdapter;
 import com.chilltime.planifyfront.utils.LocalTimeAdapter;
+import com.chilltime.planifyfront.utils.SessionManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.concurrent.Task;
@@ -36,7 +37,6 @@ public class RegisterFormController {
     private Label lblErrors;
 
     // TODO Actualizar lblErrors para q muestre error cuando funcione(usuario ya registrado, etc)
-    // TODO Guardar id de usuario creado en SessionManager cuando se cree
     @FXML
     private void handleRegister(){
         try{
@@ -48,6 +48,7 @@ public class RegisterFormController {
             apiTask.setOnSucceeded(e -> {
                 TPlanner plannerReturned = gson.fromJson(apiTask.getValue(), TPlanner.class);
                 showSuccessDialog("Planner Registrado", "Te has registrado correctamente.");
+                SessionManager.getInstance().setCurrentUserId(plannerReturned.getId());
                 App.changeView("dashboard","Planify");
                 closeWindow();
             });
