@@ -20,6 +20,17 @@ public class SAPlanner {
         return new TContext(200, "Planner registrado correctamente", savedPlanner);
     }
 
+    @Transactional
+    public TContext login(Planner planner) {
+        Planner savedPlanner = plannerRepository.findByUsername(planner.getUsername());
+
+        if (planner.getPassword().equals(savedPlanner.getPassword())) {
+            return new TContext(403, "El usuario o la contraseña no son correctos", null);
+        }
+
+        return new TContext(200, "Login efectuado correctamente", savedPlanner);
+    }
+
     private void validatePlanner(String username, String password) {
         //Validar campos vacíos y cadenas en blanco
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
