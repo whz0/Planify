@@ -19,10 +19,8 @@ public class PlannerController {
         try {
             TContext response = plannerService.register(planner);
             return ResponseEntity.status(response.getStatus_code()).body(response);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new TContext(400, e.getMessage(), null));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new TContext(500, "Error al registrar el usuario.", null));
+            return ResponseEntity.badRequest().body(new TContext(200, e.getMessage(), null));
         }
     }
 }
