@@ -20,7 +20,7 @@ public class PlannerController {
             TContext response = plannerService.register(planner);
             return ResponseEntity.status(response.getStatus_code()).body(response);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new TContext(200, e.getMessage(), null));
+            return ResponseEntity.status(200).body(new TContext(200, e.getMessage(), null));
         }
     }
 }

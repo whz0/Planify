@@ -2,6 +2,8 @@ package com.chilltime.planifyfront.controller;
 
 import com.chilltime.planifyfront.App;
 import com.chilltime.planifyfront.model.service.ServiceFactory;
+import com.chilltime.planifyfront.model.transfer.TCalendar;
+import com.chilltime.planifyfront.model.transfer.TContext;
 import com.chilltime.planifyfront.model.transfer.TEvent;
 import com.chilltime.planifyfront.model.transfer.TPlanner;
 import com.chilltime.planifyfront.utils.LocalDateAdapter;
@@ -43,18 +45,27 @@ public class RegisterFormController {
             TPlanner planner = new TPlanner();
             planner.setUsername(username.getText());
             planner.setPassword(password.getText());
+            planner.setRole("ROLE_PLANNER");
+            planner.setActive(true);
             // Llamar a la API para crear el evento
+            System.out.println("[Register form controller] Planner info: " + planner);
             Task<String> apiTask = ServiceFactory.getInstance().createPlannerSA().registerPlanner(planner);
             apiTask.setOnSucceeded(e -> {
-                TPlanner plannerReturned = gson.fromJson(apiTask.getValue(), TPlanner.class);
-                showSuccessDialog("Planner Registrado", "Te has registrado correctamente.");
-                SessionManager.getInstance().setCurrentUserId(plannerReturned.getId());
-                App.changeView("dashboard","Planify");
-                closeWindow();
+                TContext context = gson.fromJson(apiTask.getValue(), TContext.class);
+                if(context.getData() == null){
+                    showError(context.getMessage());
+                    showErrorDialog("Error de registro", context.getMessage());
+                }else{
+                    TPlanner plannerReturned = gson.fromJson(gson.toJson(context.getData()), TPlanner.class);
+                    showSuccessDialog("Planner Registrado", "Te has registrado correctamente.");
+                    SessionManager.getInstance().setCurrentUserId(plannerReturned.getId());
+                    App.changeView("dashboard","Planify");
+                    closeWindow();
+                }
             });
 
             apiTask.setOnFailed(e -> {
-                showErrorDialog("Error de conexión", "No se pudo conectar a la API.");
+                showErrorDialog("Error de conexión", "No se pudo conectar a la API");
             });
 
             new Thread(apiTask).start();
