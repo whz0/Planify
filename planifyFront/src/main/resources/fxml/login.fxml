@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="503.0" prefWidth="854.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.chilltime.planifyfront.controller.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="503.0" prefWidth="854.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/21.0.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.chilltime.planifyfront.controller.LoginController">
     <children>
         <AnchorPane prefHeight="503.0" prefWidth="382.0" style="-fx-background-color: #0C39FF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -24,7 +24,7 @@
                         <Font name="Segoe UI" size="12.0" />
                     </font>
                 </Label>
-                <Button fx:id="btnSignup" layoutX="53.0" layoutY="338.0" mnemonicParsing="false" onMouseClicked="#handleButtonAction" prefHeight="34.0" prefWidth="275.0" styleClass="button" stylesheets="@../styling/fullpackstyling.css" text="Sign up" />
+                <Button fx:id="btnSignup" layoutX="53.0" layoutY="338.0" mnemonicParsing="false" onMouseClicked="#handleButtonAction" prefHeight="34.0" prefWidth="275.0" styleClass="button" stylesheets="@../styling/authForm.css" text="Sign up" />
                 <ImageView fitHeight="148.0" fitWidth="196.0" layoutX="127.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../images/logo%20gps%20f.png" />
@@ -35,13 +35,13 @@
         <Pane layoutX="488.0" layoutY="100.0" AnchorPane.bottomAnchor="73.0" AnchorPane.topAnchor="100.0">
             <children>
                 <TextField fx:id="txtUsername" layoutX="8.0" layoutY="70.0" prefHeight="34.0" prefWidth="275.0" promptText="username or email" />
-                <PasswordField fx:id="txtPassword" layoutX="8.0" layoutY="131.0" prefHeight="34.0" prefWidth="275.0" promptText="password" stylesheets="@../styling/fullpackstyling.css" />
+                <PasswordField fx:id="txtPassword" layoutX="8.0" layoutY="131.0" prefHeight="34.0" prefWidth="275.0" promptText="password" stylesheets="@../styling/authForm.css" />
                 <Label fx:id="btnForgot" alignment="CENTER" layoutX="4.0" layoutY="192.0" onMouseClicked="#handleButtonAction" prefHeight="23.0" prefWidth="111.0" text="¿Forgot Password?" textFill="#5383ff">
                     <font>
                         <Font name="Segoe UI" size="12.0" />
                     </font>
                 </Label>
-                <Button fx:id="btnSignin" layoutX="4.0" layoutY="239.0" mnemonicParsing="false" onMouseClicked="#handleButtonAction" prefHeight="34.0" prefWidth="275.0" styleClass="button2" stylesheets="@../styling/fullpackstyling.css" text="Sign in " textFill="WHITE" />
+                <Button fx:id="btnSignin" layoutX="4.0" layoutY="239.0" mnemonicParsing="false" onMouseClicked="#handleButtonAction" prefHeight="34.0" prefWidth="275.0" styleClass="button2" stylesheets="@../styling/authForm.css" text="Sign in " textFill="WHITE" />
                 <Label fx:id="lblErrors" alignment="CENTER" layoutX="8.0" layoutY="95.0" prefHeight="23.0" prefWidth="275.0" textFill="#ff6354">
                     <font>
                         <Font name="Segoe UI" size="10.0" />
