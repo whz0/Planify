@@ -9,8 +9,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class PlannerControllerUnitTest {
@@ -18,12 +20,17 @@ public class PlannerControllerUnitTest {
     @Mock
     private SAPlanner saPlanner;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @InjectMocks
     private PlannerController plannerController;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        // Mock el comportamiento del PasswordEncoder para que devuelva una cadena hasheada simulada
+        when(passwordEncoder.encode(any(String.class))).thenReturn("hashedPassword");
     }
 
     @Test
@@ -33,9 +40,14 @@ public class PlannerControllerUnitTest {
         planner.setPassword("password123");
         planner.setRole("USER");
 
-        TContext context = new TContext(200, "Planner registrado correctamente", planner);
+        Planner savedPlanner = new Planner();
+        savedPlanner.setUsername("testuser");
+        savedPlanner.setPassword("hashedPassword");
+        savedPlanner.setRole("USER");
 
-        when(saPlanner.register(planner)).thenReturn(context);
+        TContext context = new TContext(200, "Planner registrado correctamente", savedPlanner);
+
+        when(saPlanner.register(any(Planner.class))).thenReturn(context);
 
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
@@ -43,6 +55,9 @@ public class PlannerControllerUnitTest {
         assertEquals(200, response.getStatusCodeValue());
         assertEquals("Planner registrado correctamente", response.getBody().getMessage());
         assertNotNull(response.getBody().getData());
+
+        // Verificar que se llamó a passwordEncoder.encode() con la contraseña original
+        verify(passwordEncoder).encode("password123");
     }
 
     @Test
@@ -52,7 +67,7 @@ public class PlannerControllerUnitTest {
         planner.setPassword("password123");
         planner.setRole("USER");
 
-        when(saPlanner.register(planner)).thenThrow(new IllegalArgumentException("El usuario ha dejado alguno de los campos vacíos"));
+        when(saPlanner.register(any(Planner.class))).thenThrow(new IllegalArgumentException("El usuario ha dejado alguno de los campos vacíos"));
 
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
@@ -69,7 +84,7 @@ public class PlannerControllerUnitTest {
         planner.setPassword("");
         planner.setRole("USER");
 
-        when(saPlanner.register(planner)).thenThrow(new IllegalArgumentException("El usuario ha dejado alguno de los campos vacíos"));
+        when(saPlanner.register(any(Planner.class))).thenThrow(new IllegalArgumentException("El usuario ha dejado alguno de los campos vacíos"));
 
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
@@ -86,7 +101,7 @@ public class PlannerControllerUnitTest {
         planner.setPassword("password123");
         planner.setRole("USER");
 
-        when(saPlanner.register(planner)).thenThrow(new IllegalArgumentException("El usuario ha dejado alguno de los campos vacíos"));
+        when(saPlanner.register(any(Planner.class))).thenThrow(new IllegalArgumentException("El usuario ha dejado alguno de los campos vacíos"));
 
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
@@ -103,7 +118,7 @@ public class PlannerControllerUnitTest {
         planner.setPassword(null);
         planner.setRole("USER");
 
-        when(saPlanner.register(planner)).thenThrow(new IllegalArgumentException("El usuario ha dejado alguno de los campos vacíos"));
+        when(saPlanner.register(any(Planner.class))).thenThrow(new IllegalArgumentException("El usuario ha dejado alguno de los campos vacíos"));
 
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
@@ -120,7 +135,7 @@ public class PlannerControllerUnitTest {
         planner.setPassword("password123");
         planner.setRole("USER");
 
-        when(saPlanner.register(planner)).thenThrow(new IllegalArgumentException("El nombre de usuario no es válido. Debe tener máximo 15 caracteres"));
+        when(saPlanner.register(any(Planner.class))).thenThrow(new IllegalArgumentException("El nombre de usuario no es válido. Debe tener máximo 15 caracteres"));
 
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
@@ -137,7 +152,7 @@ public class PlannerControllerUnitTest {
         planner.setPassword("password123");
         planner.setRole("USER");
 
-        when(saPlanner.register(planner)).thenThrow(new IllegalArgumentException("El nombre de usuario ya existe"));
+        when(saPlanner.register(any(Planner.class))).thenThrow(new IllegalArgumentException("El nombre de usuario ya existe"));
 
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
@@ -157,7 +172,7 @@ public class PlannerControllerUnitTest {
         planner.setPassword("short"); // Menos de 8 caracteres
         planner.setRole("USER");
 
-        when(saPlanner.register(planner)).thenThrow(new IllegalArgumentException("La contraseña debe de tener entre 8 y 15 caracteres de longitud"));
+        when(saPlanner.register(any(Planner.class))).thenThrow(new IllegalArgumentException("La contraseña debe de tener entre 8 y 15 caracteres de longitud"));
 
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
@@ -174,7 +189,7 @@ public class PlannerControllerUnitTest {
         planner.setPassword("password123");
         planner.setRole("USER");
 
-        when(saPlanner.register(planner)).thenThrow(new RuntimeException("Error inesperado en el servidor"));
+        when(saPlanner.register(any(Planner.class))).thenThrow(new RuntimeException("Error inesperado en el servidor"));
 
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
