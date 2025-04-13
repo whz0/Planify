@@ -21,6 +21,12 @@ public class PlannerController {
     @PostMapping("/register")
     public ResponseEntity<TContext> registerPlanner(@RequestBody Planner planner) {
         try {
+            if (planner.getUsername() == null || planner.getUsername().trim().isEmpty() ||
+                    planner.getPassword() == null || planner.getPassword().trim().isEmpty()) {
+                return ResponseEntity.status(200).body(
+                        new TContext(200, "El usuario ha dejado alguno de los campos vacíos", null));
+            }
+
             planner.setPassword(passwordEncoder.encode(planner.getPassword()));
 
             if(planner.getRole()== null || planner.getRole().isEmpty()) {
