@@ -26,7 +26,7 @@
                         <Font name="Segoe UI" size="12.0" />
                     </font>
                 </Label>
-                <Button fx:id="btnSignin" layoutX="53.0" layoutY="351.0" mnemonicParsing="false" onMouseClicked="#changeView" prefHeight="34.0" prefWidth="275.0" styleClass="button2" stylesheets="@../styling/registerForm.css" text="Iniciar sesion" textFill="WHITE" />
+                <Button fx:id="btnSignin" layoutX="53.0" layoutY="351.0" mnemonicParsing="false" onMouseClicked="#changeView" prefHeight="34.0" prefWidth="275.0" styleClass="button2" stylesheets="@../styling/authForm.css" text="Iniciar sesion" textFill="WHITE" />
                 <Label fx:id="btnForgot" alignment="CENTER" layoutX="114.0" layoutY="321.0" onMouseClicked="#handleButtonAction" prefHeight="23.0" prefWidth="150.0" text="¿Ya tienes tu cuenta planify?" textFill="#5383ff">
                     <font>
                         <Font name="Segoe UI" size="12.0" />
@@ -48,8 +48,8 @@
                     </font>
                 </Label>
                 <TextField fx:id="username" layoutX="-1.0" layoutY="97.0" prefHeight="34.0" prefWidth="275.0" promptText="username" />
-                <PasswordField fx:id="password" layoutY="148.0" prefHeight="34.0" prefWidth="275.0" promptText="password" stylesheets="@../styling/registerForm.css" />
-                <Button fx:id="btnSignup" layoutX="-1.0" layoutY="289.0" mnemonicParsing="false" onMouseClicked="#handleRegister" prefHeight="34.0" prefWidth="275.0" stylesheets="@../styling/registerForm.css" text="Registrarse" />
+                <PasswordField fx:id="password" layoutY="148.0" prefHeight="34.0" prefWidth="275.0" promptText="password" stylesheets="@../styling/authForm.css" />
+                <Button fx:id="btnSignup" layoutX="-1.0" layoutY="289.0" mnemonicParsing="false" onMouseClicked="#handleRegister" prefHeight="34.0" prefWidth="275.0" stylesheets="@../styling/authForm.css" text="Registrarse" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
