@@ -9,6 +9,7 @@ import com.chilltime.planifyfront.utils.LocalTimeAdapter;
 import com.chilltime.planifyfront.utils.SessionManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -62,6 +63,7 @@ public class LoginController {
             App.changeView("register", "Register");
             closeWindow(); // Cerrar ventana actual de login al ir a registro
         } else if (event.getSource() == btnSignin) {
+
             // Intentar iniciar sesión
             loginUser();
         }
@@ -106,8 +108,14 @@ public class LoginController {
                         // Asumiendo que context.getData() contiene el objeto TPlanner
                         TPlanner loggedInPlanner = gson.fromJson(gson.toJson(context.getData()), TPlanner.class);
 
+                        if (loggedInPlanner == null || loggedInPlanner.getId() == null) {
+                            showError("Error al procesar los datos del usuario.");
+                            return;
+                        }
+
                         // Guardar ID del usuario en la sesión
                         SessionManager.getInstance().setCurrentUserId(loggedInPlanner.getId());
+                        SessionManager.getInstance().setAuthenticated(true);
                         System.out.println("[Login Controller] User logged in successfully. ID: " + loggedInPlanner.getId()); // Log
 
                         // Navegar al Dashboard
@@ -177,7 +185,14 @@ public class LoginController {
     @FXML
     public void initialize() {
         lblErrors.setText(""); // Asegurar que no hay mensajes de error al inicio
+        // Configurar acción al presionar Enter en el campo de contraseña
+        txtPassword.setOnAction(event -> {
+            if (!btnSignin.isDisabled()) {
+                loginUser();
+            }
+        });
+
         // Opcional: Poner el foco inicial en el campo de usuario
-        // Platform.runLater(() -> txtUsername.requestFocus());
+        Platform.runLater(() -> txtUsername.requestFocus());
     }
 }

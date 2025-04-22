@@ -5,9 +5,11 @@ import com.calendarfx.model.CalendarEvent;
 import com.calendarfx.model.CalendarSource;
 import com.calendarfx.model.Entry;
 import com.calendarfx.view.CalendarView;
+import com.chilltime.planifyfront.App;
 import com.chilltime.planifyfront.model.transfer.TCalendar;
 import com.chilltime.planifyfront.model.transfer.TEvent;
 import com.chilltime.planifyfront.utils.CalendarUtils;
+import com.chilltime.planifyfront.utils.SessionManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,6 +44,19 @@ public class DashboardController {
 
     @FXML
     public void initialize() {
+        // Verificar que el usuario esté autenticado
+        if (!SessionManager.getInstance().isAuthenticated()) {
+            System.err.println("Acceso no autorizado al dashboard. Redirigiendo a login.");
+            Platform.runLater(() -> {
+                App.changeView("login", "Login");
+                Stage stage = (Stage) calendarPane.getScene().getWindow();
+                if (stage != null) {
+                    stage.close();
+                }
+            });
+            return;
+        }
+
         // Registrar instancia para usar en EventFormController
         DashboardControllerSingleton.setInstance(this);
 
