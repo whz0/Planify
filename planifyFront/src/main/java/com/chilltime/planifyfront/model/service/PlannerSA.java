@@ -18,6 +18,7 @@ public class PlannerSA {
       return new Task<>() {
           @Override
           protected String call() throws Exception {
+
               try {
                   String requestBody = apiClient.getObjectMapper().writeValueAsString(planner);
                   return apiClient.post(BASE_URL + "/register",requestBody);

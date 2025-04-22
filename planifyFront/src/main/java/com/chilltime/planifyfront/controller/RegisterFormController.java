@@ -40,7 +40,7 @@ public class RegisterFormController {
 
     // TODO Actualizar lblErrors para q muestre error cuando funcione(usuario ya registrado, etc)
     @FXML
-    private void handleRegister(){
+    void handleRegister(){
         try{
             TPlanner planner = new TPlanner();
             planner.setUsername(username.getText());
