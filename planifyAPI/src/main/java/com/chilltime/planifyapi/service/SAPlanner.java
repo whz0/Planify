@@ -24,7 +24,7 @@ public class SAPlanner {
     public TContext login(Planner planner) {
         Planner savedPlanner = plannerRepository.findByUsername(planner.getUsername());
 
-        if (planner.getPassword().equals(savedPlanner.getPassword())) {
+        if (!planner.getPassword().equals(savedPlanner.getPassword())) {
             return new TContext(403, "El usuario o la contraseña no son correctos", null);
         }
 
