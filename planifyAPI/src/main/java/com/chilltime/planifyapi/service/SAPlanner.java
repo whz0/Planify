@@ -19,9 +19,15 @@ public class SAPlanner {
 
     @Transactional
     public TContext register(Planner planner) {
-        validatePlanner(planner.getUsername(), planner.getPassword());
-        Planner savedPlanner = plannerRepository.save(planner);
-        return new TContext(200, "Planner registrado correctamente", savedPlanner);
+        TContext response;
+        try {
+            validatePlanner(planner.getUsername(), planner.getPassword());
+            Planner savedPlanner = plannerRepository.save(planner);
+            response = new TContext(200, "Planner registrado correctamente", savedPlanner);
+        } catch (IllegalArgumentException e) {
+            response = new TContext(400, e.getMessage(), null);
+        }
+        return response;
     }
 
     @Transactional

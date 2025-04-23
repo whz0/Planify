@@ -19,6 +19,10 @@ public class SecurityConfig {
                         .requestMatchers("/planner/login-planner").permitAll()
                         // Todas las demás rutas requieren autenticación
                         .anyRequest().authenticated()
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth ->
+                        auth.requestMatchers("/planner/register").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .httpBasic(basic -> {});
 
@@ -28,5 +32,16 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        UserDetails user = User.builder()
+                .username("user")
+                .password(passwordEncoder().encode("password"))
+                .roles("USER")
+                .build();
+
+        return new InMemoryUserDetailsManager(user);
     }
 }

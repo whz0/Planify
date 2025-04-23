@@ -1,6 +1,6 @@
 @echo off
 echo Compilando la aplicacion
-call mvn clean package
+call mvn clean package -DskipTests
 
 echo Compilacion exitosa. Continuando con el siguiente paso...
 

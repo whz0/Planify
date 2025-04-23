@@ -16,4 +16,7 @@ public abstract class ServiceFactory {
     public abstract CalendarSA createCalendarSA();
 
     public abstract PlannerSA createPlannerSA();
+
+    public abstract CalendarCodeSA createCalendarCodeSA();
+
 }
