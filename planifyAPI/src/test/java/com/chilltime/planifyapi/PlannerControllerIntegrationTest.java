@@ -4,6 +4,7 @@ import com.chilltime.planifyapi.entity.Planner;
 import com.chilltime.planifyapi.repository.PlannerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
@@ -56,6 +58,9 @@ public class PlannerControllerIntegrationTest {
     @Autowired
     private PlannerRepository plannerRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @TestConfiguration
     static class TestConfig {
         @Bean
@@ -77,6 +82,16 @@ public class PlannerControllerIntegrationTest {
         registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
         registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
         registry.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
+    }
+
+    @BeforeEach
+    void setUp() {
+        // Create a test user for login tests
+        Planner testUser = new Planner();
+        testUser.setUsername("loginTestUser");
+        testUser.setPassword(passwordEncoder.encode("password123"));
+        testUser.setRole("ROLE_USER");
+        plannerRepository.save(testUser);
     }
 
     @AfterEach
@@ -213,5 +228,91 @@ public class PlannerControllerIntegrationTest {
         Planner savedPlanner = plannerRepository.findByUsername("userWithoutRole");
         assertNotNull(savedPlanner);
         assertEquals("ROLE_USER", savedPlanner.getRole());
+    }
+
+    // Pruebas para la funcionalidad de inicio de sesión
+
+    @Test
+    public void testLoginPlannerWithValidCredentials() throws Exception {
+        // Intento de inicio de sesión con credenciales válidas
+        mockMvc.perform(post("/planner/login-planner")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                        {
+                            "username": "loginTestUser",
+                            "password": "password123"
+                        }
+                        """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status_code").value(200))
+                .andExpect(jsonPath("$.message").value("Login efectuado correctamente"))
+                .andExpect(jsonPath("$.data").isNotEmpty())
+                .andExpect(jsonPath("$.data.username").value("loginTestUser"));
+    }
+
+    @Test
+    public void testLoginPlannerWithInvalidPassword() throws Exception {
+        // Intento de inicio de sesión con contraseña incorrecta
+        mockMvc.perform(post("/planner/login-planner")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                        {
+                            "username": "loginTestUser",
+                            "password": "wrongPassword"
+                        }
+                        """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status_code").value(200))
+                .andExpect(jsonPath("$.message").value("El usuario o la contraseña no son correctos"))
+                .andExpect(jsonPath("$.data").isEmpty());
+    }
+
+    @Test
+    public void testLoginPlannerWithNonexistentUsername() throws Exception {
+        // Intento de inicio de sesión con nombre de usuario que no existe
+        mockMvc.perform(post("/planner/login-planner")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                        {
+                            "username": "nonExistentUser",
+                            "password": "password123"
+                        }
+                        """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status_code").value(200))
+                .andExpect(jsonPath("$.message").value("El usuario o la contraseña no son correctos"))
+                .andExpect(jsonPath("$.data").isEmpty());
+    }
+
+    @Test
+    public void testLoginPlannerWithEmptyUsername() throws Exception {
+        // Intento de inicio de sesión con nombre de usuario vacío
+        mockMvc.perform(post("/planner/login-planner")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                        {
+                            "username": "",
+                            "password": "password123"
+                        }
+                        """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status_code").value(200))
+                .andExpect(jsonPath("$.message").value("El usuario o la contraseña no son correctos"));
+    }
+
+    @Test
+    public void testLoginPlannerWithEmptyPassword() throws Exception {
+        // Intento de inicio de sesión con contraseña vacía
+        mockMvc.perform(post("/planner/login-planner")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                        {
+                            "username": "loginTestUser",
+                            "password": ""
+                        }
+                        """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status_code").value(200))
+                .andExpect(jsonPath("$.message").value("El usuario o la contraseña no son correctos"));
     }
 }
