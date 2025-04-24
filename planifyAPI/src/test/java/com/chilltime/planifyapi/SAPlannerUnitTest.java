@@ -60,11 +60,9 @@ public class SAPlannerUnitTest {
         planner.setRole("USER");
 
         // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
-
-        assertEquals("El usuario ha dejado alguno de los campos vacíos", exception.getMessage());
+        TContext result = saPlanner.register(planner);
+        assertEquals(400, result.getStatus_code());
+        assertEquals("El usuario ha dejado alguno de los campos vacíos", result.getMessage());
 
         // Verify
         verify(plannerRepository, never()).findByUsername(any());
@@ -80,11 +78,9 @@ public class SAPlannerUnitTest {
         planner.setRole("USER");
 
         // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
-
-        assertEquals("El usuario ha dejado alguno de los campos vacíos", exception.getMessage());
+        TContext result = saPlanner.register(planner);
+        assertEquals(400, result.getStatus_code());
+        assertEquals("El usuario ha dejado alguno de los campos vacíos", result.getMessage());
 
         // Verify
         verify(plannerRepository, never()).findByUsername(any());
@@ -100,11 +96,9 @@ public class SAPlannerUnitTest {
         planner.setRole("USER");
 
         // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
-
-        assertEquals("El usuario ha dejado alguno de los campos vacíos", exception.getMessage());
+        TContext result = saPlanner.register(planner);
+        assertEquals(400, result.getStatus_code());
+        assertEquals("El usuario ha dejado alguno de los campos vacíos", result.getMessage());
 
         // Verify
         verify(plannerRepository, never()).findByUsername(any());
@@ -120,11 +114,9 @@ public class SAPlannerUnitTest {
         planner.setRole("USER");
 
         // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
-
-        assertEquals("El usuario ha dejado alguno de los campos vacíos", exception.getMessage());
+        TContext result = saPlanner.register(planner);
+        assertEquals(400, result.getStatus_code());
+        assertEquals("El usuario ha dejado alguno de los campos vacíos", result.getMessage());
 
         // Verify
         verify(plannerRepository, never()).findByUsername(any());
@@ -140,11 +132,9 @@ public class SAPlannerUnitTest {
         planner.setRole("USER");
 
         // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
-
-        assertEquals("El usuario ha dejado alguno de los campos vacíos", exception.getMessage());
+        TContext result = saPlanner.register(planner);
+        assertEquals(400, result.getStatus_code());
+        assertEquals("El usuario ha dejado alguno de los campos vacíos", result.getMessage());
 
         // Verify
         verify(plannerRepository, never()).findByUsername(any());
@@ -160,11 +150,9 @@ public class SAPlannerUnitTest {
         planner.setRole("USER");
 
         // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
-
-        assertEquals("El usuario ha dejado alguno de los campos vacíos", exception.getMessage());
+        TContext result = saPlanner.register(planner);
+        assertEquals(400, result.getStatus_code());
+        assertEquals("El usuario ha dejado alguno de los campos vacíos", result.getMessage());
 
         // Verify
         verify(plannerRepository, never()).findByUsername(any());
@@ -180,11 +168,9 @@ public class SAPlannerUnitTest {
         planner.setRole("USER");
 
         // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
-
-        assertEquals("El nombre de usuario no es válido. Debe tener máximo 15 caracteres", exception.getMessage());
+        TContext result = saPlanner.register(planner);
+        assertEquals(400, result.getStatus_code());
+        assertEquals("El nombre de usuario no es válido. Debe tener máximo 15 caracteres", result.getMessage());
 
         // Verify
         verify(plannerRepository, never()).findByUsername(any());
@@ -208,11 +194,9 @@ public class SAPlannerUnitTest {
         when(plannerRepository.findByUsername("testuser")).thenReturn(existingPlanner);
 
         // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(newPlanner);
-        });
-
-        assertEquals("El nombre de usuario ya existe", exception.getMessage());
+        TContext result = saPlanner.register(newPlanner);
+        assertEquals(400, result.getStatus_code());
+        assertEquals("El nombre de usuario ya existe", result.getMessage());
 
         // Verify
         verify(plannerRepository, times(1)).findByUsername("testuser");
@@ -297,11 +281,10 @@ public class SAPlannerUnitTest {
         when(plannerRepository.save(any(Planner.class))).thenThrow(new RuntimeException("Database error"));
 
         // Act & Assert
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            saPlanner.register(planner);
-        });
+        TContext result = saPlanner.register(planner);
 
-        assertEquals("Database error", exception.getMessage());
+        assertEquals(400, result.getStatus_code());
+        assertEquals("Database error", result.getMessage());
 
         // Verify
         verify(plannerRepository, times(1)).findByUsername("testuser");
