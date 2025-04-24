@@ -28,13 +28,13 @@ public class PlannerController {
 
         TContext reponse = new TContext();
 
-        try{
+        try {
             reponse = plannerService.login(planner);
+        } catch (Exception e) {
+            reponse = new TContext(200, e.getMessage(), null);
         }
-        catch(Exception e){
-            reponse = new TContext(200,  e.getMessage(), null);
+        return null; // TODO Cambiar esto YA
     }
-        }
             @PostMapping("/register")
     public ResponseEntity<TContext> registerPlanner(@RequestBody Planner planner) {
         try {
@@ -57,6 +57,6 @@ public class PlannerController {
         } catch (Exception e) {
             return ResponseEntity.status(200).body(new TContext(200, e.getMessage(), null));
         }
-        return ResponseEntity.status(reponse.getStatus_code()).body(reponse);
+        //return ResponseEntity.status(reponse.getStatus_code()).body(reponse);
     }
 }
