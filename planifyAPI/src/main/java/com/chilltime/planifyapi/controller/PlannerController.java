@@ -29,7 +29,7 @@ public class PlannerController {
 
             planner.setPassword(passwordEncoder.encode(planner.getPassword()));
 
-            if(planner.getRole()== null || planner.getRole().isEmpty()) {
+            if (planner.getRole() == null || planner.getRole().isEmpty()) {
                 planner.setRole("ROLE_USER");
             }
 

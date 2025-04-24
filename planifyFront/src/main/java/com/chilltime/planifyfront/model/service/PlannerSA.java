@@ -15,20 +15,19 @@ public class PlannerSA {
     }
 
     public Task<String> registerPlanner(TPlanner planner) {
-      return new Task<>() {
-          @Override
-          protected String call() throws Exception {
+        return new Task<>() {
+            @Override
+            protected String call() throws Exception {
+                try {
+                    String requestBody = apiClient.getObjectMapper().writeValueAsString(planner);
+                    return apiClient.post(BASE_URL + "/register", requestBody);
+                }
 
-              try {
-                  String requestBody = apiClient.getObjectMapper().writeValueAsString(planner);
-                  return apiClient.post(BASE_URL + "/register",requestBody);
-              }
-
-              catch (IOException e) {
-                  System.err.println("Error during API call: " + e.getMessage());
-                  throw e;
-              }
-          }
-      };
+                catch (IOException e) {
+                    System.err.println("Error during API call: " + e.getMessage());
+                    throw e;
+                }
+            }
+        };
     }
 }
