@@ -8,15 +8,20 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class SAPlannerUnitTest {
 
     @Mock
     private PlannerRepository plannerRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private SAPlanner saPlanner;
@@ -59,12 +64,13 @@ public class SAPlannerUnitTest {
         planner.setPassword("password123");
         planner.setRole("USER");
 
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
+        // Act
+        TContext result = saPlanner.register(planner);
 
-        assertEquals("El usuario ha dejado alguno de los campos vacíos", exception.getMessage());
+        // Assert
+        assertEquals(200, result.getStatus_code());
+        assertEquals("El usuario ha dejado alguno de los campos vacíos", result.getMessage());
+        assertNull(result.getData());
 
         // Verify
         verify(plannerRepository, never()).findByUsername(any());
@@ -79,12 +85,13 @@ public class SAPlannerUnitTest {
         planner.setPassword("password123");
         planner.setRole("USER");
 
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
+        // Act
+        TContext result = saPlanner.register(planner);
 
-        assertEquals("El usuario ha dejado alguno de los campos vacíos", exception.getMessage());
+        // Assert
+        assertEquals(200, result.getStatus_code());
+        assertEquals("El usuario ha dejado alguno de los campos vacíos", result.getMessage());
+        assertNull(result.getData());
 
         // Verify
         verify(plannerRepository, never()).findByUsername(any());
@@ -99,12 +106,13 @@ public class SAPlannerUnitTest {
         planner.setPassword("password123");
         planner.setRole("USER");
 
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
+        // Act
+        TContext result = saPlanner.register(planner);
 
-        assertEquals("El usuario ha dejado alguno de los campos vacíos", exception.getMessage());
+        // Assert
+        assertEquals(200, result.getStatus_code());
+        assertEquals("El usuario ha dejado alguno de los campos vacíos", result.getMessage());
+        assertNull(result.getData());
 
         // Verify
         verify(plannerRepository, never()).findByUsername(any());
@@ -119,12 +127,13 @@ public class SAPlannerUnitTest {
         planner.setPassword(null);
         planner.setRole("USER");
 
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
+        // Act
+        TContext result = saPlanner.register(planner);
 
-        assertEquals("El usuario ha dejado alguno de los campos vacíos", exception.getMessage());
+        // Assert
+        assertEquals(200, result.getStatus_code());
+        assertEquals("El usuario ha dejado alguno de los campos vacíos", result.getMessage());
+        assertNull(result.getData());
 
         // Verify
         verify(plannerRepository, never()).findByUsername(any());
@@ -139,12 +148,13 @@ public class SAPlannerUnitTest {
         planner.setPassword("");
         planner.setRole("USER");
 
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
+        // Act
+        TContext result = saPlanner.register(planner);
 
-        assertEquals("El usuario ha dejado alguno de los campos vacíos", exception.getMessage());
+        // Assert
+        assertEquals(200, result.getStatus_code());
+        assertEquals("El usuario ha dejado alguno de los campos vacíos", result.getMessage());
+        assertNull(result.getData());
 
         // Verify
         verify(plannerRepository, never()).findByUsername(any());
@@ -159,12 +169,13 @@ public class SAPlannerUnitTest {
         planner.setPassword("   ");
         planner.setRole("USER");
 
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
+        // Act
+        TContext result = saPlanner.register(planner);
 
-        assertEquals("El usuario ha dejado alguno de los campos vacíos", exception.getMessage());
+        // Assert
+        assertEquals(200, result.getStatus_code());
+        assertEquals("El usuario ha dejado alguno de los campos vacíos", result.getMessage());
+        assertNull(result.getData());
 
         // Verify
         verify(plannerRepository, never()).findByUsername(any());
@@ -179,15 +190,17 @@ public class SAPlannerUnitTest {
         planner.setPassword("password123");
         planner.setRole("USER");
 
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
+        // Act
+        TContext result = saPlanner.register(planner);
 
-        assertEquals("El nombre de usuario no es válido. Debe tener máximo 15 caracteres", exception.getMessage());
+        // Assert
+        assertEquals(200, result.getStatus_code());
+        assertEquals("El nombre de usuario no es válido. Debe tener máximo 15 caracteres", result.getMessage());
+        assertNull(result.getData());
 
         // Verify
-        verify(plannerRepository, never()).findByUsername(any());
+        // No verificamos la llamada a findByUsername porque sucede antes la validación de longitud
+        verify(plannerRepository, never()).findByUsername(anyString());
         verify(plannerRepository, never()).save(any());
     }
 
@@ -207,12 +220,13 @@ public class SAPlannerUnitTest {
 
         when(plannerRepository.findByUsername("testuser")).thenReturn(existingPlanner);
 
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(newPlanner);
-        });
+        // Act
+        TContext result = saPlanner.register(newPlanner);
 
-        assertEquals("El nombre de usuario ya existe", exception.getMessage());
+        // Assert
+        assertEquals(200, result.getStatus_code());
+        assertEquals("El nombre de usuario ya existe", result.getMessage());
+        assertNull(result.getData());
 
         // Verify
         verify(plannerRepository, times(1)).findByUsername("testuser");
@@ -221,68 +235,52 @@ public class SAPlannerUnitTest {
 
     @Test
     public void testRegisterWithShortPassword() {
-        // Aunque este requisito está comentado en el código, podemos agregar la prueba
-        // como referencia para cuando se active
-
         // Arrange
         Planner planner = new Planner();
         planner.setUsername("testuser");
         planner.setPassword("short"); // Menos de 8 caracteres
         planner.setRole("USER");
 
-        // Descomentamos temporalmente la validación para la prueba
-        /*
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
-
-        assertEquals("La contraseña debe de tener entre 8 y 15 caracteres de longitud", exception.getMessage());
-
-        verify(plannerRepository, never()).findByUsername(any());
-        verify(plannerRepository, never()).save(any());
-        */
-
-        // Como está comentado en el código original, verificamos que pasa la validación
         when(plannerRepository.findByUsername("testuser")).thenReturn(null);
         when(plannerRepository.save(any(Planner.class))).thenReturn(planner);
 
+        // Act
         TContext result = saPlanner.register(planner);
 
+        // Assert
         assertNotNull(result);
         assertEquals(200, result.getStatus_code());
+        assertEquals("Planner registrado correctamente", result.getMessage());
+        assertNotNull(result.getData());
+
+        // Verify
+        verify(plannerRepository, times(1)).findByUsername("testuser");
+        verify(plannerRepository, times(1)).save(planner);
     }
 
     @Test
     public void testRegisterWithLongPassword() {
-        // Aunque este requisito está comentado en el código, podemos agregar la prueba
-        // como referencia para cuando se active
-
         // Arrange
         Planner planner = new Planner();
         planner.setUsername("testuser");
         planner.setPassword("thispasswordistoolongforthevalidation"); // Más de 15 caracteres
         planner.setRole("USER");
 
-        // Descomentamos temporalmente la validación para la prueba
-        /*
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            saPlanner.register(planner);
-        });
-
-        assertEquals("La contraseña debe de tener entre 8 y 15 caracteres de longitud", exception.getMessage());
-
-        verify(plannerRepository, never()).findByUsername(any());
-        verify(plannerRepository, never()).save(any());
-        */
-
-        // Como está comentado en el código original, verificamos que pasa la validación
         when(plannerRepository.findByUsername("testuser")).thenReturn(null);
         when(plannerRepository.save(any(Planner.class))).thenReturn(planner);
 
+        // Act
         TContext result = saPlanner.register(planner);
 
+        // Assert
         assertNotNull(result);
         assertEquals(200, result.getStatus_code());
+        assertEquals("Planner registrado correctamente", result.getMessage());
+        assertNotNull(result.getData());
+
+        // Verify
+        verify(plannerRepository, times(1)).findByUsername("testuser");
+        verify(plannerRepository, times(1)).save(planner);
     }
 
     @Test
@@ -306,5 +304,94 @@ public class SAPlannerUnitTest {
         // Verify
         verify(plannerRepository, times(1)).findByUsername("testuser");
         verify(plannerRepository, times(1)).save(planner);
+    }
+
+    @Test
+    public void testLoginWithCorrectCredentials() {
+        // Arrange
+        String rawPassword = "password123";
+        String encodedPassword = "encodedPassword123";
+
+        Planner loginPlanner = new Planner();
+        loginPlanner.setUsername("testuser");
+        loginPlanner.setPassword(rawPassword);
+
+        Planner savedPlanner = new Planner();
+        savedPlanner.setId(1L);
+        savedPlanner.setUsername("testuser");
+        savedPlanner.setPassword(encodedPassword);
+        savedPlanner.setRole("USER");
+
+        when(plannerRepository.findByUsername("testuser")).thenReturn(savedPlanner);
+        when(passwordEncoder.matches(rawPassword, encodedPassword)).thenReturn(true);
+
+        // Act
+        TContext result = saPlanner.login(loginPlanner);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(200, result.getStatus_code());
+        assertEquals("Login efectuado correctamente", result.getMessage());
+        assertEquals(savedPlanner, result.getData());
+
+        // Verify
+        verify(plannerRepository, times(1)).findByUsername("testuser");
+        verify(passwordEncoder, times(1)).matches(rawPassword, encodedPassword);
+    }
+
+    @Test
+    public void testLoginWithIncorrectUsername() {
+        // Arrange
+        Planner loginPlanner = new Planner();
+        loginPlanner.setUsername("nonexistentuser");
+        loginPlanner.setPassword("password123");
+
+        when(plannerRepository.findByUsername("nonexistentuser")).thenReturn(null);
+
+        // Act
+        TContext result = saPlanner.login(loginPlanner);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(200, result.getStatus_code());
+        assertEquals("El usuario o la contraseña no son correctos", result.getMessage());
+        assertNull(result.getData());
+
+        // Verify
+        verify(plannerRepository, times(1)).findByUsername("nonexistentuser");
+        verify(passwordEncoder, never()).matches(anyString(), anyString());
+    }
+
+    @Test
+    public void testLoginWithIncorrectPassword() {
+        // Arrange
+        String rawPassword = "wrongpassword";
+        String encodedPassword = "encodedPassword123";
+
+        Planner loginPlanner = new Planner();
+        loginPlanner.setUsername("testuser");
+        loginPlanner.setPassword(rawPassword);
+
+        Planner savedPlanner = new Planner();
+        savedPlanner.setId(1L);
+        savedPlanner.setUsername("testuser");
+        savedPlanner.setPassword(encodedPassword);
+        savedPlanner.setRole("USER");
+
+        when(plannerRepository.findByUsername("testuser")).thenReturn(savedPlanner);
+        when(passwordEncoder.matches(rawPassword, encodedPassword)).thenReturn(false);
+
+        // Act
+        TContext result = saPlanner.login(loginPlanner);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(200, result.getStatus_code());
+        assertEquals("El usuario o la contraseña no son correctos", result.getMessage());
+        assertNull(result.getData());
+
+        // Verify
+        verify(plannerRepository, times(1)).findByUsername("testuser");
+        verify(passwordEncoder, times(1)).matches(rawPassword, encodedPassword);
     }
 }

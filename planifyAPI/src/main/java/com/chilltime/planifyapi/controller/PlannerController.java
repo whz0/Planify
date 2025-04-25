@@ -25,17 +25,17 @@ public class PlannerController {
 
     @PostMapping("/login-planner")
     public ResponseEntity<TContext> loginPlanner(@RequestBody Planner planner) {
-
-        TContext reponse = new TContext();
+        TContext response;
 
         try {
-            reponse = plannerService.login(planner);
+            response = plannerService.login(planner);
+            return ResponseEntity.status(response.getStatus_code()).body(response);
         } catch (Exception e) {
-            reponse = new TContext(200, e.getMessage(), null);
+            response = new TContext(200, e.getMessage(), null);
+            return ResponseEntity.status(response.getStatus_code()).body(response);
         }
-        return null; // TODO Cambiar esto YA
     }
-            @PostMapping("/register")
+    @PostMapping("/register")
     public ResponseEntity<TContext> registerPlanner(@RequestBody Planner planner) {
         try {
             if (planner.getUsername() == null || planner.getUsername().trim().isEmpty() ||
@@ -57,6 +57,5 @@ public class PlannerController {
         } catch (Exception e) {
             return ResponseEntity.status(200).body(new TContext(200, e.getMessage(), null));
         }
-        //return ResponseEntity.status(reponse.getStatus_code()).body(reponse);
     }
 }
