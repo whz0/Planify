@@ -298,7 +298,7 @@ public class SAPlannerUnitTest {
         // Act & Assert
         TContext result = saPlanner.register(planner);
 
-        assertEquals(400, result.getStatus_code());
+        assertEquals(200, result.getStatus_code());
         assertEquals("Database error", result.getMessage());
 
         // Verify

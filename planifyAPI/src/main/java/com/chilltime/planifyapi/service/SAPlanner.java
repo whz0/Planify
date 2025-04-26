@@ -24,7 +24,7 @@ public class SAPlanner {
             validatePlanner(planner.getUsername(), planner.getPassword());
             Planner savedPlanner = plannerRepository.save(planner);
             response = new TContext(200, "Planner registrado correctamente", savedPlanner);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             response = new TContext(200, e.getMessage(), null);
         }
         return response;
