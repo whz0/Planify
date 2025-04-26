@@ -99,12 +99,14 @@ public class PlannerControllerIntegrationTest {
         plannerRepository.deleteAll();
     }
 
+    // REGISTRATION TESTS
+
     @Test
     public void testRegisterPlannerWithValidData() throws Exception {
         // Create a planner with valid data
         MvcResult result = mockMvc.perform(post("/planner/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "testUser",
                             "password": "password123",
@@ -128,8 +130,8 @@ public class PlannerControllerIntegrationTest {
     @Test
     public void testRegisterPlannerWithEmptyUsername() throws Exception {
         mockMvc.perform(post("/planner/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "",
                             "password": "password123",
@@ -145,8 +147,8 @@ public class PlannerControllerIntegrationTest {
     @Test
     public void testRegisterPlannerWithEmptyPassword() throws Exception {
         mockMvc.perform(post("/planner/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "testUser",
                             "password": "",
@@ -162,8 +164,8 @@ public class PlannerControllerIntegrationTest {
     @Test
     public void testRegisterPlannerWithUsernameTooLong() throws Exception {
         mockMvc.perform(post("/planner/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "usernameTooLongForTheSystem",
                             "password": "password123",
@@ -172,7 +174,8 @@ public class PlannerControllerIntegrationTest {
                         """))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status_code").value(400))
-                .andExpect(jsonPath("$.message").value("El nombre de usuario no es válido. Debe tener máximo 15 caracteres"))
+                .andExpect(jsonPath("$.message")
+                        .value("El nombre de usuario no es válido. Debe tener máximo 15 caracteres"))
                 .andExpect(jsonPath("$.data").isEmpty());
     }
 
@@ -180,8 +183,8 @@ public class PlannerControllerIntegrationTest {
     public void testRegisterPlannerWithDuplicateUsername() throws Exception {
         // First we register a user
         mockMvc.perform(post("/planner/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "duplicateUser",
                             "password": "password123",
@@ -194,8 +197,8 @@ public class PlannerControllerIntegrationTest {
 
         // Try to register another user with the same name
         mockMvc.perform(post("/planner/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "duplicateUser",
                             "password": "anotherpassword",
@@ -212,8 +215,8 @@ public class PlannerControllerIntegrationTest {
     public void testRegisterPlannerWithoutRoleAssignsDefaultRole() throws Exception {
         // Register a planner without an explicit role
         mockMvc.perform(post("/planner/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "userWithoutRole",
                             "password": "password123"
@@ -230,49 +233,42 @@ public class PlannerControllerIntegrationTest {
         assertEquals("ROLE_USER", savedPlanner.getRole());
     }
 
-    // Pruebas para la funcionalidad de inicio de sesión
+    // LOGIN TESTS
 
     @Test
     public void testLoginPlannerWithValidCredentials() throws Exception {
-        // Intento de inicio de sesión con credenciales válidas
+        // First register a user
+        String username = "loginUser";
+        String password = "password123";
+
+        // Create a planner in the database directly with encoded password
+        Planner planner = new Planner();
+        planner.setUsername(username);
+        planner.setPassword(passwordEncoder.encode(password));
+        planner.setRole("ROLE_USER");
+        plannerRepository.save(planner);
+
+        // Now try to login with that user
         mockMvc.perform(post("/planner/login-planner")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(String.format("""
                         {
-                            "username": "loginTestUser",
-                            "password": "password123"
+                            "username": "%s",
+                            "password": "%s"
                         }
-                        """))
+                        """, username, password)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status_code").value(200))
                 .andExpect(jsonPath("$.message").value("Login efectuado correctamente"))
                 .andExpect(jsonPath("$.data").isNotEmpty())
-                .andExpect(jsonPath("$.data.username").value("loginTestUser"));
+                .andExpect(jsonPath("$.data.username").value(username));
     }
 
     @Test
-    public void testLoginPlannerWithInvalidPassword() throws Exception {
-        // Intento de inicio de sesión con contraseña incorrecta
+    public void testLoginPlannerWithInvalidUsername() throws Exception {
         mockMvc.perform(post("/planner/login-planner")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                        {
-                            "username": "loginTestUser",
-                            "password": "wrongPassword"
-                        }
-                        """))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status_code").value(200))
-                .andExpect(jsonPath("$.message").value("El usuario o la contraseña no son correctos"))
-                .andExpect(jsonPath("$.data").isEmpty());
-    }
-
-    @Test
-    public void testLoginPlannerWithNonexistentUsername() throws Exception {
-        // Intento de inicio de sesión con nombre de usuario que no existe
-        mockMvc.perform(post("/planner/login-planner")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "nonExistentUser",
                             "password": "password123"
@@ -285,34 +281,47 @@ public class PlannerControllerIntegrationTest {
     }
 
     @Test
-    public void testLoginPlannerWithEmptyUsername() throws Exception {
-        // Intento de inicio de sesión con nombre de usuario vacío
+    public void testLoginPlannerWithInvalidPassword() throws Exception {
+        // First register a user
+        String username = "userWithWrongPassword";
+        String correctPassword = "correctPassword";
+        String wrongPassword = "wrongPassword";
+
+        // Create a planner in the database directly with encoded password
+        Planner planner = new Planner();
+        planner.setUsername(username);
+        planner.setPassword(passwordEncoder.encode(correctPassword));
+        planner.setRole("ROLE_USER");
+        plannerRepository.save(planner);
+
+        // Try to login with wrong password
         mockMvc.perform(post("/planner/login-planner")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(String.format("""
                         {
-                            "username": "",
-                            "password": "password123"
+                            "username": "%s",
+                            "password": "%s"
                         }
-                        """))
+                        """, username, wrongPassword)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status_code").value(200))
-                .andExpect(jsonPath("$.message").value("El usuario o la contraseña no son correctos"));
+                .andExpect(jsonPath("$.message").value("El usuario o la contraseña no son correctos"))
+                .andExpect(jsonPath("$.data").isEmpty());
     }
 
     @Test
-    public void testLoginPlannerWithEmptyPassword() throws Exception {
-        // Intento de inicio de sesión con contraseña vacía
+    public void testLoginPlannerWithEmptyCredentials() throws Exception {
         mockMvc.perform(post("/planner/login-planner")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
-                            "username": "loginTestUser",
+                            "username": "",
                             "password": ""
                         }
                         """))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status_code").value(200))
-                .andExpect(jsonPath("$.message").value("El usuario o la contraseña no son correctos"));
+                .andExpect(jsonPath("$.message").value("El usuario o la contraseña no son correctos"))
+                .andExpect(jsonPath("$.data").isEmpty());
     }
 }

@@ -18,7 +18,7 @@ public class TPlanner {
     public TPlanner() {}
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Long id) {
@@ -49,17 +49,11 @@ public class TPlanner {
         this.role = role;
     }
 
-    public boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
     }
-
-    @Override
-    public String toString() {
-        return "Planner: " + username + " with password: " + password;
-    }
-
 }

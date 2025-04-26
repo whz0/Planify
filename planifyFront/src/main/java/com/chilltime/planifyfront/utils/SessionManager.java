@@ -11,6 +11,7 @@ public class SessionManager {
 
     // Datos del usuario actual
     private Long currentUserId;
+    private String username;
     private boolean authenticated = false;
 
     // Constructor privado para implementar Singleton
@@ -35,11 +36,28 @@ public class SessionManager {
         this.currentUserId = currentUserId;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public boolean isAuthenticated() {
         return authenticated;
     }
 
     public void setAuthenticated(boolean authenticated) {
         this.authenticated = authenticated;
+    }
+
+    /**
+     * Limpia los datos de sesión al cerrar sesión
+     */
+    public void logout() {
+        this.currentUserId = null;
+        this.username = null;
+        this.authenticated = false;
     }
 }

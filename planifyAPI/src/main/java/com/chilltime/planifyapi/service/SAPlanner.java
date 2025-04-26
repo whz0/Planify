@@ -5,6 +5,7 @@ import com.chilltime.planifyapi.entity.Planner;
 import com.chilltime.planifyapi.repository.PlannerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,6 +13,9 @@ public class SAPlanner {
 
     @Autowired
     private PlannerRepository plannerRepository;
+    // Inyectar PasswordEncoder para codificar contraseñas
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
     public TContext register(Planner planner) {
@@ -21,9 +25,24 @@ public class SAPlanner {
             Planner savedPlanner = plannerRepository.save(planner);
             response = new TContext(200, "Planner registrado correctamente", savedPlanner);
         } catch (IllegalArgumentException e) {
-            response = new TContext(400, e.getMessage(), null);
+            response = new TContext(200, e.getMessage(), null);
         }
         return response;
+    }
+
+    @Transactional
+    public TContext login(Planner planner) {
+        Planner savedPlanner = plannerRepository.findByUsername(planner.getUsername());
+
+        if (savedPlanner == null) {
+            return new TContext(200, "El usuario o la contraseña no son correctos", null);
+        }
+
+        if (!passwordEncoder.matches(planner.getPassword(), savedPlanner.getPassword())) {
+            return new TContext(200, "El usuario o la contraseña no son correctos", null);
+        }
+
+        return new TContext(200, "Login efectuado correctamente", savedPlanner);
     }
 
     private void validatePlanner(String username, String password) {
