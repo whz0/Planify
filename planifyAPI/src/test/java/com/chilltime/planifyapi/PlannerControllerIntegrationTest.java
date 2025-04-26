@@ -202,8 +202,8 @@ public class PlannerControllerIntegrationTest {
                             "role": "ROLE_USER"
                         }
                         """))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status_code").value(200))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status_code").value(400))
                 .andExpect(jsonPath("$.message").value("El nombre de usuario ya existe"))
                 .andExpect(jsonPath("$.data").isEmpty());
     }
