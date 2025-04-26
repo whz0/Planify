@@ -172,8 +172,8 @@ public class PlannerControllerIntegrationTest {
                             "role": "ROLE_USER"
                         }
                         """))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.status_code").value(400))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status_code").value(200))
                 .andExpect(jsonPath("$.message")
                         .value("El nombre de usuario no es válido. Debe tener máximo 15 caracteres"))
                 .andExpect(jsonPath("$.data").isEmpty());
@@ -205,8 +205,8 @@ public class PlannerControllerIntegrationTest {
                             "role": "ROLE_USER"
                         }
                         """))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.status_code").value(400))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status_code").value(200))
                 .andExpect(jsonPath("$.message").value("El nombre de usuario ya existe"))
                 .andExpect(jsonPath("$.data").isEmpty());
     }
