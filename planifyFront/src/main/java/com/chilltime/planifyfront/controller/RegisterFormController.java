@@ -45,18 +45,15 @@ public class RegisterFormController {
         try {
 
             if(username.getText().isEmpty() || password.getText().isEmpty()) {
-                showErrorDialog("Error de validación", "Por favor, completa todos los campos.");
-                return;
+                lblErrors.setText("El usuario ha dejado alguno de los campos vacíos");
             }
 
             if(username.getText().length() > 15) {
-                showErrorDialog("Error de validación", "El nombre de usuario no es válido. Debe tener máximo 15 caracteres.");
-                return;
+                lblErrors.setText("El nombre de usuario no es válido. Debe tener máximo 15 caracteres");
             }
 
             if(password.getText().length() < 8 || password.getText().length() > 15) {
-                showErrorDialog("Error de validación", "La contraseña no es válida. Debe tener entre 8 y 15 caracteres.");
-                return;
+                lblErrors.setText("La contraseña no es válida. Debe tener entre 8 y 15 caracteres");
             }
 
             TPlanner planner = new TPlanner();
