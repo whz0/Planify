@@ -63,7 +63,6 @@ public class LoginController {
             App.changeView("register", "Register");
             closeWindow(); // Cerrar ventana actual de login al ir a registro
         } else if (event.getSource() == btnSignin) {
-
             // Intentar iniciar sesión
             loginUser();
         }

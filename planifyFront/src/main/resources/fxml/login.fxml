@@ -24,7 +24,7 @@
                         <Font name="Segoe UI" size="12.0" />
                     </font>
                 </Label>
-                <Button fx:id="btnSignup" layoutX="53.0" layoutY="338.0" mnemonicParsing="false" onMouseClicked="#handleButtonAction" prefHeight="34.0" prefWidth="275.0" styleClass="button" stylesheets="@../styling/authForm.css" text="Sign up" />
+                <Button fx:id="btnSignup" layoutX="53.0" layoutY="338.0" mnemonicParsing="false" onMouseClicked="#handleButtonAction" prefHeight="34.0" prefWidth="275.0" styleClass="button" stylesheets="@../styling/authForm.css" text="Registrarse" />
                 <ImageView fitHeight="148.0" fitWidth="196.0" layoutX="127.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../images/logogpsf.png" />
@@ -34,9 +34,9 @@
         </AnchorPane>
         <Pane layoutX="488.0" layoutY="100.0" AnchorPane.bottomAnchor="73.0" AnchorPane.topAnchor="100.0">
             <children>
-                <TextField fx:id="txtUsername" layoutX="8.0" layoutY="70.0" prefHeight="34.0" prefWidth="275.0" promptText="username or email" />
-                <PasswordField fx:id="txtPassword" layoutX="8.0" layoutY="131.0" prefHeight="34.0" prefWidth="275.0" promptText="password" stylesheets="@../styling/authForm.css" />
-                <Button fx:id="btnSignin" layoutX="4.0" layoutY="239.0" mnemonicParsing="false" onMouseClicked="#handleButtonAction" prefHeight="34.0" prefWidth="275.0" styleClass="button2" stylesheets="@../styling/authForm.css" text="Sign in " textFill="WHITE" />
+                <TextField fx:id="txtUsername" layoutX="8.0" layoutY="70.0" prefHeight="34.0" prefWidth="275.0" promptText="usuario" />
+                <PasswordField fx:id="txtPassword" layoutX="8.0" layoutY="131.0" prefHeight="34.0" prefWidth="275.0" promptText="contraseña" stylesheets="@../styling/authForm.css" />
+                <Button fx:id="btnSignin" layoutX="4.0" layoutY="239.0" mnemonicParsing="false" onMouseClicked="#handleButtonAction" prefHeight="34.0" prefWidth="275.0" styleClass="button2" stylesheets="@../styling/authForm.css" text="Iniciar sesion" textFill="WHITE" />
                 <Label fx:id="lblErrors" alignment="CENTER" layoutX="8.0" layoutY="95.0" prefHeight="23.0" prefWidth="275.0" textFill="#ff6354">
                     <font>
                         <Font name="Segoe UI" size="10.0" />

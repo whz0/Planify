@@ -38,6 +38,12 @@ public class RegisterFormController {
     @FXML
     private Label lblErrors;
 
+    @FXML
+    private Button btnSignup;
+
+    @FXML
+    private Button btnSignin;
+
     // TODO Actualizar lblErrors para q muestre error cuando funcione(usuario ya registrado, etc)
     @FXML
     void handleRegister(){
@@ -79,7 +85,9 @@ public class RegisterFormController {
      */
     private void closeWindow() {
         Stage stage = (Stage) username.getScene().getWindow();
-        stage.close();
+        if(stage != null) {
+            stage.close();
+        }
     }
 
     private void showError(String message) {
@@ -93,6 +101,15 @@ public class RegisterFormController {
     /**
      * TODO Logica para cambiar de vista de registro a login
      */
+    @FXML
     public void changeView(MouseEvent mouseEvent) {
+        if (mouseEvent.getSource() == btnSignin) {
+            // Limpiar mensajes de error
+            showError("");
+            // Cambiar a la vista de login
+            App.changeView("login", "Login");
+            // Cerrar la ventana actual de registro
+            closeWindow();
+        }
     }
 }
