@@ -24,11 +24,6 @@ public class RegisterFormControllerTest extends BaseJavaFxTest {
     private PasswordField passwordField;
     private Label lblErrors;
 
-    @BeforeEach
-    public void setUp() {
-        // Lógica para limpiar la base de datos
-        ServiceFactory.getInstance().createPlannerSA().deleteAllPlanners();
-    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -61,7 +56,7 @@ public class RegisterFormControllerTest extends BaseJavaFxTest {
     public void testSuccessfulRegistration() throws Exception {
         // Simulate user input
         Platform.runLater(() -> {
-            usernameField.setText("testuser32");
+            usernameField.setText("testuser323");
             passwordField.setText("password123");
             controller.handleRegister();
         });
@@ -109,7 +104,7 @@ public class RegisterFormControllerTest extends BaseJavaFxTest {
     public void testInvalidPassword() throws Exception {
         // Simulate user input
         Platform.runLater(() -> {
-            usernameField.setText("testuser432");
+            usernameField.setText("testuser4323");
             passwordField.setText("short");
             controller.handleRegister();
         });
@@ -125,7 +120,7 @@ public class RegisterFormControllerTest extends BaseJavaFxTest {
     public void testRegistrationWithExistingUsername() throws Exception {
         // Simulate user input
         Platform.runLater(() -> {
-            usernameField.setText("existinguser");
+            usernameField.setText("testuser323");
             passwordField.setText("password123");
             controller.handleRegister();
         });

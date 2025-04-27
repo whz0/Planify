@@ -158,13 +158,16 @@ public class LoginController {
      * @param message El mensaje de error a mostrar. Si es null o vacío, limpia la etiqueta.
      */
     private void showError(String message) {
-        if (message == null || message.isEmpty()) {
-            lblErrors.setText("");
-        } else {
-            lblErrors.setText(message);
-            lblErrors.setTextFill(Color.RED); // Asegura que el color sea rojo para errores
-        }
+        Platform.runLater(() -> {
+            if (message == null || message.isEmpty()) {
+                lblErrors.setText("");
+            } else {
+                lblErrors.setText(message);
+                lblErrors.setTextFill(Color.RED); // Asegura que el color sea rojo para errores
+            }
+        });
     }
+
 
     /**
      * Cierra la ventana actual (la ventana de login).

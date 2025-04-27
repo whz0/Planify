@@ -51,16 +51,20 @@ public class RegisterFormController {
     void handleRegister() {
         try {
 
-            if(username.getText().isEmpty() || password.getText().isEmpty()) {
+            if (username.getText().isEmpty() || password.getText().isEmpty()) {
                 lblErrors.setText("El usuario ha dejado alguno de los campos vacíos");
             }
 
-            if(username.getText().length() > 15) {
+            else if (username.getText().length() > 15) {
                 lblErrors.setText("El nombre de usuario no es válido. Debe tener máximo 15 caracteres");
             }
 
-            if(password.getText().length() < 8 || password.getText().length() > 15) {
+            else if (password.getText().length() < 8 || password.getText().length() > 15) {
                 lblErrors.setText("La contraseña no es válida. Debe tener entre 8 y 15 caracteres");
+            }
+
+            else {
+                lblErrors.setText(""); // Clear the error if no conditions are met
             }
 
             TPlanner planner = new TPlanner();

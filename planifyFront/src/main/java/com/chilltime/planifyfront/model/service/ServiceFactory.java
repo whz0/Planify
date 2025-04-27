@@ -11,6 +11,11 @@ public abstract class ServiceFactory {
         return instance;
     }
 
+    // Method to set a custom instance (for testing purposes)
+    public static void setInstance(ServiceFactory customInstance) {
+        instance = customInstance;
+    }
+
     public abstract EventSA createEventSA();
 
     public abstract CalendarSA createCalendarSA();
