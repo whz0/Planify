@@ -199,7 +199,8 @@ public class SAPlannerUnitTest {
         assertNull(result.getData());
 
         // Verify
-        // No verificamos la llamada a findByUsername porque sucede antes la validación de longitud
+        // No verificamos la llamada a findByUsername porque sucede antes la validación
+        // de longitud
         verify(plannerRepository, never()).findByUsername(anyString());
         verify(plannerRepository, never()).save(any());
     }
@@ -295,11 +296,10 @@ public class SAPlannerUnitTest {
         when(plannerRepository.save(any(Planner.class))).thenThrow(new RuntimeException("Database error"));
 
         // Act & Assert
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            saPlanner.register(planner);
-        });
+        TContext result = saPlanner.register(planner);
 
-        assertEquals("Database error", exception.getMessage());
+        assertEquals(200, result.getStatus_code());
+        assertEquals("Database error", result.getMessage());
 
         // Verify
         verify(plannerRepository, times(1)).findByUsername("testuser");

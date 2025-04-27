@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import com.chilltime.planifyfront.model.service.ServiceFactory;
 
 import java.lang.reflect.Field;
 
@@ -21,6 +23,12 @@ public class RegisterFormControllerTest extends BaseJavaFxTest {
     private TextField usernameField;
     private PasswordField passwordField;
     private Label lblErrors;
+
+    @BeforeEach
+    public void setUp() {
+        // Lógica para limpiar la base de datos
+        ServiceFactory.getInstance().createPlannerSA().deleteAllPlanners();
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -53,7 +61,7 @@ public class RegisterFormControllerTest extends BaseJavaFxTest {
     public void testSuccessfulRegistration() throws Exception {
         // Simulate user input
         Platform.runLater(() -> {
-            usernameField.setText("testuser");
+            usernameField.setText("testuser32");
             passwordField.setText("password123");
             controller.handleRegister();
         });
@@ -95,5 +103,37 @@ public class RegisterFormControllerTest extends BaseJavaFxTest {
 
         // Verify error message
         assertEquals("El nombre de usuario no es válido. Debe tener máximo 15 caracteres", lblErrors.getText());
+    }
+
+    @Test
+    public void testInvalidPassword() throws Exception {
+        // Simulate user input
+        Platform.runLater(() -> {
+            usernameField.setText("testuser432");
+            passwordField.setText("short");
+            controller.handleRegister();
+        });
+
+        // Wait for JavaFX thread
+        sleep(500);
+
+        // Verify error message
+        assertEquals("La contraseña no es válida. Debe tener entre 8 y 15 caracteres", lblErrors.getText());
+    }
+
+    @Test
+    public void testRegistrationWithExistingUsername() throws Exception {
+        // Simulate user input
+        Platform.runLater(() -> {
+            usernameField.setText("existinguser");
+            passwordField.setText("password123");
+            controller.handleRegister();
+        });
+
+        // Wait for JavaFX thread
+        sleep(500);
+
+        // Verify error message
+        assertEquals("El nombre de usuario ya existe", lblErrors.getText());
     }
 }

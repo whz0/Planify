@@ -4,6 +4,7 @@ import com.chilltime.planifyapi.entity.Planner;
 import com.chilltime.planifyapi.repository.PlannerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -83,6 +84,16 @@ public class PlannerControllerIntegrationTest {
         registry.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
     }
 
+    @BeforeEach
+    void setUp() {
+        // Create a test user for login tests
+        Planner testUser = new Planner();
+        testUser.setUsername("loginTestUser");
+        testUser.setPassword(passwordEncoder.encode("password123"));
+        testUser.setRole("ROLE_USER");
+        plannerRepository.save(testUser);
+    }
+
     @AfterEach
     void cleanDatabase() {
         plannerRepository.deleteAll();
@@ -94,8 +105,8 @@ public class PlannerControllerIntegrationTest {
     public void testRegisterPlannerWithValidData() throws Exception {
         // Create a planner with valid data
         MvcResult result = mockMvc.perform(post("/planner/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "testUser",
                             "password": "password123",
@@ -119,8 +130,8 @@ public class PlannerControllerIntegrationTest {
     @Test
     public void testRegisterPlannerWithEmptyUsername() throws Exception {
         mockMvc.perform(post("/planner/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "",
                             "password": "password123",
@@ -136,8 +147,8 @@ public class PlannerControllerIntegrationTest {
     @Test
     public void testRegisterPlannerWithEmptyPassword() throws Exception {
         mockMvc.perform(post("/planner/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "testUser",
                             "password": "",
@@ -153,8 +164,8 @@ public class PlannerControllerIntegrationTest {
     @Test
     public void testRegisterPlannerWithUsernameTooLong() throws Exception {
         mockMvc.perform(post("/planner/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "usernameTooLongForTheSystem",
                             "password": "password123",
@@ -163,7 +174,8 @@ public class PlannerControllerIntegrationTest {
                         """))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status_code").value(200))
-                .andExpect(jsonPath("$.message").value("El nombre de usuario no es válido. Debe tener máximo 15 caracteres"))
+                .andExpect(jsonPath("$.message")
+                        .value("El nombre de usuario no es válido. Debe tener máximo 15 caracteres"))
                 .andExpect(jsonPath("$.data").isEmpty());
     }
 
@@ -171,8 +183,8 @@ public class PlannerControllerIntegrationTest {
     public void testRegisterPlannerWithDuplicateUsername() throws Exception {
         // First we register a user
         mockMvc.perform(post("/planner/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "duplicateUser",
                             "password": "password123",
@@ -185,8 +197,8 @@ public class PlannerControllerIntegrationTest {
 
         // Try to register another user with the same name
         mockMvc.perform(post("/planner/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "duplicateUser",
                             "password": "anotherpassword",
@@ -203,8 +215,8 @@ public class PlannerControllerIntegrationTest {
     public void testRegisterPlannerWithoutRoleAssignsDefaultRole() throws Exception {
         // Register a planner without an explicit role
         mockMvc.perform(post("/planner/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "userWithoutRole",
                             "password": "password123"
@@ -238,8 +250,8 @@ public class PlannerControllerIntegrationTest {
 
         // Now try to login with that user
         mockMvc.perform(post("/planner/login-planner")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(String.format("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(String.format("""
                         {
                             "username": "%s",
                             "password": "%s"
@@ -255,8 +267,8 @@ public class PlannerControllerIntegrationTest {
     @Test
     public void testLoginPlannerWithInvalidUsername() throws Exception {
         mockMvc.perform(post("/planner/login-planner")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "nonExistentUser",
                             "password": "password123"
@@ -284,8 +296,8 @@ public class PlannerControllerIntegrationTest {
 
         // Try to login with wrong password
         mockMvc.perform(post("/planner/login-planner")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(String.format("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(String.format("""
                         {
                             "username": "%s",
                             "password": "%s"
@@ -300,8 +312,8 @@ public class PlannerControllerIntegrationTest {
     @Test
     public void testLoginPlannerWithEmptyCredentials() throws Exception {
         mockMvc.perform(post("/planner/login-planner")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
                         {
                             "username": "",
                             "password": ""

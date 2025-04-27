@@ -23,7 +23,8 @@ public class PlannerSA {
     }
 
     /**
-     * Inicia sesión de un planner enviando una solicitud POST al endpoint "/login-planner".
+     * Inicia sesión de un planner enviando una solicitud POST al endpoint
+     * "/login-planner".
      *
      * @param username El nombre de usuario del planner.
      * @param password La contraseña del planner.
@@ -58,7 +59,7 @@ public class PlannerSA {
 
                 try {
                     String requestBody = apiClient.getObjectMapper().writeValueAsString(planner);
-                    return apiClient.post(BASE_URL + "/register",requestBody);
+                    return apiClient.post(BASE_URL + "/register", requestBody);
                 }
 
                 catch (IOException e) {
@@ -68,4 +69,6 @@ public class PlannerSA {
             }
         };
     }
+
+
 }

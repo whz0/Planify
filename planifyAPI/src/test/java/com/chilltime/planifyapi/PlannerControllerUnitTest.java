@@ -52,7 +52,7 @@ public class PlannerControllerUnitTest {
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("Planner registrado correctamente", response.getBody().getMessage());
         assertNotNull(response.getBody().getData());
 
@@ -72,7 +72,7 @@ public class PlannerControllerUnitTest {
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("El usuario ha dejado alguno de los campos vacíos", response.getBody().getMessage());
         assertNull(response.getBody().getData());
     }
@@ -89,7 +89,7 @@ public class PlannerControllerUnitTest {
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("El usuario ha dejado alguno de los campos vacíos", response.getBody().getMessage());
         assertNull(response.getBody().getData());
     }
@@ -106,7 +106,7 @@ public class PlannerControllerUnitTest {
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("El usuario ha dejado alguno de los campos vacíos", response.getBody().getMessage());
         assertNull(response.getBody().getData());
     }
@@ -123,7 +123,7 @@ public class PlannerControllerUnitTest {
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("El usuario ha dejado alguno de los campos vacíos", response.getBody().getMessage());
         assertNull(response.getBody().getData());
     }
@@ -140,7 +140,7 @@ public class PlannerControllerUnitTest {
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("El nombre de usuario no es válido. Debe tener máximo 15 caracteres", response.getBody().getMessage());
         assertNull(response.getBody().getData());
     }
@@ -157,7 +157,7 @@ public class PlannerControllerUnitTest {
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("El nombre de usuario ya existe", response.getBody().getMessage());
         assertNull(response.getBody().getData());
     }
@@ -177,7 +177,7 @@ public class PlannerControllerUnitTest {
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("La contraseña debe de tener entre 8 y 15 caracteres de longitud", response.getBody().getMessage());
         assertNull(response.getBody().getData());
     }
@@ -194,7 +194,7 @@ public class PlannerControllerUnitTest {
         ResponseEntity<TContext> response = plannerController.registerPlanner(planner);
 
         assertNotNull(response);
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals("Error inesperado en el servidor", response.getBody().getMessage());
         assertNull(response.getBody().getData());
     }

@@ -31,7 +31,7 @@ public class DashboardControllerTest extends BaseJavaFxTest {
         root.getChildren().add(listView);
 
         // Use reflection to set private fields
-        setPrivateField("calendarPane", new AnchorPane());
+        setPrivateField("calendarPane", root);
         setPrivateField("eventsListView", listView);
 
         // Initialize calendar
