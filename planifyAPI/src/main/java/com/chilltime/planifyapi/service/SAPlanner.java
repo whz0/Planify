@@ -19,14 +19,18 @@ public class SAPlanner {
 
     @Transactional
     public TContext register(Planner planner) {
+
         TContext response;
-        try {
-            validatePlanner(planner.getUsername(), planner.getPassword());
-            Planner savedPlanner = plannerRepository.save(planner);
-            response = new TContext(200, "Planner registrado correctamente", savedPlanner);
-        } catch (Exception e) {
-            response = new TContext(200, e.getMessage(), null);
+        validatePlanner(planner.getUsername(), planner.getPassword());
+
+        planner.setPassword(passwordEncoder.encode(planner.getPassword()));
+        if (planner.getRole() == null || planner.getRole().isEmpty()) {
+            planner.setRole("ROLE_USER");
         }
+
+        Planner savedPlanner = plannerRepository.save(planner);
+        response = new TContext(200, "Planner registrado correctamente", savedPlanner);
+
         return response;
     }
 
@@ -54,6 +58,11 @@ public class SAPlanner {
         //Validar longitud del nombre de usuario
         if (username.length() > 15) {
             throw new IllegalArgumentException("El nombre de usuario no es válido. Debe tener máximo 15 caracteres");
+        }
+
+        //Validar longitud de la contraseña
+        if(password.length() < 8 || password.length() > 15) {
+            throw new IllegalArgumentException("La contraseña no es válida. Debe tener entre 8 y 15 caracteres");
         }
 
         //Validar si el planner ya existe
