@@ -24,11 +24,6 @@ public class RegisterFormControllerTest extends BaseJavaFxTest {
     private PasswordField passwordField;
     private Label lblErrors;
 
-    @BeforeEach
-    public void setUp() {
-        // Lógica para limpiar la base de datos
-        ServiceFactory.getInstance().createPlannerSA().deleteAllPlanners();
-    }
 
     @Override
     public void start(Stage stage) throws Exception {
