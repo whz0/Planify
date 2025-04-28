@@ -32,6 +32,7 @@ public class PlannerController {
             return ResponseEntity.status(response.getStatus_code()).body(response);
         }
     }
+
     @PostMapping("/register")
     public ResponseEntity<TContext> registerPlanner(@RequestBody Planner planner) {
         try {
