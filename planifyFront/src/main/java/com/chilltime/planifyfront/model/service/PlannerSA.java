@@ -40,9 +40,6 @@ public class PlannerSA {
                     credentials.put("password", password);
                     String requestBody = apiClient.getObjectMapper().writeValueAsString(credentials);
 
-                    // Establecer las credenciales en el cliente de API para autenticación básica
-                    apiClient.setCredentials(username, password);
-
                     return apiClient.post(BASE_URL + "/login-planner", requestBody);
                 } catch (Exception e) {
                     System.err.println("Error during login API call: " + e.getMessage());

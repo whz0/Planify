@@ -44,53 +44,29 @@ public class RegisterFormController {
     @FXML
     private Button btnSignin;
 
-    // TODO Actualizar lblErrors para q muestre error cuando funcione(usuario ya
-    // registrado, etc)
-
+    // TODO Actualizar lblErrors para q muestre error cuando funcione(usuario ya registrado, etc)
     @FXML
-    void handleRegister() {
-        try {
-
-            if (username.getText().isEmpty() || password.getText().isEmpty()) {
-                lblErrors.setText("El usuario ha dejado alguno de los campos vacíos");
-            }
-
-            else if (username.getText().length() > 15) {
-                lblErrors.setText("El nombre de usuario no es válido. Debe tener máximo 15 caracteres");
-            }
-
-            else if (password.getText().length() < 8 || password.getText().length() > 15) {
-                lblErrors.setText("La contraseña no es válida. Debe tener entre 8 y 15 caracteres");
-            }
-
-            else {
-                lblErrors.setText(""); // Clear the error if no conditions are met
-            }
-
+    void handleRegister(){
+        try{
             TPlanner planner = new TPlanner();
             planner.setUsername(username.getText());
             planner.setPassword(password.getText());
             planner.setRole("ROLE_PLANNER");
             planner.setActive(true);
-
             // Llamar a la API para crear el evento
             System.out.println("[Register form controller] Planner info: " + planner);
-
             Task<String> apiTask = ServiceFactory.getInstance().createPlannerSA().registerPlanner(planner);
-
             apiTask.setOnSucceeded(e -> {
                 TContext context = gson.fromJson(apiTask.getValue(), TContext.class);
-
-                if (context.getData() == null) {
+                if(context.getData() == null){
                     showError(context.getMessage());
                     showErrorDialog("Error de registro", context.getMessage());
-                } else {
+                }else{
                     TPlanner plannerReturned = gson.fromJson(gson.toJson(context.getData()), TPlanner.class);
-
                     showSuccessDialog("Planner Registrado", "Te has registrado correctamente.");
                     SessionManager.getInstance().setCurrentUserId(plannerReturned.getId());
-
-                    App.changeView("dashboard", "Planify");
+                    SessionManager.getInstance().setAuthenticated(true);
+                    App.changeView("dashboard","Planify");
                     closeWindow();
                 }
             });
@@ -118,6 +94,7 @@ public class RegisterFormController {
     private void showError(String message) {
         lblErrors.setText(message);
     }
+
 
     public void handleButtonAction(MouseEvent mouseEvent) {
     }
