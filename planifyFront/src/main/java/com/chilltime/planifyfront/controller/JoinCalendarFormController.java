@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class JoinCalendarFormController {
+
     private Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
             .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())

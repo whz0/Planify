@@ -38,11 +38,11 @@ public class RegisterFormController {
     @FXML
     private Label lblErrors;
 
-    // TODO Actualizar lblErrors para q muestre error cuando funcione(usuario ya
-    // registrado, etc)
     @FXML
-    void handleRegister() {
-        try {
+    private Button btnSignup;
+  
+    @FXML
+    private Button btnSignin;
 
             if(username.getText().isEmpty() || password.getText().isEmpty()) {
                 showErrorDialog("Error de validación", "Por favor, completa todos los campos.");
@@ -62,30 +62,29 @@ public class RegisterFormController {
                 return;
             }
 
+    // TODO Actualizar lblErrors para q muestre error cuando funcione(usuario ya registrado, etc)
+    @FXML
+    void handleRegister(){
+        try{
             TPlanner planner = new TPlanner();
             planner.setUsername(username.getText());
             planner.setPassword(password.getText());
             planner.setRole("ROLE_PLANNER");
             planner.setActive(true);
-
             // Llamar a la API para crear el evento
             System.out.println("[Register form controller] Planner info: " + planner);
-
             Task<String> apiTask = ServiceFactory.getInstance().createPlannerSA().registerPlanner(planner);
-
             apiTask.setOnSucceeded(e -> {
                 TContext context = gson.fromJson(apiTask.getValue(), TContext.class);
-
                 if (context.getData() == null) {
                     showError(context.getMessage());
                     showErrorDialog("Error de registro", context.getMessage());
                 } else {
                     TPlanner plannerReturned = gson.fromJson(gson.toJson(context.getData()), TPlanner.class);
-
                     showSuccessDialog("Planner Registrado", "Te has registrado correctamente.");
                     SessionManager.getInstance().setCurrentUserId(plannerReturned.getId());
-
-                    App.changeView("dashboard", "Planify");
+                    SessionManager.getInstance().setAuthenticated(true);
+                    App.changeView("dashboard","Planify");
                     closeWindow();
                 }
             });
@@ -105,12 +104,15 @@ public class RegisterFormController {
      */
     private void closeWindow() {
         Stage stage = (Stage) username.getScene().getWindow();
-        stage.close();
+        if(stage != null) {
+            stage.close();
+        }
     }
 
     private void showError(String message) {
         lblErrors.setText(message);
     }
+
 
     public void handleButtonAction(MouseEvent mouseEvent) {
     }
@@ -118,6 +120,15 @@ public class RegisterFormController {
     /**
      * TODO Logica para cambiar de vista de registro a login
      */
+    @FXML
     public void changeView(MouseEvent mouseEvent) {
+        if (mouseEvent.getSource() == btnSignin) {
+            // Limpiar mensajes de error
+            showError("");
+            // Cambiar a la vista de login
+            App.changeView("login", "Login");
+            // Cerrar la ventana actual de registro
+            closeWindow();
+        }
     }
 }

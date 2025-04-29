@@ -34,10 +34,6 @@ public class PlannerSA {
                     credentials.put("password", password);
 
                     String requestBody = apiClient.getObjectMapper().writeValueAsString(credentials);
-
-                    // Establecer las credenciales en el cliente de API para autenticación básica
-                    apiClient.setCredentials(username, password);
-
                     return apiClient.post(BASE_URL + "/login-planner", requestBody);
                 } catch (Exception e) {
                     System.err.println("Error during login API call: " + e.getMessage());
@@ -51,13 +47,10 @@ public class PlannerSA {
         return new Task<>() {
             @Override
             protected String call() throws Exception {
-
                 try {
                     String requestBody = apiClient.getObjectMapper().writeValueAsString(planner);
                     return apiClient.post(BASE_URL + "/register", requestBody);
-                }
-
-                catch (IOException e) {
+                } catch (IOException e) {
                     System.err.println("Error during API call: " + e.getMessage());
                     throw e;
                 }

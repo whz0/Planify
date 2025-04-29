@@ -57,6 +57,7 @@ public class RegisterFormControllerTest extends BaseJavaFxTest {
         // Simulate user input
         Platform.runLater(() -> {
             usernameField.setText("testuser42");
+
             passwordField.setText("password123");
             controller.handleRegister();
         });
@@ -104,7 +105,7 @@ public class RegisterFormControllerTest extends BaseJavaFxTest {
     public void testInvalidPassword() throws Exception {
         // Simulate user input
         Platform.runLater(() -> {
-            usernameField.setText("testuser432");
+            usernameField.setText("testuser4323");
             passwordField.setText("short");
             controller.handleRegister();
         });
@@ -120,7 +121,7 @@ public class RegisterFormControllerTest extends BaseJavaFxTest {
     public void testRegistrationWithExistingUsername() throws Exception {
         // Simulate user input
         Platform.runLater(() -> {
-            usernameField.setText("existinguser");
+            usernameField.setText("testuser323");
             passwordField.setText("password123");
             controller.handleRegister();
         });

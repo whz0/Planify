@@ -29,7 +29,6 @@ import static com.chilltime.planifyfront.utils.DialogWindows.showErrorDialog;
 
 public class LoginController {
 
-    // Gson con adaptadores para LocalDate y LocalTime (igual que en Register)
     private final Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
             .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
@@ -57,13 +56,10 @@ public class LoginController {
     @FXML
     public void handleButtonAction(MouseEvent event) {
         if (event.getSource() == btnSignup) {
-            // Navegar a la vista de registro
-            lblErrors.setText(""); // Limpiar errores previos
-            // Asegúrate que "register" es el nombre correcto de tu FXML de registro y "Register" el título deseado
+            lblErrors.setText("");
             App.changeView("register", "Register");
-            closeWindow(); // Cerrar ventana actual de login al ir a registro
+            closeWindow();
         } else if (event.getSource() == btnSignin) {
-            // Intentar iniciar sesión
             loginUser();
         }
     }
@@ -158,13 +154,16 @@ public class LoginController {
      * @param message El mensaje de error a mostrar. Si es null o vacío, limpia la etiqueta.
      */
     private void showError(String message) {
-        if (message == null || message.isEmpty()) {
-            lblErrors.setText("");
-        } else {
-            lblErrors.setText(message);
-            lblErrors.setTextFill(Color.RED); // Asegura que el color sea rojo para errores
-        }
+        Platform.runLater(() -> {
+            if (message == null || message.isEmpty()) {
+                lblErrors.setText("");
+            } else {
+                lblErrors.setText(message);
+                lblErrors.setTextFill(Color.RED); // Asegura que el color sea rojo para errores
+            }
+        });
     }
+
 
     /**
      * Cierra la ventana actual (la ventana de login).
