@@ -1,21 +1,15 @@
 package com.chilltime.planifyfront.model.service;
 
 import com.chilltime.planifyfront.model.transfer.TPlanner;
-import com.chilltime.planifyfront.model.transfer.TPlanner;
 import javafx.concurrent.Task;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.io.IOException;
-
 public class PlannerSA {
 
     private final ApiClient apiClient;
-
     private final String BASE_URL = "/planner";
 
     public PlannerSA(ApiClient apiClient) {
@@ -38,6 +32,7 @@ public class PlannerSA {
                     Map<String, String> credentials = new HashMap<>();
                     credentials.put("username", username);
                     credentials.put("password", password);
+
                     String requestBody = apiClient.getObjectMapper().writeValueAsString(credentials);
                     return apiClient.post(BASE_URL + "/login-planner", requestBody);
                 } catch (Exception e) {
