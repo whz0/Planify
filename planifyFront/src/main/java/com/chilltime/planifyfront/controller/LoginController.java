@@ -29,7 +29,6 @@ import static com.chilltime.planifyfront.utils.DialogWindows.showErrorDialog;
 
 public class LoginController {
 
-    // Gson con adaptadores para LocalDate y LocalTime (igual que en Register)
     private final Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
             .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
@@ -57,13 +56,10 @@ public class LoginController {
     @FXML
     public void handleButtonAction(MouseEvent event) {
         if (event.getSource() == btnSignup) {
-            // Navegar a la vista de registro
-            lblErrors.setText(""); // Limpiar errores previos
-            // Asegúrate que "register" es el nombre correcto de tu FXML de registro y "Register" el título deseado
+            lblErrors.setText("");
             App.changeView("register", "Register");
-            closeWindow(); // Cerrar ventana actual de login al ir a registro
+            closeWindow();
         } else if (event.getSource() == btnSignin) {
-            // Intentar iniciar sesión
             loginUser();
         }
     }

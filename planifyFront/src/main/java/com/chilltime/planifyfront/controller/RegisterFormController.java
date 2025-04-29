@@ -58,10 +58,10 @@ public class RegisterFormController {
             Task<String> apiTask = ServiceFactory.getInstance().createPlannerSA().registerPlanner(planner);
             apiTask.setOnSucceeded(e -> {
                 TContext context = gson.fromJson(apiTask.getValue(), TContext.class);
-                if(context.getData() == null){
+                if (context.getData() == null) {
                     showError(context.getMessage());
                     showErrorDialog("Error de registro", context.getMessage());
-                }else{
+                } else {
                     TPlanner plannerReturned = gson.fromJson(gson.toJson(context.getData()), TPlanner.class);
                     showSuccessDialog("Planner Registrado", "Te has registrado correctamente.");
                     SessionManager.getInstance().setCurrentUserId(plannerReturned.getId());
