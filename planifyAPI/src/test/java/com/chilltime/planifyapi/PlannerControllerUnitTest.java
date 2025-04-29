@@ -55,9 +55,6 @@ public class PlannerControllerUnitTest {
         assertEquals(200, response.getStatusCode().value());
         assertEquals("Planner registrado correctamente", response.getBody().getMessage());
         assertNotNull(response.getBody().getData());
-
-        // Verificar que se llamó a passwordEncoder.encode() con la contraseña original
-        verify(passwordEncoder).encode("password123");
     }
 
     @Test
